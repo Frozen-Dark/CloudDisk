@@ -1,0 +1,82 @@
+.position {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 40px;
+    width: 300px;
+    right: calc(50% - 150px);
+}
+
+.showNotification {
+    animation: showNotification 400ms ease;
+    animation-fill-mode: both;
+     display: flex;
+    height: 40px;
+    border: 1px solid #353535;
+    box-shadow: 0 3px 5px rgb(0 0 0 / 10%);
+    border-radius: 10px;
+    opacity: 1;
+
+    align-items: center;
+    background-color: #313131;
+
+}
+.hideNotification {
+    animation: hideNotification 400ms ease ;
+    animation-fill-mode: both;
+    display: flex;
+    height: 40px;
+    border: 1px solid #353535;
+    box-shadow: 0 3px 5px rgb(0 0 0 / 10%);
+    border-radius: 10px;
+    opacity: 1;
+
+    align-items: center;
+    background-color: #313131;
+    color: red;
+
+}
+
+@keyframes showNotification {
+    0% {
+        opacity: 0;
+        transform: translateY(-10%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+
+    }
+}
+
+@keyframes hideNotification {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(+10%);
+
+    }
+}
+
+.Notification p {
+}
+
+.failText {
+    color: #E64646;
+    width: 100%;
+}
+
+.passText {
+    color: #4CD649;
+    width: 100%;
+}
+
+.image {
+    margin: 0 10px 0 10px;
+}
+/*.Notification p {*/
+/*    color: #e64646;*/
+/*}*/

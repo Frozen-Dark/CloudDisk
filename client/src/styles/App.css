@@ -1,0 +1,34 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: #313131;
+}
+.counter {
+    height: 400px;
+    width: 100%;
+
+}
+.btn {
+    height: 50px;
+    width: 100px;
+    margin: 30px;
+}
+
+.testForm {
+    width: 80%;
+    height: 300px;
+}
+.testForm input {
+    height: 50px;
+    width: 120px;
+    margin: 10px;
+
+}
+.testForm button {
+    height: 50px;
+    width: 120px;
+    margin: 10px;
+}

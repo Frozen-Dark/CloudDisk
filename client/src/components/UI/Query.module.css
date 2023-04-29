@@ -1,0 +1,35 @@
+.query {
+    width: 60%;
+    height: 40px;
+    min-width: 350px;
+
+    border-radius: 8px;
+    padding-left: 15px;
+
+    display: flex;
+    align-items: center;
+
+    background-color: #34373F;
+    transition: .2s;
+}
+
+
+.sideSettings {
+    height: 32px;
+    width: 32px;
+    margin-right: 10px;
+}
+
+.query_input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #E3E3E3;
+    font-size: 18px;
+    outline: none;
+}
+.query_focus {
+   background-color: #363b48;
+}
+

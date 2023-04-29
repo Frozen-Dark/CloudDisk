@@ -1,0 +1,22 @@
+.info {
+    background-color: #353535;
+    height: 100%;
+    padding: 20px;
+    width: 100%;
+    border-radius: 20px;
+    overflow: scroll;
+    overflow-x: hidden;
+    animation: infoWake 0.2s;
+}
+@keyframes infoWake {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+
+    }
+}

@@ -1,0 +1,41 @@
+.NotFound_container {
+    display: block;
+    color: #C5C5C5;
+    width: 100%;
+    max-width: 410px;
+    height: 200px;
+    margin: calc(50vh - 100px) auto 0 auto;
+}
+
+.NotFoundInActive {
+    display: none;
+}
+
+.NotFound_container p {
+    width: 100%;
+    text-align: center;
+}
+
+.NotFound_button {
+    margin: 30px 10% 0 10%;
+    width: 80%;
+    max-width: 410px;
+    height: 40px;
+    border: none;
+    background-color: #18A0FB;
+    color: white;
+    border-radius: 7px;
+    filter: drop-shadow(0px 0px 4px rgba(24, 160, 251, .2));
+}
+
+@media screen and (min-width: 700px) {
+    .NotFound_container p {
+        font-size: 18px;
+    }
+
+    .NotFound_button {
+        margin: 30px 10% 0 10%;
+        height: 50px;
+        font-size: 18px;
+    }
+}

@@ -1,0 +1,70 @@
+.blur {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: rgba(0, 0, 0, .6);
+    right: 0;
+    top: 0;
+}
+.inactive {
+    display: none;
+}
+
+.container {
+    height: 180px;
+    width: 90%;
+    max-width: 450px;
+
+    padding: 15px;
+
+    background-color: #3C3C3C;
+    border-radius: 20px;
+}
+.container p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.container input {
+    height: 50px;
+    width: 100%;
+    margin: 15px 0;
+    outline: 2px solid #18A0FB;
+    filter: drop-shadow(0px 0px 4px rgba(24, 160, 251, .2));
+    border-radius: 5px;
+    border: none;
+    padding: 20px;
+}
+.container button {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #18A0FB;
+    margin: 25px 20px 20px 15px ;
+}
+.mButton {
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+
+    margin: 0 0 0 20%;
+}
+
+@media screen and (min-width: 700px) {
+    .container p, input, button {
+        font-size: 18px;
+    }
+    .container  {
+        padding: 20px;
+        max-width: 500px;
+        height: 200px;
+    }
+}

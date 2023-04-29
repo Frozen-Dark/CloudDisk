@@ -1,0 +1,158 @@
+.container {
+    position: fixed;
+    right: 10px;
+    bottom: 0;
+    width: 450px;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
+    overflow: auto;
+    animation: wake-upload 200ms forwards;
+    background-color: #313131;
+}
+.minimized {
+
+    height: 50px !important;
+}
+@keyframes wake-upload {
+    0% {
+        opacity: 0;
+        transform:translateX(-5%);
+    }
+    100% {
+        opacity: 1;
+        transform:translateX(0);
+    }
+}
+
+::-webkit-scrollbar {
+    width: 5px; /* ширина для вертикального скролла */
+    height: 3px; /* высота для горизонтального скролла */
+    background-color: transparent;
+}
+
+/* ползунок скроллбара */
+::-webkit-scrollbar-thumb {
+    background-color: #404040;
+    border-radius: 3px;
+}
+
+.header {
+    display: flex;
+    width: 100%;
+    height: 50px;
+
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #404040;
+}
+.header span {
+    color: #E3E3E3;
+    margin-left: 20px;
+    font-size: 16px;
+}
+.control {
+    height: 100%;
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+.chevron {
+    cursor: pointer;
+    height: 24px;
+    transform: rotate(180deg);
+    transition: 0.4s;
+}
+.cancel {
+    cursor: pointer;
+    height: 18px;
+    margin-right: 10px;
+}
+.hiddenChevron {
+    transform: rotate(0deg);
+    cursor: pointer;
+    height: 24px;
+    transition: 0.4s;
+}
+
+
+.stopUpload {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 20px;
+    margin-bottom: 5px;
+}
+.stopUpload span{
+    color: #5F6368;
+    margin-bottom: 3px;
+}
+.abortButton {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: #18A0FB;
+}
+
+.main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+.file {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+
+}
+.hr {
+    width: 100%;
+    height: 1px;
+    background-image: linear-gradient(to right, #5F6368 40%, #313131 40%);
+    background-size: 20px 1px;
+    background-repeat: repeat-x;
+}
+
+.fileData {
+    display: flex;
+    width: auto;
+    align-items: center;
+    color: #E3E3E3;
+}
+.fileData img {
+    cursor: pointer;
+
+    height: 30px;
+    margin-left: 20px;
+    margin-right: 5px;
+}
+.uploadStatus {
+    justify-content: flex-end;
+    display: flex;
+    width: 120px;
+    align-items: center;
+}
+.uploadStatus span {
+    color: #E3E3E3;
+    margin-right: 20px;
+
+ }
+
+.uploadStatus img {
+    margin-right: 20px;
+}
+
+@media screen and (max-width: 960px) {
+    .container {
+        width: 400px;
+    }
+}
+@media screen and (max-width: 800px) {
+    .container {
+        display: none;
+    }
+}

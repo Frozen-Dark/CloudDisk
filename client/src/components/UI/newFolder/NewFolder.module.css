@@ -1,0 +1,15 @@
+.addObject {
+    height: 50px;
+    width: 50px;
+
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #004A77;
+    border-radius: 15px;
+    top: 30%;
+    right: 14px;
+    cursor: pointer;
+}

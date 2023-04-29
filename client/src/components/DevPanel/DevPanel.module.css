@@ -1,0 +1,40 @@
+.devPanel {
+    position: absolute;
+    top: 700px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100px;
+}
+
+.uploadLabel, .buttonLink, .navLink {
+    height: 50px;
+    width: 100px;
+    color: white;
+    margin: 15px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: gray;
+    text-align: center;
+    font-size: 14px;
+}
+
+.buttonLink {
+    border: none;
+}
+
+.buttonLink:hover, .uploadLabel:hover, .navLink:hover {
+    background-color: #18A0FB;
+    transition: 0.1s ease;
+}
+
+
+.navLink {
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.uploadInput {
+    display: none;
+}
