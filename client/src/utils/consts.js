@@ -8,6 +8,7 @@ import text from "../assets/svg/txt.svg";
 
 export const LOGIN_ROUTE = '/login'
 export const REGISTRATION_ROUTE = '/registration'
+export const STATIC_PATH = 'C:\\CloudDiskData\\Static'
 export const DISK_ROUTE = '/disk'
 
 export const getImage = (type) => {

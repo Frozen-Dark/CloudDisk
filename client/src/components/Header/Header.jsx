@@ -3,8 +3,6 @@ import classes from "./Header.module.css"
 import logo from "../../assets/svg/logo.svg"
 import Query from "../UI/Query";
 import cogwheel from "../../assets/svg/cogwheel.svg"
-
-
 const Header = () => {
     return (
         <header className={classes.header} >
@@ -23,7 +21,8 @@ const Header = () => {
                 </div>
 
                 <div className={classes.profile}>
-                    <div className={classes.avatar}> </div>
+                    <div className={classes.avatar}>
+                    </div>
                 </div>
             </div>
         </header>
