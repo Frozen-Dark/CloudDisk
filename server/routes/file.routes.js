@@ -5,7 +5,10 @@ const fileController = require('../controllers/fileController')
 
 router.post('', authMiddleware, fileController.createDir)
 router.post('/upload', authMiddleware, fileController.uploadFiles)
-router.post('/avatar', authMiddleware, fileController.uploadAvatar)
+
+router.post('/uploadAvatar', authMiddleware, fileController.uploadAvatar)
+router.post('/changeAvatar', authMiddleware, fileController.changeAvatar)
+
 router.get('/download', authMiddleware, fileController.downloadFile)
 router.get('', authMiddleware, fileController.getFiles)
 router.get('/search', authMiddleware, fileController.searchFile)

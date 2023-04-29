@@ -101,9 +101,7 @@ class FileService {
             } catch (e) {
                 return reject({message: "Rename exceptions", err: e})
             }
-
         }))
-
     }
 
     deleteFile(file) {
@@ -143,24 +141,23 @@ class FileService {
         }))
     }
 
-    async uploadAvatar(avatar, userId) {
-       return new Promise((async (resolve, reject) => {
-           try {
-               const user = await model.User.findOne({where: {id: userId}});
-               const name = Uuid.v4() + ".jpg";
-               console.log(avatar)
-               await sharp(avatar.data)
-                   .resize(200, 200)
-                   .toFile(`${process.env.STATICPATH}\\${name}`);
-               user.avatar = name;
-               await user.save();
-               return resolve({message: "Аватар создан"})
-           } catch (e) {
-               console.log(e)
-               throw ApiError.internal('Ошибка загрузки аватарки')
-           }
-       }))
+    // async uploadAvatar(avatar, userId) {
+    //        try {
+    //            const user = await model.User.findOne({where: {id: userId}});
+    //            const name = Uuid.v4() + ".jpg";
+    //            await sharp(avatar.data)
+    //                .resize(200, 200)
+    //                .toFile(`${process.env.STATICPATH}\\${name}`);
+    //            user.avatar = name;
+    //            await user.save();
+    //            return {message: "Аватар создан"}
+    //        } catch (e) {
+    //            console.log(e)
+    //            throw ApiError.internal('Ошибка загрузки аватара')
+    //        }
+    // }
 
+    async deleteAvatar(userId) {
 
     }
 

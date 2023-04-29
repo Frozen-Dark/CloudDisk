@@ -3,7 +3,6 @@ import classes from "./Header.module.css"
 import logo from "../../assets/svg/logo.svg"
 import Query from "../UI/Query";
 import cogwheel from "../../assets/svg/cogwheel.svg"
-import chevron from "../../assets/svg/chevron.svg"
 
 
 const Header = () => {

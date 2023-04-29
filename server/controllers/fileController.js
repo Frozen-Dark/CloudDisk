@@ -7,6 +7,9 @@ const ApiError = require("../exceptions/ApiError");
 require('dotenv').config()
 const Uuid = require("uuid")
 const model = require("../models/models");
+const sharp = require("sharp");
+
+
 
 class FileController {
 
@@ -20,10 +23,76 @@ class FileController {
             if(type !== "jpg" && type !== "png") {
                 return next(ApiError.BadRequest("Неверный тип аватара"))
             }
-            console.log("Work")
-            const message = await fileService.uploadAvatar(avatar, req.user.id)
 
-            return res.json(message)
+            const user = await model.User.findOne({where: {id: userId}});
+
+            let name;
+            if(user.avatar) {
+                name = user.name;
+                fs.unlinkSync(process.env.STATICPATH + "\\" + name)
+            } else {
+                name = Uuid.v4() + ".jpg";
+            }
+
+            await sharp(avatar.data)
+                .resize(200, 200)
+                .toFile(`${process.env.STATICPATH}\\${name}`);
+            user.avatar = name;
+            await user.save();
+
+            return res.json({avatar: name});
+        } catch (e) {
+            next(e)
+        }
+    }
+    async deleteAvatar(req, res, next) {
+        try {
+            const user = await model.User.findOne({where: {id: userId}});
+
+            if(!user.avatar) {
+                return ApiError.BadRequest('Нет аватара');
+            }
+            const path = process.env.STATICPATH + "\\" + user.avatar;
+            fs.unlinkSync(path);
+            user.avatar = '';
+            await user.save();
+
+            return res.json({avatar: user.avatar});
+        } catch (e) {
+            next(e)
+        }
+    }
+    async changeAvatar(req, res, next) {
+        try {
+            const avatar = req.files.avatar;
+             if(!avatar) {
+                return next(ApiError.BadRequest("Ошибка при загрузки аватара"))
+            }
+            const type = avatar.name.split(".").pop()
+            if(type !== "jpg" && type !== "png") {
+                return next(ApiError.BadRequest("Неверный тип аватара"))
+            }
+
+            const user = await model.User.findOne({where: {id: req.user.id}});
+
+            let name;
+            if(user.avatar) {
+                name = user.avatar
+            } else {
+                name = Uuid.v4() + type;
+            }
+
+            const path = process.env.STATICPATH + "\\" + name;
+            fs.unlinkSync(path);
+
+            await sharp(avatar.data)
+                .resize(200, 200)
+                .toFile(`${process.env.STATICPATH}\\${name}`);
+
+            user.avatar = name;
+            await user.save();
+
+            return res.json({avatar: user.avatar});
         } catch (e) {
             next(e)
         }

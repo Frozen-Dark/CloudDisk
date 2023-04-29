@@ -24,7 +24,7 @@ class UserService {
         // создаем пользователя и отправляем ссылку для подтверждения на почту
 
         await fileService.createDir(new File({userId: user.id, name: ''}));
-        await fileService.createStaticAndPreview(user.id);
+        // await fileService.createStaticAndPreview(user.id);
 
 
         const userDto = new UserDto(user);
@@ -43,14 +43,10 @@ class UserService {
         }
         user.isActivated = true
         await user.save()
-
     }
 
     async login(email, password) {
-
         const user = await model.User.findOne({where: {email: email}});
-        console.log("login")
-
         if(!user) {
             throw ApiError.BadRequest('Пользователь не найден');
         }
