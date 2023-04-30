@@ -15,7 +15,7 @@ class User {
     };
 
     setCurrentUser = (user) => {
-        this.currentUser = user
+        this.currentUser = {...user}
     }
 
 }

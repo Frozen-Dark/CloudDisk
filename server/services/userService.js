@@ -57,7 +57,7 @@ class UserService {
         }
 
         const userDto = new UserDto(user);
-        const tokens = tokenService.generateTokens({...userDto});
+        const tokens = tokenService.generateTokens({email: userDto.email, id: userDto.id, isActivated: userDto.isActivated});
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
         return {...tokens, user: userDto};
@@ -67,10 +67,12 @@ class UserService {
         const {email} = userData
         const user = await model.User.findOne({where: {email}})
         const userDto = new UserDto(user)
-        const {accessToken, refreshToken} = tokenService.generateTokens({...userDto})
+        console.log(userDto)
+        const {accessToken, refreshToken} = tokenService.generateTokens({email: userDto.email, id: userDto.id, isActivated: userDto.isActivated})
         await tokenService.saveToken(userDto.id, refreshToken);
 
         return {accessToken, refreshToken, user: userDto}
+
     }
 
     async logout(refreshToken) {
@@ -90,7 +92,7 @@ class UserService {
         }
         const user = await model.User.findOne({where: {id: userData.id}})
         const userDto = new UserDto(user);
-        const tokens = tokenService.generateTokens({...userDto});
+        const tokens = tokenService.generateTokens({email: userDto.email, id: userDto.id, isActivated: userDto.isActivated});
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return {...tokens, user: userDto};

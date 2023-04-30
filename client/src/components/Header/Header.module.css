@@ -51,12 +51,15 @@
 .profile {
     display: flex;
     justify-content: space-between;
-    transform: rotate(180deg);
 }
 .avatar {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 40px;
     width: 40px;
     border-radius: 20px;
-    background-color: #C5C5C5;
+    background-color: transparent;
     cursor: pointer;
 }

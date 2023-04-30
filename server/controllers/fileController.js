@@ -20,7 +20,7 @@ class FileController {
                 return next(ApiError.BadRequest("Ошибка при загрузки аватара"))
             }
             const type = avatar.name.split(".").pop()
-            if(type !== "jpg" && type !== "png") {
+            if(type !== "jpg" && type !== "png" && type !== "jfif") {
                 return next(ApiError.BadRequest("Неверный тип аватара"))
             }
 
@@ -69,7 +69,7 @@ class FileController {
                 return next(ApiError.BadRequest("Ошибка при загрузки аватара"))
             }
             const type = avatar.name.split(".").pop()
-            if(type !== "jpg" && type !== "png") {
+            if(type !== "jpg" && type !== "png" && type !== "jfif") {
                 return next(ApiError.BadRequest("Неверный тип аватара"))
             }
 

@@ -31,9 +31,9 @@ const FileList = ({file, selectAndActive, openInfo}) => {
             <img className={classes.file__img} src={icon} draggable="false" onClick={() => openDirHandler(file)} alt="Иконка"/>
             <div className={classes.file__name}>{file.name}</div>
             <div className={classes.file__date}>{updateTime.day} - {updateTime.time}</div>
-            <div className={classes.file__owner}>{file.type}</div>
+            <div className={classes.file__owner}>{file.type === "dir" ? "Папка" : file.type}</div>
             <div className={classes.file__more}>
-            <div>{normalizeSize(file.size)}</div>
+            <div>{file.type === "dir" ? "" : normalizeSize( file.size)}</div>
             <div className={classes.file__more__image}>
                 <img className={classes.file__download} onClick={() => downloadFileHandler(file)} src={download} alt="Скачать"/>
                 <div className={classes.sideWall} onClick={(e) => selectAndActive(file, e)} >

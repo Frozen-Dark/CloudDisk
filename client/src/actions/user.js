@@ -1,6 +1,7 @@
 import axios from "axios";
 import MessAuth from "../store/Auth"
 import notification from '../store/Notification'
+import User from "../store/User";
 
 const url = "http://localhost:5000"
 
@@ -63,6 +64,7 @@ export const login = async (email, password) => {
             if(response.status === 200) {
                 localStorage.setItem('token', response.data.token)
                 MessAuth.setIsAuth(true)
+                User.setCurrentUser(response.data.user)
                 notification.clientMessage("Успешный вход","pass")
 
             }
@@ -75,8 +77,10 @@ export const login = async (email, password) => {
 export const auth = async () => {
         try {
             const response = await axios.get(`${url}/api/user/authorization`)
+            console.log(response)
             if(response.status === 200) {
                 MessAuth.setIsAuth(true)
+                User.setCurrentUser(response.data.user)
                 localStorage.setItem('token', response.data.token)
                 notification.clientMessage("Успешный вход","pass")
             }

@@ -127,7 +127,6 @@ export async function searchFile (name) {
     Loader.setLoader(true)
     try {
         const files = await axios.get(`${url}/api/files/search?name=${name}`)
-        console.log(files)
         FileController.setFiles(files.data)
     } catch (e) {
         console.log(e)
@@ -139,7 +138,6 @@ export async function getFolderPath (id) {
     if(id !== -1 && id !== undefined) {
         try {
             const response = await axios.get(`${url}/api/files/folderPath?currentDirId=${id}`)
-            console.log("path: ", response.data)
             FilesPath.getFirstPath(response.data)
         } catch (e) {
             console.log(e)

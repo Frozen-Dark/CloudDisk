@@ -3,6 +3,7 @@ import classes from "./Header.module.css"
 import logo from "../../assets/svg/logo.svg"
 import Query from "../UI/Query";
 import cogwheel from "../../assets/svg/cogwheel.svg"
+import User from "../../store/User";
 const Header = () => {
     return (
         <header className={classes.header} >
@@ -22,7 +23,11 @@ const Header = () => {
 
                 <div className={classes.profile}>
                     <div className={classes.avatar}>
+                        {
+                            User.currentUser.avatar && <img style={{height: "40px"}} src={"http://localhost:5000/" + User.currentUser.avatar} alt=""/>
+                        }
                     </div>
+                    {/*{User.currentUser.avatar}*/}
                 </div>
             </div>
         </header>
