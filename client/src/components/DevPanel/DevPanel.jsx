@@ -21,11 +21,7 @@ const DevPanel = () => {
         }
     }
 
-    const exit = () => {
-        localStorage.removeItem('token')
-        Auth.setIsAuth(false)
-        User.logout()
-    }
+
 
     return (
         <div className={classes.devPanel}>
@@ -34,7 +30,6 @@ const DevPanel = () => {
             <button className={classes.buttonLink} onClick={() => FileController.removeFiles()}>Удалить все</button>
             {/*<label htmlFor="uploadInput" className={classes.uploadLabel}>Загрузить файлы</label>*/}
             <input multiple={true} onChange={(e) => fileUploadHandler(e)} type="file" id="uploadInput" className={classes.uploadInput}/>
-            <NavLink className={classes.navLink} onClick={exit} to={"/login"}>Exit</NavLink>
         </div>
     );
 };

@@ -4,6 +4,8 @@ import Loader from "../store/Loader";
 import notification from "../store/Notification";
 import FileController from "../store/FileController";
 import FilesPath from "../store/FilesPath";
+import {logout} from "./user";
+import User from "../store/User";
 
 const url = "http://localhost:5000"
 
@@ -20,6 +22,19 @@ function checkName(name, type) {
             notification.clientMessage("Файл с таким именем уже существует", "Fail")
             return false
         }
+    }
+}
+
+export const uploadAvatar = async (avatar) => {
+    try {
+        const formData = new FormData()
+        formData.append("file", avatar)
+        const response = await axios.post(`${url}/api/files/uploadAvatar`, formData)
+        if(response.status === 200) {
+            User.setCurrentUser(response.data)
+        }
+    } catch (e) {
+        console.log(e)
     }
 }
 

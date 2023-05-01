@@ -1,4 +1,6 @@
 import {makeAutoObservable} from "mobx";
+import Auth from "./Auth";
+import {logout} from "../actions/user";
 
 class User {
     constructor() {
@@ -13,6 +15,14 @@ class User {
         usedSpace: 0,
         userName: "User"
     };
+
+    logout = () => {
+        localStorage.removeItem('token')
+        localStorage.setItem('lastDir', "-1")
+        localStorage.setItem('auth', "false")
+        Auth.setIsAuth(false)
+        logout()
+    }
 
     setCurrentUser = (user) => {
         this.currentUser = {...user}

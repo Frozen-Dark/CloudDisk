@@ -124,6 +124,9 @@
     margin-left: 37px;
     margin-right: 13px;
 }
+.ui__elem__name {
+    color: #E3E3E3;
+}
 .ui__elem__action {
     margin-left: 5px;
     outline: none;
@@ -131,4 +134,7 @@
     background: transparent;
     color: #18A0FB;
     cursor: pointer;
+}
+.uploadInput {
+    display: none;
 }
