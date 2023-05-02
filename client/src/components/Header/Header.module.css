@@ -104,6 +104,7 @@
 .userData__info {
     color: #E3E3E3;
     padding: 20px 10px;
+    text-align: start;
 }
 .ui__elem {
     width: 100%;

@@ -31,6 +31,7 @@ class UserService {
         const tokens = tokenService.generateTokens({...userDto});
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
+        console.log("work")
         // создаем токены, созхраняем рефреш в бд и отправляем все на клиент
 
         return {...tokens, user: userDto}
@@ -47,9 +48,12 @@ class UserService {
 
     async login(email, password) {
         const user = await model.User.findOne({where: {email: email}});
+        console.log("asd")
+
         if(!user) {
             throw ApiError.BadRequest('Пользователь не найден');
         }
+        console.log("asd")
 
         const isPassEquals = await bcrypt.compare(password, user.password);
         if(!isPassEquals) {

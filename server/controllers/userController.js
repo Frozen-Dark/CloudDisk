@@ -33,8 +33,10 @@ class UserController {
         try {
             const {email, password} = req.body
             const userData = await userService.login(email, password)
+            console.log("asd")
 
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true}) // ВОТ СЮДА ПРИ HTTPS ДОБАВЛЯТЬ  secure: true
+            console.log("asd")
             return res.json({token: userData.accessToken, user: userData.user})
         } catch (e) {
             next(e)

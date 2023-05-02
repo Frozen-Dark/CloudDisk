@@ -1,4 +1,4 @@
-import React, {createRef, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import classes from "./Header.module.css"
 import logo from "../../assets/svg/logo.svg"
 import Query from "../UI/Query";
@@ -9,12 +9,13 @@ import theme from "../../assets/headerSvg/theme.svg"
 import User from "../../store/User";
 import {NavLink} from "react-router-dom";
 import {uploadAvatar} from "../../actions/file";
+import {STATIC_PATH} from "../../utils/consts";
 const Header = () => {
     const [profile, setProfile] = useState(false);
-    const [avatar, setAvatar] = useState("http://localhost:5000/" + User.currentUser.avatar)
+    const [avatar, setAvatar] = useState(STATIC_PATH + User.currentUser.avatar)
 
     useEffect(() => {
-        setAvatar("http://localhost:5000/" + User.currentUser.avatar)
+        setAvatar(STATIC_PATH + User.currentUser.avatar)
     }, [])
 
     function ClickAvatarHandler() {
@@ -71,7 +72,7 @@ const Header = () => {
                         </NavLink>
                     </button>
                 }
-                <input onChangeCapture={(e) => uploadAvatar(...e.target.files)} type="file" id="uploadInput" className={classes.uploadInput}/>
+                <input onChangeCapture={(e) => uploadAvatar(e)} type="file" id="uploadInput" className={classes.uploadInput}/>
             </div>
         </header>
     );

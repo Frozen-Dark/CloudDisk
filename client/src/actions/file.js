@@ -4,7 +4,6 @@ import Loader from "../store/Loader";
 import notification from "../store/Notification";
 import FileController from "../store/FileController";
 import FilesPath from "../store/FilesPath";
-import {logout} from "./user";
 import User from "../store/User";
 
 const url = "http://localhost:5000"
@@ -25,10 +24,11 @@ function checkName(name, type) {
     }
 }
 
-export const uploadAvatar = async (avatar) => {
+export const uploadAvatar = async (e) => {
     try {
+        const avatar = e.target.files
         const formData = new FormData()
-        formData.append("file", avatar)
+        formData.append("file", avatar[0])
         const response = await axios.post(`${url}/api/files/uploadAvatar`, formData)
         if(response.status === 200) {
             User.setCurrentUser(response.data)
@@ -45,7 +45,7 @@ export const getFiles = async (dirId) => {
         try {
             const response = await
                 axios.get(`${url}/api/files${dirId ? '?parent='+dirId : '?parent=-1'}`)
-            const {files, parentDir, preview} = response.data
+            const {files, parentDir} = response.data
             FileController.setFiles(files)
             FileController.setCurrentDir(dirId)
 

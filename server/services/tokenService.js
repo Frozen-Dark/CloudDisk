@@ -3,10 +3,13 @@ const model = require("../models/models")
 require('dotenv').config()
 
 class TokenService {
-    generateTokens(payload) {
-        console.log(payload)
-        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_KEY, {expiresIn: '15m'} );
-        const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_KEY, {expiresIn: '30d'} );
+    generateTokens({email, id, userName}) {
+        const accessToken = jwt.sign({email, id, userName}, process.env.JWT_ACCESS_KEY, {expiresIn: '15m'} );
+        const refreshToken = jwt.sign({email, id, userName}, process.env.JWT_REFRESH_KEY, {expiresIn: '30d'} );
+        console.log({
+            accessToken,
+            refreshToken
+        })
         return {
             accessToken,
             refreshToken
@@ -15,11 +18,11 @@ class TokenService {
 
     async saveToken(userId, refreshToken) {
         const tokenData = await model.Token.findOne({where: {userId: userId} });
-        if (tokenData) {
+        if(tokenData) {
             tokenData.refreshToken = refreshToken;
             return tokenData.save();
         }
-        return await model.Token.create({userId: userId, refreshToken});
+        return await model.Token.create({userId, refreshToken});
     }
 
     async removeToken(refreshToken) {

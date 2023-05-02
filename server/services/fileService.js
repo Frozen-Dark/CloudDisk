@@ -15,15 +15,13 @@ class FileService {
 
     getPath(file) {
         if(file.path.length > 0) {
-            const previewPath = `${process.env.PREVIEWPATH}\\${file.userId}\\${file.path}`
+            // const previewPath = `${process.env.PREVIEWPATH}\\${file.userId}\\${file.path}`
             const filePath = `${process.env.FILEPATH}\\${file.userId}\\${file.path}`
-            console.log({previewPath, filePath})
-            return {previewPath, filePath}
+            return {filePath}
         }
         const previewPath = `${process.env.PREVIEWPATH}\\${file.userId}`
         const filePath = `${process.env.FILEPATH}\\${file.userId}`
-        console.log({previewPath, filePath})
-        return {previewPath, filePath}
+        return {filePath}
     }
     //
     // preview() {
@@ -118,28 +116,28 @@ class FileService {
         }
     }
 
-    createPreview(userId, image, parentPath) {
-        return new Promise(((resolve, reject) => {
-            try {
-                if(userId || image) {
-                    let sharpPath;
-                    if(parentPath) {
-                        sharpPath = `${process.env.PREVIEWPATH}\\${userId}\\${parentPath}\\${image.name}`;
-                    } else {
-                        sharpPath = `${process.env.PREVIEWPATH}\\${userId}\\${image.name}`;
-                    }
-                    sharp(image.data)
-                        .resize(90, 90)
-                        .toFile(sharpPath)
-                    return resolve({sharpPath: sharpPath})
-                } else {
-                    return resolve({message: "Create preview error"});
-                }
-            } catch (e) {
-                return reject({message: "Preview error!"});
-            }
-        }))
-    }
+    // createPreview(userId, image, parentPath) {
+    //     return new Promise(((resolve, reject) => {
+    //         try {
+    //             if(userId || image) {
+    //                 let sharpPath;
+    //                 if(parentPath) {
+    //                     sharpPath = `${process.env.PREVIEWPATH}\\${userId}\\${parentPath}\\${image.name}`;
+    //                 } else {
+    //                     sharpPath = `${process.env.PREVIEWPATH}\\${userId}\\${image.name}`;
+    //                 }
+    //                 sharp(image.data)
+    //                     .resize(90, 90)
+    //                     .toFile(sharpPath)
+    //                 return resolve({sharpPath: sharpPath})
+    //             } else {
+    //                 return resolve({message: "Create preview error"});
+    //             }
+    //         } catch (e) {
+    //             return reject({message: "Preview error!"});
+    //         }
+    //     }))
+    // }
 
     // async uploadAvatar(avatar, userId) {
     //        try {
@@ -157,9 +155,9 @@ class FileService {
     //        }
     // }
 
-    async deleteAvatar(userId) {
-
-    }
+    // async deleteAvatar(userId) {
+    //
+    // }
 
     // throw ApiError.BadRequest('Пользователь не найден');
 }
