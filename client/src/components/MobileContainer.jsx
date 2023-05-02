@@ -53,8 +53,8 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
                     <div className={classes.list__header}>
                         <div className={classes.list__name}>Название</div>
                         <div className={classes.list__change}>Последнее изменение</div>
-                        <div className={classes.list__owner}>Тип</div>
-                        <div className={classes.list__more}>Размер файла</div>
+                        <div className={classes.list__type}>Тип</div>
+                        <div className={classes.list__size}>Размер файла</div>
                     </div>
                     <Files files={files} selectAndActive={selectAndActive} openInfo={openInfo}/>
                 </section>

@@ -16,7 +16,8 @@ class FileController {
     fileList = localStorage.getItem("fileList") || "false"
 
     setFiles(files) {
-        this.files = files.sort((a, b) => a.id - b.id);
+
+        this.files = files.sort((a, b) => a.type === "dir"? "" : a["type"].localeCompare(b["size"])).reverse()
     }
     setCurrentFile(file) {
         console.log("Set file: ", file.name)
@@ -63,7 +64,7 @@ class FileController {
             notification.clientMessage(response.data.message, "pass")
             const index = this.files.indexOf(file)
             this.files[index].name = name
-            this.sortFiles("id")
+            this.sortFiles("type")
         } else {
             notification.clientMessage(response.data.message, "fail")
         }

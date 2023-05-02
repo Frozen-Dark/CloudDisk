@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import classes from "./Header.module.css"
 import logo from "../../assets/svg/logo.svg"
 import Query from "../UI/Query";
@@ -10,22 +10,29 @@ import User from "../../store/User";
 import {NavLink} from "react-router-dom";
 import {uploadAvatar} from "../../actions/file";
 import {STATIC_PATH} from "../../utils/consts";
+
 const Header = () => {
     const [profile, setProfile] = useState(false);
+
+
     const [avatar, setAvatar] = useState(STATIC_PATH + User.currentUser.avatar)
 
-    useEffect(() => {
-        setAvatar(STATIC_PATH + User.currentUser.avatar)
-    }, [])
+    async function  uploadAvatarHandler(e) {
+        const result = await uploadAvatar(e)
+        setAvatar(STATIC_PATH + result.data.avatar)
+    }
 
     function ClickAvatarHandler() {
         setProfile(!profile);
     }
+
     return (
 
         <header className={classes.header} >
             <div className={classes.logo}>
-                <img src={logo} alt=""/>
+                <NavLink to={"/disk"}>
+                    <img src={logo} alt=""/>
+                </NavLink>
             </div>
             <div className={classes.search}>
                 <Query />
@@ -56,10 +63,12 @@ const Header = () => {
                             <span className={classes.ui__elem__name}>Тема:</span>
                             <div className={classes.ui__elem__action}>Тёмная</div>
                         </div>
-                        <div className={classes.ui__elem}>
-                            <img className={classes.ui__elem__img} src={settings} alt="theme"/>
-                            <span className={classes.ui__elem__name}>Настройки</span>
-                        </div>
+                        <NavLink style={{textDecoration: "none"}} to={"/settings"}>
+                            <div className={classes.ui__elem}>
+                                <img className={classes.ui__elem__img} src={settings} alt="theme"/>
+                                <span className={classes.ui__elem__name}>Настройки</span>
+                            </div>
+                        </NavLink>
                         <div className={classes.ui__elem}>
                             <img className={classes.ui__elem__img} src={faqSvg} alt="theme"/>
                             <span className={classes.ui__elem__name}>Помощь</span>
@@ -72,7 +81,7 @@ const Header = () => {
                         </NavLink>
                     </button>
                 }
-                <input onChangeCapture={(e) => uploadAvatar(e)} type="file" id="uploadInput" className={classes.uploadInput}/>
+                <input onChangeCapture={(e) => uploadAvatarHandler(e)} type="file" id="uploadInput" className={classes.uploadInput}/>
             </div>
         </header>
     );

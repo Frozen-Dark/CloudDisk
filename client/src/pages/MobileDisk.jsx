@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import classes from "./MobileDisk.module.css"
+import classes from "../styles/MobileDisk.module.css"
 import Query from "../components/UI/Query";
 import MobileContainer from "../components/MobileContainer";
 import SortBar from "../components/UI/SortBar";
@@ -60,7 +60,9 @@ const MobileDisk = () => {
 
     return (
         <div className={classes.mobilePage}>
+
             <Header/>
+
             <SortBar />
 
             { dragEnter?

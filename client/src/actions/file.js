@@ -33,6 +33,7 @@ export const uploadAvatar = async (e) => {
         if(response.status === 200) {
             User.setCurrentUser(response.data)
         }
+        return response;
     } catch (e) {
         console.log(e)
     }

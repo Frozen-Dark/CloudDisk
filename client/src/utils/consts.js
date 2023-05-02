@@ -8,9 +8,9 @@ import text from "../assets/svg/txt.svg";
 
 export const LOGIN_ROUTE = '/login'
 export const REGISTRATION_ROUTE = '/registration'
-export const STATIC_PATH = 'http://localhost:5000/'
-
 export const DISK_ROUTE = '/disk'
+export const SETTINGS_ROUTE = '/settings'
+export const STATIC_PATH = 'http://localhost:5000/'
 
 export const getImage = (type) => {
     let icon

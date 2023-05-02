@@ -70,12 +70,20 @@
 }
 
 .list__name {
-    width: 40%;
+    width: calc(36% - 50px);
     margin-right: 50px;
 }
-.list__owner, .list__change, .list__more {
+.list__change {
     margin-left: 10px;
-    width: 20%;
+    width: calc(24% - 10px);
+}
+.list__type {
+    margin-left: 10px;
+    width: calc(20% - 10px);
+}
+.list__size {
+    margin-left: 10px;
+    width: calc(20% - 10px);
 }
 
 
@@ -95,18 +103,20 @@
     .info {
         display: none !important;
     }
+
     .list__name {
-        margin-right: 15px;
-    }
-    .list__owner {
-        display: none;
-    }
-    .list__files {
-        width: 100%;
+        width: 43%;
     }
     .list__change {
-        width: 29%;
+        display: none;
     }
+    .list__type {
+        width: 21%;
+    }
+    .list__size {
+
+    }
+
 }
 
 @media (max-width: 768px){

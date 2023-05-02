@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import classes from "../../pages/MobileDisk.module.css";
+import classes from "../../styles/MobileDisk.module.css";
 import chevron from "../../assets/svg/chevron.svg";
 import listSort from "../../assets/svg/listSort.svg";
 import {observer} from "mobx-react";
