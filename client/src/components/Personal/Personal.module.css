@@ -1,0 +1,83 @@
+.personal {
+    width: 50%;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #353535;
+    border: 1px solid #414141;
+    border-radius: 10px;
+}
+.header {
+    width: calc(100% - 50px);
+    height: 100px;
+    margin: 25px;
+    display: flex;
+    align-items: center;
+}
+.avatar {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+}
+.main {
+    width: 100%;
+    padding: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.header__info {
+    margin-left: 20px;
+}
+.header__mainText {
+    color: #E3E3E3;
+    font-size: 22px;
+    font-weight: 500;
+}
+.header__secondText {
+    color: #B1B1B1;
+    font-size: 16px;
+}
+.ui__input {
+    margin-top: 20px;
+    width: 200px;
+    height: 63px;
+}
+.ui__input_text {
+    font-size: 14px;
+    color: #B1B1B1;
+    font-weight: 500;
+    margin-bottom: 7px;
+}
+
+.input__v2 {
+    outline: solid 0 #363b48;
+
+    background-color: #313131;
+    border: 1px solid #414141;
+    border-radius: 7px;
+    height: 36px;
+    width: 100%;
+    font-weight: 500;
+    color: #E3E3E3;
+    padding-left: 10px;
+    transition: .2s;
+}
+.input__v2:focus {
+    outline: solid 2px #475783;
+
+}
+.birthday {
+    height: 63px;
+    width: 260px;
+}
+
+.input__v3 {
+    background-color: #313131;
+    border: 1px solid #414141;
+    border-radius: 7px;
+    height: 36px;
+    width: 60px;
+    font-weight: 500;
+    color: #E3E3E3;
+    padding-left: 10px;
+}

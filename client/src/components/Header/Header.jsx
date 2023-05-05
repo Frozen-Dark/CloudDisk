@@ -13,8 +13,6 @@ import {STATIC_PATH} from "../../utils/consts";
 
 const Header = () => {
     const [profile, setProfile] = useState(false);
-
-
     const [avatar, setAvatar] = useState(STATIC_PATH + User.currentUser.avatar)
 
     async function  uploadAvatarHandler(e) {
