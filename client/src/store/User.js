@@ -9,13 +9,13 @@ class User {
 
     currentUser = {
         id: 0,
-
         avatar: "defaultAvatar.svg",
-
         email: "test@test.test",
         diskSpace: 0,
         usedSpace: 0,
-        userName: "User"
+        userName: "User",
+        surName: "1",
+        nickName: "",
     };
 
     logout = () => {

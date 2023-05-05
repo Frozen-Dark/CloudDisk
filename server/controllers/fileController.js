@@ -173,7 +173,7 @@ class FileController {
         const user = await User.findOne({where: {id: req.user.id} });
 
         const size = (Number(file.size)/1024).toFixed(2);
-        user.usedSpace = Number(user.usedSpace) + Number(size);
+        user.usedSpace = (Number(user.usedSpace) + Number(size)).toFixed(2);
         const type = fileName.split(".").pop();
 
         const name = fileName.slice(0, fileName.length - type.length - 1);
@@ -217,6 +217,7 @@ class FileController {
             // if(sharpObj) {
             //     dbFile.preview = sharpObj.sharpPath;
             // }
+
             await user.save();
             await dbFile.save();
 

@@ -8,10 +8,12 @@ const User = sequelize.define('user', {
     password: {type: DataTypes.STRING},
     isActivated: {type: DataTypes.BOOLEAN, defaultValue: false},
     activationLink: {type: DataTypes.STRING},
-    diskSpace: {type: DataTypes.DECIMAL, defaultValue: 10240000},
+    diskSpace: {type: DataTypes.DECIMAL, defaultValue: 52428800},
     usedSpace: {type: DataTypes.DECIMAL, defaultValue: 0},
     avatar: {type: DataTypes.STRING},
-    userName: {type: DataTypes.STRING, defaultValue: "User"}
+    userName: {type: DataTypes.STRING, defaultValue: "User"},
+    nickName: {type: DataTypes.STRING, defaultValue: ""},
+    surName: {type: DataTypes.STRING, defaultValue: ""},
 })
 
 const Token = sequelize.define('token', {

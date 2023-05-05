@@ -3,6 +3,15 @@ const {validationResult} = require("express-validator")
 const ApiError = require("../exceptions/apiError")
 
 class UserController {
+    async renaming(req, res, next) {
+        try {
+            const userData = req.user
+
+            return res.json(userData)
+        } catch (e) {
+            next(e)
+        }
+    }
     async registration(req, res, next) {
         try {
             const errors = validationResult(req)

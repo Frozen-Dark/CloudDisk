@@ -5,13 +5,10 @@ import User from "../../store/User";
 
 const Personal = () => {
     const [avatar, setAvatar] = useState(STATIC_PATH + User.currentUser.avatar)
-
-    const [name, setName] = useState("Вася")
-    const [surname, setSurname] = useState("Пупкин")
-    const [nickname, setNickname] = useState("Nightmare")
-    const [birthday_day, setBirthday_day] = useState(9)
-    const [birthday_mouth, setBirthday_mouth] = useState("Мая")
-    const [birthday_year, setBirthday_year] = useState(2001)
+    const {id, email, diskSpace, usedSpace} = User.currentUser
+    const [name, setName] = useState(User.currentUser.userName)
+    const [surname, setSurname] = useState(User.currentUser.surName)
+    const [nickname, setNickname] = useState(User.currentUser.nickName)
 
     return (
         <section className={classes.personal}>
@@ -19,8 +16,9 @@ const Personal = () => {
                 <img className={classes.avatar} src={avatar} alt="Аватар"/>
                 <div className={classes.header__info}>
                     <h2 className={classes.header__mainText}>{name + " " + surname}</h2>
-                    <p className={classes.header__secondText}>ID: 1</p>
+                    <p className={classes.header__secondText}>ID: {id}</p>
                 </div>
+
             </div>
 
             <div className={classes.main}>
@@ -43,6 +41,8 @@ const Personal = () => {
                 {/*        */}
                 {/*    </div>*/}
                 {/*</div>*/}
+                <div> </div>
+                <button className={classes.ui__button}>Сохранить</button>
             </div>
         </section>
     );

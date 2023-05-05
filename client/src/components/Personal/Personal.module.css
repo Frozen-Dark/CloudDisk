@@ -18,10 +18,11 @@
     width: 100px;
     border-radius: 50%;
     background-color: #D9D9D9;
+    border: 2px solid #414141;
 }
 .main {
     width: 100%;
-    padding: 25px;
+    padding: 0 25px 25px 25px;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
@@ -80,4 +81,23 @@
     font-weight: 500;
     color: #E3E3E3;
     padding-left: 10px;
+}
+.ui__button {
+    height: 36px;
+    width: 130px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #353535;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: #B1B1B1;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: .2s;
+}
+.ui__button:hover {
+    background-color: transparent;
+    color: #18A0FB;
+    border: 1px solid #18A0FB;
 }

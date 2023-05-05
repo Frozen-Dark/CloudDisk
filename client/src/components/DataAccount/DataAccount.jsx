@@ -1,8 +1,12 @@
 import React from 'react';
 import classes from "./DataAccount.module.css"
 import chevron from "../../assets/svg/chevron.svg"
+import User from "../../store/User";
+import {normalizeSize} from "../../utils/consts";
 
 const DataAccount = () => {
+    const {id, email, diskSpace, usedSpace} = User.currentUser
+
     return (
         <div className={classes.dataAccount}>
             <div className={classes.header}>
@@ -13,7 +17,7 @@ const DataAccount = () => {
             <div className={classes.personal__item}>
                 <div className={classes.item__data}>
                     <h3 className={classes.data__header}>Почта</h3>
-                    <p className={classes.data__personal}>atljhfirj2015@gmail.com</p>
+                    <p className={classes.data__personal}>{email}</p>
                 </div>
                 <img className={classes.itemSvg} src={chevron} alt="Перейти к"/>
             </div>
@@ -29,7 +33,7 @@ const DataAccount = () => {
             <div className={classes.personal__item}>
                 <div className={classes.item__data}>
                     <h3 className={classes.data__header}>Место</h3>
-                    <p className={classes.data__personal}>Осталось 499 Гб</p>
+                    <p className={classes.data__personal}>Осталось {normalizeSize(diskSpace - usedSpace)} из {normalizeSize(diskSpace)}</p>
                 </div>
                 <img className={classes.itemSvg} src={chevron} alt="Перейти к"/>
             </div>
