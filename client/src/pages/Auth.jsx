@@ -10,6 +10,11 @@ const Auth = () => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [secondPassword, setSecondPassword] = useState("")
+
+    const [userName, setUserName] = useState("")
+    const [surName, setSurName] = useState("")
+    const [nickName, setNickName] = useState("")
 
     const location = useLocation()
     const isLogin = location.pathname === LOGIN_ROUTE; // True = login path
@@ -20,6 +25,13 @@ const Auth = () => {
     }
     let inputClass = MessAuth.state ? classes.emailInput : classes.emailInput + " " + classes.active
     let messageClass = MessAuth.state ? classes.pass : classes.fail
+
+    function checkPasswordHandler(inputValue) {
+        setSecondPassword(inputValue)
+        if(password === inputValue) {
+            console.log("Okay")
+        }
+    }
 
     function loginButton(e) {
         e.preventDefault()
@@ -94,6 +106,16 @@ const Auth = () => {
                            value={password} required
                            minLength="4" maxLength="20"
                            onChange={event => setPassword(event.target.value)}
+                    />
+
+                    <input placeholder={"Повторите пароль"}
+                              type={"password"}
+                              value={secondPassword}
+                              minLength="4"
+                              maxLength="20"
+                              required
+                              className={inputClass}
+                              onChange={event => checkPasswordHandler(event.target.value)}
                     />
 
                     <span className={messageClass}>{MessAuth.message}</span>
