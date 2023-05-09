@@ -22,7 +22,7 @@ axios.interceptors.response.use((config) => {
     return config;
 },  async (error) => {
     const originalRequest = error.config;
-        if(error.response.status === 401 && error.config && !error.config._idRetry) {
+        if(error.response.status === 401 && error.config && error.config._idRetry) {
             originalRequest._idRetry = true;
             try {
                 const response = await axios.get(`http://localhost:5000/api/user/refresh`, {withCredentials: true} )
@@ -64,6 +64,7 @@ export const login = async (email, password) => {
             if(response.status === 200) {
                 localStorage.setItem('token', response.data.token)
                 MessAuth.setIsAuth(true)
+                console.log("User_DATA: ",response.data.user)
                 User.setCurrentUser(response.data.user)
                 notification.clientMessage("Успешный вход","pass")
 
@@ -73,27 +74,48 @@ export const login = async (email, password) => {
             console.log(e)
         }
 }
+function checkToken() {
+    const token = localStorage.getItem("token");
+    return !!token;
+} // Костыль
 
 export const auth = async () => {
         try {
-            const response = await axios.get(`${url}/api/user/authorization`)
-            console.log(response)
+            if(checkToken() === false) {
+                let response = {status: 401};
+                console.log(response.status)
+                return response
+            } // Костыль
+
+            const response = await axios.get(`${url}/api/user/authorization`);
+
             if(response.status === 200) {
-                MessAuth.setIsAuth(true)
-                User.setCurrentUser(response.data.user)
-                localStorage.setItem('token', response.data.token)
-                notification.clientMessage("Успешный вход","pass")
+                MessAuth.setIsAuth(true);
+                User.setCurrentUser(response.data.user);
+                localStorage.setItem('token', response.data.token);
+                notification.clientMessage("Успешный вход","pass");
             }
+            return response.status;
         } catch (e) {
             console.log(e)
         }
 }
 export const logout = async () => {
         try {
-            const response = await axios.post(`${url}/api/user/logout`)
-            console.log(response.data.message)
+            const response = await axios.post(`${url}/api/user/logout`);
+            console.log(response.data.message);
         } catch (e) {
-            console.log(e.response.data.message)
+            console.log(e.response.data.message);
+        }
+}
+export const rename = async (name, surname, nickname) => {
+        try {
+            const response = await axios.post(`${url}/api/user/rename`, {
+                userData: {name, surname, nickname}
+            });
+            User.setCurrentUser(response.data)
+        } catch (e) {
+            console.log(e.response.data.message);
         }
 }
 

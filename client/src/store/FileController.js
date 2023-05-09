@@ -13,10 +13,9 @@ class FileController {
     currentFile = {id: 0}; // File type
 
 
-    fileList = localStorage.getItem("fileList") || "false"
+    fileList = localStorage.getItem("fileList") || "true"
 
     setFiles(files) {
-
         this.files = files.sort((a, b) => a.type === "dir"? "" : a["type"].localeCompare(b["size"])).reverse()
     }
     setCurrentFile(file) {

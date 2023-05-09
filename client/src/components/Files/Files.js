@@ -9,6 +9,9 @@ const Files = ({files, openInfo, selectAndActive}) => {
     return (
         <div className={classes.files}>
             {
+                console.log("Loader_STATUS: ", LoaderStore.loader)
+            }
+            {
                 LoaderStore.loader === true ?
                     <Loader/>
                     :

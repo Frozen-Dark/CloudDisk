@@ -30,72 +30,87 @@ const Auth = () => {
             registration(email, password)
     }
 
-
-    return (
-        <form className={classes.container}>
-            <div className="form">
-
-                {isLogin?
+    if(isLogin){
+        return (
+            <form className={classes.container}>
+                <div className="form">
                     <h2>Вход</h2>
-                    :
-                    <h2>Регистрация</h2>
-                }
 
+                    <input placeholder={"E-mail"}
+                           type={"text"}
+                           value={email}
+                           minLength="4"
+                           maxLength="30"
+                           required
+                           className={inputClass}
+                           onChange={e => setEmail(e.target.value)}
+                    />
 
+                    <input placeholder={"Пароль"}
+                           type={"password"}
+                           value={password}
+                           minLength="4"
+                           maxLength="20"
+                           required
+                           className={inputClass}
+                           onChange={event => setPassword(event.target.value)}
+                    />
 
-                <input  id={"active"}
-                        placeholder={"E-mail"}
-                        type={"text"}
-                        value={email}
-                        minLength="4"
-                        maxLength="30"
-                        required
-                        className={inputClass}
-                       onChange={e => setEmail(e.target.value)}
-                />
+                    <span className={messageClass}>{MessAuth.message}</span>
 
-                <input placeholder={"Пароль"}
-                       type={"password"}
-                       value={password}
-                       minLength="4"
-                       maxLength="20"
-                       required
-                       className={inputClass}
-                       onChange={event => setPassword(event.target.value)}
-                />
-
-                <span className={messageClass}>{MessAuth.message}</span>
-
-                {isLogin &&
                     <div className={classes.saveDiv}>
                         <input className={classes.checkbox} value={"Войти"} type={"checkbox"} />
                         Запомнить меня
                     </div>
-                }
 
-                <button className={classes.myInput}
-                    onClick={(e) => loginButton(e)}>
-                    {isLogin? "Войти" : "Зарегистрироваться"}
-                </button>
+                    <button className={classes.myInput} onClick={(e) => loginButton(e)}>Войти</button>
 
-            </div>
-            {isLogin ?
+                </div>
                 <div className={classes.setUser}>
                     <span>Нет аккаунта? </span>
                     <NavLink onClick={() => clear()} to={REGISTRATION_ROUTE}>Зарегистрируйся!</NavLink>
                 </div>
-                :
+
+                {
+                    MessAuth.auth && <Navigate to={"/disk"} />
+                }
+            </form>
+        );
+    } else {
+        return (
+            <form className={classes.container}>
+                <div className="form">
+                    <h2>Регистрация</h2>
+
+                    <input className={inputClass}
+                           placeholder={"E-mail"} type={"text"}
+                           value={email} required
+                           minLength="4" maxLength="30"
+                           onChange={e => setEmail(e.target.value)}
+                    />
+
+                    <input className={inputClass}
+                           placeholder={"Пароль"} type={"password"}
+                           value={password} required
+                           minLength="4" maxLength="20"
+                           onChange={event => setPassword(event.target.value)}
+                    />
+
+                    <span className={messageClass}>{MessAuth.message}</span>
+                    <button className={classes.myInput} onClick={(e) => loginButton(e)}>Зарегистрироваться</button>
+                </div>
+
                 <div className={classes.setUser}>
                     <span>Есть аккаунт? </span>
                     <NavLink onClick={() => clear()} to={LOGIN_ROUTE}>Войдите!</NavLink>
                 </div>
-            }
 
-            {
-                MessAuth.auth && <Navigate to={"/disk"} />
-            }
-        </form>
-    );
+                {
+                    MessAuth.auth && <Navigate to={"/disk"} />
+                }
+            </form>
+        );
+    }
 };
 
 export default observer(Auth);

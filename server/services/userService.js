@@ -102,6 +102,16 @@ class UserService {
         return {...tokens, user: userDto};
     }
 
+    async rename(user, userInfo) {
+        console.log(user, userInfo);
+        const User = await model.User.findOne({where: {email: user.email, id: user.id}});
+        User.userName = userInfo.name;
+        User.surName = userInfo.surname;
+        User.nickName = userInfo.nickname;
+        await User.save()
+        return new UserDto(User)
+    }
+
     // async getAllUsers() {
     //     const users = await model.User.findAll();
     //     return users;

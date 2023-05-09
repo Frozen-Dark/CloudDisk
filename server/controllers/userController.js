@@ -5,8 +5,8 @@ const ApiError = require("../exceptions/apiError")
 class UserController {
     async renaming(req, res, next) {
         try {
-            const userData = req.user
-
+            const userInfo = req.body.userData;
+            const userData = await userService.rename(req.user, userInfo)
             return res.json(userData)
         } catch (e) {
             next(e)

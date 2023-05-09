@@ -47,7 +47,9 @@ export const normalizeSize = (size) =>{
     }
     return `${size} Кб`
 }
-
+export function filterName(str) {
+    return str.replace(/[^A-Za-zА-Яа-яЁё,0-9. _-]/g, "");
+}
 function MoscowTime(time) {
     if(time + 3 >= 24) {
         return `0${(time + 3) % 24}`

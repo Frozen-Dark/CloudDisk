@@ -22,13 +22,13 @@ const DataAccount = () => {
                 <img className={classes.itemSvg} src={chevron} alt="Перейти к"/>
             </div>
 
-            <div className={classes.personal__item}>
-                <div className={classes.item__data}>
-                    <h3 className={classes.data__header}>Пароль</h3>
-                    <p className={classes.data__personal}>был изменён два дня назад</p>
-                </div>
-                <img className={classes.itemSvg} src={chevron} alt="Перейти к"/>
-            </div>
+            {/*<div className={classes.personal__item}>*/}
+            {/*    <div className={classes.item__data}>*/}
+            {/*        <h3 className={classes.data__header}>Пароль</h3>*/}
+            {/*        <p className={classes.data__personal}>был изменён два дня назад</p>*/}
+            {/*    </div>*/}
+            {/*    <img className={classes.itemSvg} src={chevron} alt="Перейти к"/>*/}
+            {/*</div>*/}
 
             <div className={classes.personal__item}>
                 <div className={classes.item__data}>

@@ -1,10 +1,10 @@
 import {makeAutoObservable} from 'mobx'
 
 class Loader {
+    loader = false;
     constructor() {
         makeAutoObservable(this)
     }
-    loader = false
     setLoader(state) {
         this.loader = state
     }

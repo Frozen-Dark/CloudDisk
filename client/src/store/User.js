@@ -19,10 +19,10 @@ class User {
     };
 
     logout = () => {
-        localStorage.removeItem('token')
-        localStorage.setItem('lastDir', "-1")
-        localStorage.setItem('auth', "false")
         Auth.setIsAuth(false)
+        localStorage.removeItem("token");
+        localStorage.setItem("lastDir", "-1");
+        localStorage.setItem("fileList", "true");
         logout()
     }
 

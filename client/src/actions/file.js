@@ -5,12 +5,11 @@ import notification from "../store/Notification";
 import FileController from "../store/FileController";
 import FilesPath from "../store/FilesPath";
 import User from "../store/User";
+import {filterName} from "../utils/consts";
 
 const url = "http://localhost:5000"
 
-function filterName(str) {
-    return str.replace(/[^A-Za-zА-Яа-яЁё,0-9. _-]/g, "");
-}
+
 function checkName(name, type) {
     if(name.length === 0) {
         notification.clientMessage("Имя не указано", "Fail")
@@ -47,6 +46,7 @@ export const getFiles = async (dirId) => {
             const response = await
                 axios.get(`${url}/api/files${dirId ? '?parent='+dirId : '?parent=-1'}`)
             const {files, parentDir} = response.data
+            console.log("getFiles_FILES: ", files)
             FileController.setFiles(files)
             FileController.setCurrentDir(dirId)
 
