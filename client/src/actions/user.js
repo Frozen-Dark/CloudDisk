@@ -22,7 +22,7 @@ axios.interceptors.response.use((config) => {
     return config;
 },  async (error) => {
     const originalRequest = error.config;
-        if(error.response.status === 401 && error.config && error.config._idRetry) {
+        if(error.response.status === 401 && error.config && !error.config._idRetry) {
             originalRequest._idRetry = true;
             try {
                 const response = await axios.get(`http://localhost:5000/api/user/refresh`, {withCredentials: true} )
@@ -88,6 +88,7 @@ export const auth = async () => {
             } // Костыль
 
             const response = await axios.get(`${url}/api/user/authorization`);
+            console.log(response)
 
             if(response.status === 200) {
                 MessAuth.setIsAuth(true);
