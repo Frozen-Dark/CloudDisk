@@ -6,7 +6,9 @@ import {normalizeSize} from "../../utils/consts";
 
 const DataAccount = () => {
     const {id, email, diskSpace, usedSpace} = User.currentUser
-
+    function changePasswordHandler() {
+        
+    }
     return (
         <div className={classes.dataAccount}>
             <div className={classes.header}>
@@ -22,13 +24,13 @@ const DataAccount = () => {
                 <img className={classes.itemSvg} src={chevron} alt="Перейти к"/>
             </div>
 
-            {/*<div className={classes.personal__item}>*/}
-            {/*    <div className={classes.item__data}>*/}
-            {/*        <h3 className={classes.data__header}>Пароль</h3>*/}
-            {/*        <p className={classes.data__personal}>был изменён два дня назад</p>*/}
-            {/*    </div>*/}
-            {/*    <img className={classes.itemSvg} src={chevron} alt="Перейти к"/>*/}
-            {/*</div>*/}
+            <div onClick={() => changePasswordHandler()} className={classes.personal__item}>
+                <div className={classes.item__data}>
+                    <h3 className={classes.data__header}>Пароль</h3>
+                    <p className={classes.data__personal}>был изменён два дня назад</p>
+                </div>
+                <img className={classes.itemSvg} src={chevron} alt="Перейти к"/>
+            </div>
 
             <div className={classes.personal__item}>
                 <div className={classes.item__data}>

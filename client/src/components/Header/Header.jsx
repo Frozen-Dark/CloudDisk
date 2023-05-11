@@ -50,7 +50,7 @@ const Header = () => {
                                 </label>
                             </div>
                             <div  className={classes.userData__info}>
-                                <span>{User.currentUser.userName}</span>
+                                <span>{User.currentUser.nickName}</span>
                                 <p>
                                     <span style={{color: "#B1B1B1", fontSize: "14px"} }>{User.currentUser.email}</span>
                                 </p>

@@ -11,8 +11,8 @@ const User = sequelize.define('user', {
     diskSpace: {type: DataTypes.DECIMAL, defaultValue: 52428800},
     usedSpace: {type: DataTypes.DECIMAL, defaultValue: 0},
     avatar: {type: DataTypes.STRING},
-    userName: {type: DataTypes.STRING, defaultValue: "User"},
-    nickName: {type: DataTypes.STRING, defaultValue: ""},
+    nickName: {type: DataTypes.STRING, defaultValue: "User"},
+    userName: {type: DataTypes.STRING, defaultValue: ""},
     surName: {type: DataTypes.STRING, defaultValue: ""},
 })
 

@@ -90,7 +90,13 @@
     margin: 10px 0 10px 0;
     border: none;
     filter: drop-shadow(0px 0px 4px rgba(24, 160, 251, .2));
+}
 
+.correctInput {
+    border: 2px solid #4BB34B;
+}
+.inCorrectInput {
+    border: 2px solid #E64646;
 }
 
 .setUser {

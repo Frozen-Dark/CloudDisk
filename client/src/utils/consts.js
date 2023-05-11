@@ -1,11 +1,3 @@
-import dirSvg from "../assets/svg/folder.svg";
-import picture from "../assets/svg/picture.svg";
-import video from "../assets/svg/video.svg";
-import fileSvg from "../assets/svg/file.svg";
-import excel from "../assets/svg/excel.svg";
-import photoshop from "../assets/svg/photoshop.svg";
-import text from "../assets/svg/txt.svg";
-
 export const LOGIN_ROUTE = '/login'
 export const REGISTRATION_ROUTE = '/registration'
 export const DISK_ROUTE = '/disk'
@@ -15,25 +7,25 @@ export const STATIC_PATH = 'http://localhost:5000/'
 export const getImage = (type) => {
     let icon
     switch (type) {
-        case "dir": icon = dirSvg
+        case "dir": icon = STATIC_PATH + "svg/folder.svg"
             break;
-        case "jpg": icon = picture
+        case "txt": icon = STATIC_PATH + "svg/txt.svg"
             break;
-        case "txt": icon = text
+        case "jpg": icon = STATIC_PATH + "svg/picture.svg"
             break;
-        case "png": icon = picture
+        case "png": icon = STATIC_PATH + "svg/picture.svg"
             break;
-        case "jpeg":  icon = picture
+        case "jpeg": icon = STATIC_PATH + "svg/picture.svg"
             break;
-        case "mkv": icon = video
+        case "mkv": icon = STATIC_PATH + "svg/video.svg"
             break;
-        case "mp4": icon = video
+        case "mp4": icon = STATIC_PATH + "svg/video.svg"
             break;
-        case "xlsx": icon = excel
+        case "xlsx": icon = STATIC_PATH + "svg/excel.svg"
             break;
-        case "psd": icon = photoshop
+        case "psd": icon = STATIC_PATH + "svg/photoshop.svg"
             break;
-        default: icon = fileSvg
+        default: icon = STATIC_PATH + "svg/file.svg"
     }
     return icon
 }
