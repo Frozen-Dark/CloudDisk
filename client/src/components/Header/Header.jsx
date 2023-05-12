@@ -1,23 +1,30 @@
 import React, {useState} from 'react';
 import classes from "./Header.module.css"
-import logo from "../../assets/svg/logo.svg"
 import Query from "../UI/Query";
-import faqSvg from "../../assets/headerSvg/faq.svg"
-import logoutSvg from "../../assets/headerSvg/logout.svg"
-import settings from "../../assets/headerSvg/settings.svg"
-import theme from "../../assets/headerSvg/theme.svg"
 import User from "../../store/User";
-import {NavLink} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
 import {uploadAvatar} from "../../actions/file";
-import {STATIC_PATH} from "../../utils/consts";
+import {DISK_ROUTE, STATIC_PATH} from "../../utils/consts";
+
+
 
 const Header = () => {
+    const logo = STATIC_PATH + "svg/logo.svg";
+    const faqSvg = STATIC_PATH + "svg/faq.svg";
+    const logoutSvg = STATIC_PATH + "svg/logout.svg";
+    const settingsSvg = STATIC_PATH + "svg/settings.svg";
+    const themeSvg = STATIC_PATH + "svg/theme.svg";
+
+    const location = useLocation();
+    const isDisk = location.pathname  === DISK_ROUTE;
+
+
     const [profile, setProfile] = useState(false);
-    const [avatar, setAvatar] = useState(STATIC_PATH + User.currentUser.avatar)
+    const [avatar, setAvatar] = useState(STATIC_PATH + User.currentUser.avatar);
 
     async function  uploadAvatarHandler(e) {
-        const result = await uploadAvatar(e)
-        setAvatar(STATIC_PATH + result.data.avatar)
+        const result = await uploadAvatar(e);
+        setAvatar(STATIC_PATH + result.data.avatar);
     }
 
     function ClickAvatarHandler() {
@@ -33,7 +40,9 @@ const Header = () => {
                 </NavLink>
             </div>
             <div className={classes.search}>
-                <Query />
+                {isDisk &&
+                    <Query />
+                }
             </div>
             <div className={classes.settings}>
                 <div onClick={() => ClickAvatarHandler()} className={classes.profile}>
@@ -57,13 +66,13 @@ const Header = () => {
                             </div>
                         </div>
                         <div className={classes.ui__elem}>
-                            <img className={classes.ui__elem__img} src={theme} alt="theme"/>
+                            <img className={classes.ui__elem__img} src={themeSvg} alt="theme"/>
                             <span className={classes.ui__elem__name}>Тема:</span>
                             <div className={classes.ui__elem__action}>Тёмная</div>
                         </div>
                         <NavLink style={{textDecoration: "none"}} to={"/settings"}>
                             <div className={classes.ui__elem}>
-                                <img className={classes.ui__elem__img} src={settings} alt="theme"/>
+                                <img className={classes.ui__elem__img} src={settingsSvg} alt="theme"/>
                                 <span className={classes.ui__elem__name}>Настройки</span>
                             </div>
                         </NavLink>

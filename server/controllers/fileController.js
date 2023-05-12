@@ -8,6 +8,7 @@ require('dotenv').config()
 const Uuid = require("uuid")
 const model = require("../models/models");
 const sharp = require("sharp");
+const UserDto = require("../dtos/user-dto");
 
 
 
@@ -24,20 +25,22 @@ class FileController {
                 return next(ApiError.BadRequest("Неверный тип аватара"))
             }
 
-            const user = await model.User.findOne({where: {id: req.user.id}});
+            const User = await model.User.findOne({where: {id: req.user.id}});
 
             let name = Uuid.v4() + ".jpg";
-            if(user.avatar) {
-                fs.unlinkSync(process.env.STATICPATH + "\\" + user.avatar);
+            if(User.avatar) {
+                fs.unlinkSync(process.env.STATICPATH + "\\" + User.avatar);
             }
 
             await sharp(avatar.data)
                 .resize(200, 200)
                 .toFile(`${process.env.STATICPATH}\\${name}`);
-            user.avatar = name;
-            await user.save();
+            User.avatar = name;
+            const userDto = new UserDto(User)
+            console.log(userDto)
+            await User.save();
 
-            return res.json({email: user.email, userName: user.userName, avatar: name});
+            return res.json(userDto);
         } catch (e) {
             next(e)
         }

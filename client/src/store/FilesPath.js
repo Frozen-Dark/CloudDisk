@@ -16,6 +16,9 @@ class FilesPath {
         }
         this.path.push(folder);
     }
+    clearPath() {
+        this.path = [{id: -1, parent: -1, name: "Мой диск"}]
+    }
     cutPath(id) {
         const index = this.path.findIndex((obj) => obj.id === id);
         if(index !== -1 && id !== -1) {
@@ -42,6 +45,7 @@ class FilesPath {
         this.currentDir = dir
     }
     getFirstPath(path) {
+        console.log("PATH: ", path)
         this.path = [...this.path,  ...path]
     }
 

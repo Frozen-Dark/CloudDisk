@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import classes from "./Query.module.css";
-import sideSettings from "../../assets/svg/sideSettings.svg"
 import {getFiles, searchFile} from "../../actions/file";
 import {observer} from "mobx-react";
+import {STATIC_PATH} from "../../utils/consts";
 
 const Query = () => {
+    const sideSettings = STATIC_PATH + "svg/sideSettings.svg"
     const [search, setSearch] = useState('')
     const [searchTimeout, setSearchTimeout] = useState(false)
     const [focus, setFocus] = useState(false)

@@ -2,6 +2,8 @@ import axios from "axios";
 import MessAuth from "../store/Auth"
 import notification from '../store/Notification'
 import User from "../store/User";
+import {getFiles, getFolderPath} from "./file";
+import FileController from "../store/FileController";
 
 const url = "http://localhost:5000"
 
@@ -68,6 +70,9 @@ export const login = async (email, password) => {
                 User.setCurrentUser(response.data.user)
                 notification.clientMessage("Успешный вход","pass")
 
+                const dir_id = Number(localStorage.getItem("lastDir")) || -1
+                await getFiles(dir_id)
+                await getFolderPath(FileController.currentDir)
             }
         } catch (e) {
             MessAuth.setMessage(`${e.response.data.message}`, "fail")
@@ -83,13 +88,10 @@ export const auth = async () => {
         try {
             if(checkToken() === false) {
                 let response = {status: 401};
-                console.log(response.status)
                 return response
             } // Костыль
 
             const response = await axios.get(`${url}/api/user/authorization`);
-            console.log(response)
-
             if(response.status === 200) {
                 MessAuth.setIsAuth(true);
                 User.setCurrentUser(response.data.user);

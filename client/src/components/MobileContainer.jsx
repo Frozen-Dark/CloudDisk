@@ -35,9 +35,6 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
     return (
         <div className={classes.oneMain}>
             {
-                console.log(FileController.fileList)
-            }
-            {
             FileController.fileList === "false" ?
                 <section className={classes.files} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
                     <div className={classes.container}>

@@ -29,6 +29,7 @@ export const uploadAvatar = async (e) => {
         const formData = new FormData()
         formData.append("file", avatar[0])
         const response = await axios.post(`${url}/api/files/uploadAvatar`, formData)
+        console.log(response)
         if(response.status === 200) {
             User.setCurrentUser(response.data)
         }
@@ -86,8 +87,6 @@ export const uploadFile = async (file, dirId) => {
         const formData = new FormData()
         formData.append("file", file)
         formData.append("parent", dirId)
-        console.log(file)
-
         const response = await axios.post(`${url}/api/files/upload?name=${file.name}`, formData, {
             onUploadProgress: progressEvent => {
                 UploadStore.setProgress(fileId, progressEvent)

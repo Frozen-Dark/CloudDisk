@@ -107,6 +107,13 @@ class UserService {
         await User.save()
         return new UserDto(User)
     }
+    async changePassword(userData, newPassword) {
+        const hashPassword = await bcrypt.hash(newPassword, 3);
+        const user = await model.User.findOne({where: {email: userData.email, id: userData.id}});
+        user.password = hashPassword;
+        await user.save();
+        return new UserDto(user);
+    }
 
     // async getAllUsers() {
     //     const users = await model.User.findAll();

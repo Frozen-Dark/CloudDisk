@@ -3,6 +3,7 @@ const {validationResult} = require("express-validator")
 const ApiError = require("../exceptions/apiError")
 
 class UserController {
+
     async renaming(req, res, next) {
         try {
             const userInfo = req.body.userData;
@@ -12,6 +13,17 @@ class UserController {
             next(e)
         }
     }
+
+    async changePassword(req, res, next) {
+        try {
+            const {newPassword} = req.body;
+            const userData = req.user;
+            const UserDto = await userService.changePassword(userData, newPassword)
+        } catch (e) {
+            next(e)
+        }
+    }
+
     async registration(req, res, next) {
         try {
             const errors = validationResult(req)
@@ -42,10 +54,7 @@ class UserController {
         try {
             const {email, password} = req.body
             const userData = await userService.login(email, password)
-            console.log("asd")
-
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true}) // ВОТ СЮДА ПРИ HTTPS ДОБАВЛЯТЬ  secure: true
-            console.log("asd")
             return res.json({token: userData.accessToken, user: userData.user})
         } catch (e) {
             next(e)
