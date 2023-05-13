@@ -19,6 +19,7 @@ class UserController {
             const {newPassword} = req.body;
             const userData = req.user;
             const UserDto = await userService.changePassword(userData, newPassword)
+            return res.json(UserDto)
         } catch (e) {
             next(e)
         }

@@ -2,149 +2,100 @@ import React, {useState} from 'react';
 import {Navigate, NavLink, useLocation} from "react-router-dom";
 import {LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 import classes from "../styles/Auth.module.css"
-import {observer} from "mobx-react";
-import MessAuth from "../store/Auth";
 import {login, registration} from "../actions/user";
+import {useInput} from "../hooks/hooks";
+
 
 const Auth = () => {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [secondPassword, setSecondPassword] = useState("");
-    const [correctPassword, setCorrectPassword] = useState(false);
-    const [buttonActive, setButtonActive] = useState(false);
-
-    const [userName, setUserName] = useState("");
-    const [surName, setSurName] = useState("");
-    const [nickName, setNickName] = useState("");
-
     const location = useLocation();
-    const isLogin = location.pathname === LOGIN_ROUTE; // True = login path
+    const isLogin = location.pathname === LOGIN_ROUTE;
+    const [auth, setAuth] = useState(false)
 
-    const clear = () => {
-        setPassword('');
-        setEmail('');
-        Auth.clear();
+    const email = useInput('', {minLength: 3, isEmail: true, isEmpty: true,})
+    const password = useInput('', {minLength: 5, maxLength: 10, isEmpty: true,})
+
+    const refresh = () => {
+        email.refresh();
+        password.refresh();
     }
 
-    let inputClass = MessAuth.state ? classes.emailInput : classes.emailInput + " " + classes.active;
-    let messageClass = MessAuth.state ? classes.pass : classes.fail;
-
-    function checkPasswordHandler(inputValue) {
-        setSecondPassword(inputValue);
-        if(password === inputValue) {
-            return setCorrectPassword(true);
+    async function loginHandler(e) {
+        e.preventDefault();
+        const result = await login(email.value, password.value) || 401;
+        if(result === 200) {
+            setAuth(true);
         }
-        setCorrectPassword(false);
-    }
-
-    const correctInputClass = () => {
-        if(password.length === secondPassword.length && correctPassword === true) {
-            return classes.correctInput + " " + classes.emailInput
-        }
-        return classes.emailInput
     }
 
     function registrationHandler(e) {
-        e.preventDefault();
-        if(password !== secondPassword) {
-            return console.log();
-        }
-        registration(email, password);
-    }
-    function loginHandler(e) {
         e.preventDefault()
-        login(email, password)
+        console.log("reg")
     }
 
-    if(isLogin){
-        return (
-            <form className={classes.container}>
+    return (
+        <form className={classes.container}>
+            {isLogin ?
                 <div className="form">
                     <h2>Вход</h2>
 
-                    <input placeholder={"E-mail"}
-                           type={"text"}
-                           value={email}
-                           minLength="4"
-                           maxLength="30"
-                           required
-                           className={inputClass}
-                           onChange={e => setEmail(e.target.value)}
-                    />
-
-                    <input placeholder={"Пароль"}
-                           type={"password"}
-                           value={password}
-                           minLength="4"
-                           maxLength="20"
-                           required
-                           className={inputClass}
-                           onChange={event => setPassword(event.target.value)}
-                    />
-
-                    <span className={messageClass}>{MessAuth.message}</span>
-
-                    <div className={classes.saveDiv}>
-                        <input className={classes.checkbox} value={"Войти"} type={"checkbox"} />
-                        Запомнить меня
-                    </div>
-
-                    <button className={classes.myInput} onClick={(e) => loginHandler(e)}>Войти</button>
-
-                </div>
-                <div className={classes.setUser}>
-                    <span>Нет аккаунта? </span>
-                    <NavLink onClick={() => clear()} to={REGISTRATION_ROUTE}>Зарегистрируйся!</NavLink>
-                </div>
-
-                {
-                    MessAuth.auth && <Navigate to={"/disk"} />
-                }
-            </form>
-        );
-    } else {
-        return (
-            <form className={classes.container}>
-                <div className="form">
-                    <h2>Регистрация</h2>
-
-                    <input className={inputClass}
-                           value={email}
-                           onChange={e => setEmail(e.target.value)}
-                           required minLength="4" maxLength="30"
+                    <input className={classes.authInput}
+                           value={email.value}
+                           onChange={e => email.onChange(e)}
+                           onBlur={e => email.onBlur(e)}
                            placeholder={"E-mail"} type={"text"}
                     />
+                    {(email.isDirty && !email.inputValid) &&
+                        <div className={classes.fail}>{email.errorMessage}</div>}
 
-                    <input className={correctInputClass()}
-                           value={password} required
-                           onChange={event => setPassword(event.target.value)}
+                    <input className={classes.authInput}
+                           value={password.value}
+                           onChange={e => password.onChange(e)}
+                           onBlur={e => password.onBlur(e)}
                            placeholder={"Пароль"} type={"password"}
-                           minLength="4" maxLength="20"
+                    />
+                    {(password.isDirty && !password.inputValid) &&
+                        <div className={classes.fail}>{password.errorMessage}</div>}
+
+                    <div className={classes.saveDiv}>
+                        <input className={classes.checkbox} value={"Войти"} type={"checkbox"}/>
+                        Запомнить меня
+                    </div>
+                    <button className={classes.myButton} onClick={(e) => loginHandler(e)}
+                            disabled={!email.inputValid || !password.inputValid}>Войти
+                    </button>
+                </div>
+                :
+                <div className="form">
+                    <h2>Регистрация</h2>
+                    <input className={classes.authInput}
+                           value={email.value}
+                           onChange={e => email.onChange(e)}
+                           onBlur={e => email.onBlur(e)}
+                           placeholder={"E-mail"} type={"text"}
+                    />
+                    <input className={classes.authInput}
+                           value={password.value} required
+                           onChange={e => password.onChange(e)}
+                           onBlur={e => password.onBlur(e)}
+                           placeholder={"Пароль"} type={"password"}
                     />
 
-                    <input className={correctInputClass()}
-                           value={secondPassword}
-                           onChange={event => checkPasswordHandler(event.target.value)}
-                           placeholder={"Повторите пароль"} type={"password"}
-                           minLength="4" maxLength="20" required
-                    />
-
-                    <span className={messageClass}>{MessAuth.message}</span>
-                    <button className={classes.myInput} onClick={(e) => registrationHandler(e)}>Зарегистрироваться</button>
+                    <button className={classes.myButton} onClick={(e) => registrationHandler(e) }
+                            disabled={!email.inputValid || !password.inputValid}>Зарегистрироваться
+                    </button>
                 </div>
+            }
 
-                <div className={classes.setUser}>
-                    <span>Есть аккаунт? </span>
-                    <NavLink onClick={() => clear()} to={LOGIN_ROUTE}>Войдите!</NavLink>
-                </div>
-
-                {
-                    MessAuth.auth && <Navigate to={"/disk"} />
-                }
-            </form>
-        );
-    }
+            <div className={classes.setUser}>
+                <span>{isLogin ? "Нет аккаунта?" : "Есть аккаунт? "}</span>
+                <NavLink onClick={() => refresh()} to={isLogin ? REGISTRATION_ROUTE : LOGIN_ROUTE}>
+                    {isLogin ? "Зарегистрируйся!" : "Войдите!"}</NavLink>
+            </div>
+            {auth && <Navigate to={"/disk"}/>}
+        </form>
+    );
 };
 
-export default observer(Auth);
+
+export default Auth;

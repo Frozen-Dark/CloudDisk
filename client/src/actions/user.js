@@ -57,6 +57,17 @@ export const registration = async (email, password) => {
     }
 }
 
+export const changePassword = async (newPassword) => {
+    try {
+        const response = await axios.post(`${url}/api/user/changePassword`, {
+            newPassword
+        })
+        console.log(response.data)
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 export const login = async (email, password) => {
         try {
             const response = await axios.post(`${url}/api/user/login`, {
@@ -65,8 +76,6 @@ export const login = async (email, password) => {
             })
             if(response.status === 200) {
                 localStorage.setItem('token', response.data.token)
-                MessAuth.setIsAuth(true)
-                console.log("User_DATA: ",response.data.user)
                 User.setCurrentUser(response.data.user)
                 notification.clientMessage("Успешный вход","pass")
 
@@ -74,6 +83,7 @@ export const login = async (email, password) => {
                 await getFiles(dir_id)
                 await getFolderPath(FileController.currentDir)
             }
+            return response.status
         } catch (e) {
             MessAuth.setMessage(`${e.response.data.message}`, "fail")
             console.log(e)

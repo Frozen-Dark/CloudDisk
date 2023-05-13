@@ -3,27 +3,35 @@ import classes from "./DataAccount.module.css"
 import chevron from "../../assets/svg/chevron.svg"
 import User from "../../store/User";
 import {normalizeSize} from "../../utils/consts";
+import {changePassword} from "../../actions/user";
 
 const DataAccount = () => {
-    const {id, email, diskSpace, usedSpace} = User.currentUser
+    const {id, email, diskSpace, usedSpace} = User.currentUser;
 
-    const [changeModal, setChangeModal] = useState(false)
-    const [enterPassword, setEnterPassword] = useState(false)
+    const [changeModal, setChangeModal] = useState(false);
+    const [enterPassword, setEnterPassword] = useState(false);
+
+    const [newPassword, setNewPassword] = useState('');
+    const [secondPassword, setSecondPassword] = useState('');
 
     function closeChangeModal() {
-        setChangeModal(false)
-        setEnterPassword(false)
+        setChangeModal(false);
+        setEnterPassword(false);
     }
     function openEnterPassword() {
-        setEnterPassword(true)
+        setEnterPassword(true);
     }
-    function closeEnterPassword() {
-        setChangeModal(false)
-        setEnterPassword(false)
+    async function closeEnterPassword() {
+        if(newPassword !== secondPassword && newPassword.length > 5) {
+            return console.log("Пароли не совпадают");
+        }
+        await changePassword(newPassword);
+        setChangeModal(false);
+        setEnterPassword(false);
     }
 
     function changePasswordHandler() {
-        setChangeModal(true)
+        setChangeModal(true);
     }
     return (
             <>
@@ -83,9 +91,20 @@ const DataAccount = () => {
                                     <h2 className={classes.changePassword__title}>Введите пароль</h2>
                                 </div>
                                 <div className={classes.changePassword__main}>
-                                    <input className={classes.changePassword__password} type="password" placeholder={"Придумайте пароль"}/>
+
+                                    <input className={classes.changePassword__password}
+                                           value={newPassword}
+                                           onChange={event => setNewPassword(event.target.value)}
+                                           type="password"
+                                           placeholder={"Придумайте пароль"}/>
+
                                     <p className={classes.changePassword__notification__second}>Пароль должен состояить минимум из 6 символов</p>
-                                    <input className={classes.changePassword__password} type="password" placeholder={"Повторите пароль"}/>
+
+                                    <input className={classes.changePassword__password}
+                                           value={secondPassword}
+                                           onChange={event => setSecondPassword(event.target.value)}
+                                           type="password"
+                                           placeholder={"Повторите пароль"}/>
 
                                     <div className={classes.changePassword__save}>
                                         <div className={classes.changePassword__btn} onClick={() => closeEnterPassword()}>Сохранить</div>

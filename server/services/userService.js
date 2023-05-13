@@ -9,7 +9,7 @@ const ApiError = require("../exceptions/apiError")
 const fileService = require("./fileService");
 const {File} = require("../models/models");
 class UserService {
-    async registration(email, password, next) {
+    async registration(email, password) {
         const candidate = await model.User.findOne({where: {email} });
         if(candidate) {
             throw ApiError.UnauthorizedError();
@@ -31,7 +31,6 @@ class UserService {
         const tokens = tokenService.generateTokens({...userDto});
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
-        console.log("work")
         // создаем токены, созхраняем рефреш в бд и отправляем все на клиент
 
         return {...tokens, user: userDto}
