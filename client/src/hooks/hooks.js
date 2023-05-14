@@ -98,3 +98,33 @@ export const useInput = (initialValue, validation) => {
 export const useSecondPassword = () => {
 
 }
+
+export const useMessage = (initialValue) => {
+    const [message, setMessage] = useState(initialValue)
+    const [status, setStatus] = useState(false)
+    const [state, setState] = useState(false)
+
+    const newMessage = (message, status) => {
+        setMessage(message);
+        setState(true);
+
+        if(status === "pass") {
+            setStatus(true)
+        } else {
+            setStatus(false)
+        }
+    }
+    const clearMessages = () => {
+        setMessage("");
+        setStatus(false);
+        setState(false);
+    }
+
+    return {
+        message,
+        status,
+        state,
+        newMessage,
+        clearMessages
+    }
+}

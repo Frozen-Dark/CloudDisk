@@ -2,7 +2,6 @@ import React from 'react';
 import classes from "./DevPanel.module.css";
 import {uploadFile} from "../../actions/file";
 import {NavLink} from "react-router-dom";
-import Auth from "../../store/Auth";
 import FileController from "../../store/FileController";
 import * as User from "../../actions/user";
 

@@ -12,7 +12,7 @@ class UserService {
     async registration(email, password) {
         const candidate = await model.User.findOne({where: {email} });
         if(candidate) {
-            throw ApiError.UnauthorizedError();
+            throw new ApiError(206, 'Пользователь уже существует');
         } // Проверка почты
 
         const hashPassword = await bcrypt.hash(password, 3);
@@ -39,7 +39,7 @@ class UserService {
     async activate(activationLink) {
         const user = await model.User.findOne({where: {activationLink: activationLink} })
         if(!user) {
-            throw ApiError.BadRequest('Неккоректная ссылка активации')
+            throw new ApiError(206, 'Неккоректная ссылка активации')
         }
         user.isActivated = true
         await user.save()
@@ -48,13 +48,12 @@ class UserService {
     async login(email, password) {
         const user = await model.User.findOne({where: {email: email}});
         if(!user) {
-            throw ApiError.BadRequest('Пользователь не найден');
+            throw new ApiError(206, 'Пользователь не найден');
         }
         const isPassEquals = await bcrypt.compare(password, user.password);
         if(!isPassEquals) {
-            throw ApiError.BadRequest('Неккоректный пароль');
+            throw new ApiError(206, 'Неккоректный пароль');
         }
-
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({email: userDto.email, id: userDto.id, isActivated: userDto.isActivated});
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
@@ -66,12 +65,10 @@ class UserService {
         const {email} = userData
         const user = await model.User.findOne({where: {email}})
         const userDto = new UserDto(user)
-        console.log(userDto)
         const {accessToken, refreshToken} = tokenService.generateTokens({email: userDto.email, id: userDto.id, isActivated: userDto.isActivated})
         await tokenService.saveToken(userDto.id, refreshToken);
 
         return {accessToken, refreshToken, user: userDto}
-
     }
 
     async logout(refreshToken) {
@@ -81,13 +78,13 @@ class UserService {
 
     async refresh(refreshToken) {
         if(!refreshToken) {
-            throw ApiError.UnauthorizedError()
+            throw new ApiError(206, "Нет токена")
         }
         const userData = await tokenService.validateRefreshToken(refreshToken)
         const tokenFromDb = await tokenService.findToken(refreshToken)
 
         if(!userData || !tokenFromDb) {
-            throw ApiError.UnauthorizedError()
+            throw new ApiError(206, "Нет токена")
         }
         const user = await model.User.findOne({where: {id: userData.id}})
         const userDto = new UserDto(user);
@@ -113,11 +110,6 @@ class UserService {
         await user.save();
         return new UserDto(user);
     }
-
-    // async getAllUsers() {
-    //     const users = await model.User.findAll();
-    //     return users;
-    // }
 }
 
 module.exports = new UserService()

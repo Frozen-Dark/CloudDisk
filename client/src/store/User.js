@@ -1,11 +1,15 @@
 import {makeAutoObservable} from "mobx";
-import Auth from "./Auth";
 import {logout} from "../actions/user";
 import FilesPath from "./FilesPath";
 
 class User {
     constructor() {
         makeAutoObservable(this)
+    }
+    auth = false;
+
+    setAuth(state){
+        this.auth = state
     }
 
     currentUser = {
@@ -20,7 +24,6 @@ class User {
     };
 
     logout = () => {
-        Auth.setIsAuth(false)
         localStorage.removeItem("token");
         localStorage.setItem("lastDir", "-1");
         localStorage.setItem("fileList", "true");

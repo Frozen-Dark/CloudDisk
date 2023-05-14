@@ -2,20 +2,18 @@ class ApiError extends Error {
     status;
     errors;
     message;
-    constructor(status, message, errors) {
+    constructor(status, message) {
         super(message);
         this.status = status;
         this.message = message;
-        this.errors = errors;
     }
 
-    static UnauthorizedError(errors = []) {
-        return new ApiError(401, "Пользователь не авторизован", errors)
+    static UnauthorizedError() {
+        return new ApiError(401, "Пользователь не авторизован")
     }
 
-    static BadRequest(message, errors =[]) {
-        console.log("BadRequest")
-        return new ApiError(404, message, errors)
+    static BadRequest(message) {
+        return new ApiError(404, message)
     }
 
     static internal(message) {

@@ -1,9 +1,7 @@
 import axios from "axios";
-import MessAuth from "../store/Auth"
 import notification from '../store/Notification'
 import User from "../store/User";
 import {getFiles, getFolderPath} from "./file";
-import FileController from "../store/FileController";
 
 const url = "http://localhost:5000"
 
@@ -28,7 +26,11 @@ axios.interceptors.response.use((config) => {
             originalRequest._idRetry = true;
             try {
                 const response = await axios.get(`http://localhost:5000/api/user/refresh`, {withCredentials: true} )
-                localStorage.setItem("token", response.data.accessToken);
+                if(response) {
+                    localStorage.setItem("token", response.data.accessToken);
+                } else {
+                    localStorage.removeItem("token")
+                }
                 return axios.request((originalRequest))
             } catch (e) {
                 console.log(e)
@@ -39,20 +41,20 @@ axios.interceptors.response.use((config) => {
 export const refresh = async () => {
     try {
         const response = await axios.get(`http://localhost:5000/api/user/refresh`, {withCredentials: true} )
-        console.log(response)
+        if(response.status !== 200) {
+            return localStorage.removeItem("token");
+        }
     } catch (e) {
 
     }
 }
 export const registration = async (email, password) => {
     try {
-        const response = await axios.post(`${url}/api/user/registration`, {
+        return await axios.post(`${url}/api/user/registration`, {
             email,
             password
         })
-        MessAuth.setMessage(`Пользователь ${response.data.user.email} зарегестрирован.`, "pass")
     } catch (e) {
-        MessAuth.setMessage(e.response.data.message)
         console.log(e)
     }
 }
@@ -70,22 +72,12 @@ export const changePassword = async (newPassword) => {
 
 export const login = async (email, password) => {
         try {
-            const response = await axios.post(`${url}/api/user/login`, {
+            return await axios.post(`${url}/api/user/login`, {
                 email,
                 password
-            })
-            if(response.status === 200) {
-                localStorage.setItem('token', response.data.token)
-                User.setCurrentUser(response.data.user)
-                notification.clientMessage("Успешный вход","pass")
+            });
 
-                const dir_id = Number(localStorage.getItem("lastDir")) || -1
-                await getFiles(dir_id)
-                await getFolderPath(FileController.currentDir)
-            }
-            return response.status
         } catch (e) {
-            MessAuth.setMessage(`${e.response.data.message}`, "fail")
             console.log(e)
         }
 }
@@ -103,7 +95,7 @@ export const auth = async () => {
 
             const response = await axios.get(`${url}/api/user/authorization`);
             if(response.status === 200) {
-                MessAuth.setIsAuth(true);
+                User.setAuth(true)
                 User.setCurrentUser(response.data.user);
                 localStorage.setItem('token', response.data.token);
                 notification.clientMessage("Успешный вход","pass");
@@ -116,6 +108,7 @@ export const auth = async () => {
 export const logout = async () => {
         try {
             const response = await axios.post(`${url}/api/user/logout`);
+            User.setAuth(true)
             console.log(response.data.message);
         } catch (e) {
             console.log(e.response.data.message);

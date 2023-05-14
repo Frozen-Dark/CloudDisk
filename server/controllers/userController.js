@@ -27,10 +27,6 @@ class UserController {
 
     async registration(req, res, next) {
         try {
-            const errors = validationResult(req)
-            if(!errors.isEmpty()) {
-                return next(ApiError.BadRequest("Ошибка при валидации", errors.array()))
-            }
             const {email, password} = req.body;
             const userData = await userService.registration(email, password)
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true}) // ВОТ СЮДА ПРИ HTTPS ДОБАВЛЯТЬ  secure: true
@@ -54,7 +50,7 @@ class UserController {
     async login(req, res, next) {
         try {
             const {email, password} = req.body
-            const userData = await userService.login(email, password)
+            const userData = await userService.login(email, password, next)
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true}) // ВОТ СЮДА ПРИ HTTPS ДОБАВЛЯТЬ  secure: true
             return res.json({token: userData.accessToken, user: userData.user})
         } catch (e) {
@@ -67,7 +63,7 @@ class UserController {
             const {refreshToken} = req.cookies;
             const token = await userService.logout(refreshToken);
             res.clearCookie('refreshToken')
-            return res.json({message: "Вы вышли с учетной записи"})
+            return res.json({message: "Токен удален"})
         } catch (e) {
             next(e)
         }
@@ -94,16 +90,6 @@ class UserController {
             next(e)
         }
     }
-
-    // async getUsers(req, res, next) {
-    //     try {
-    //         const users = await userService.getAllUsers();
-    //         return res.json(users);
-    //     } catch (e) {
-    //         next(e)
-    //     }
-    // }
-
 }
 
 module.exports = new UserController()
