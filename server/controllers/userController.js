@@ -4,6 +4,17 @@ const ApiError = require("../exceptions/apiError")
 
 class UserController {
 
+    async checkName(req, res, next) {
+        console.log("WORK")
+        try {
+            const name = req.query.name;
+            const status = await userService.checkName(name);
+            return res.status(status).json({})
+        } catch (e) {
+            next(e)
+        }
+    }
+
     async renaming(req, res, next) {
         try {
             const userInfo = req.body.userData;

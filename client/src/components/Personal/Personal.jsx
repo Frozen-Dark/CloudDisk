@@ -1,8 +1,9 @@
 import classes from "./Personal.module.css"
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {filterName, STATIC_PATH} from "../../utils/consts";
 import User from "../../store/User";
 import {rename} from "../../actions/user";
+import {observer} from "mobx-react";
 
 const Personal = () => {
     const [avatar, setAvatar] = useState(STATIC_PATH + User.currentUser.avatar)
@@ -11,11 +12,15 @@ const Personal = () => {
     const [surname, setSurname] = useState(User.currentUser.surName)
     const [nickname, setNickname] = useState(User.currentUser.nickName)
 
+    useEffect(() => {
+        setAvatar(STATIC_PATH + User.currentUser.avatar)
+    }, [User.currentUser.avatar])
+
     function renameHandler() {
-        if(name.length > 3 && surname.length > 3 && nickname.length > 3) {
+        if(name.length > 2 && surname.length > 2 && nickname.length > 2) {
             rename(filterName(name), filterName(surname), filterName(nickname));
         } else {
-            console.log("Длинна должна быть больше 3-х символов");
+            console.log("Длинна должна быть больше 2-х символов");
         }
     }
     function voidInputHandler(value, setValue, userValue) {
@@ -67,4 +72,4 @@ const Personal = () => {
     );
 };
 
-export default Personal;
+export default observer(Personal);

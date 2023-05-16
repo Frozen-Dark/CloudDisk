@@ -125,3 +125,11 @@ export const rename = async (name, surname, nickname) => {
         }
 }
 
+export const checkName = async (name) => {
+    try {
+        return await axios.get(`${url}/api/user/checkName?name=${name}`);
+    } catch (e) {
+        console.log(e.response.data.message)
+    }
+}
+

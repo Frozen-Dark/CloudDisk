@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {checkName} from "../actions/user";
 
 export const useValidation = (value, validations) => {
     const [isEmpty, setEmpty] = useState(true);
@@ -7,6 +8,10 @@ export const useValidation = (value, validations) => {
     const [emailError, setEmailError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [inputValid, setInputValid] = useState(false)
+
+    const [emailStatus, setEmailStatus] = useState(false);
+    const [loginTimeout, setLoginTimeout] = useState(false);
+
 
     useEffect(() => {
         for (const validation in validations) {
@@ -58,13 +63,40 @@ export const useValidation = (value, validations) => {
             setInputValid(true);
         }
     }, [isEmpty, minLengthError, maxLengthError, emailError])
+
+    useEffect(() => {
+        if(inputValid) {
+            if(loginTimeout !== false) {
+                clearTimeout(loginTimeout);
+            }
+            if(value !== '') {
+                setLoginTimeout(setTimeout(async (value) => {
+                    const result = await checkName(value)
+                    if(!inputValid) {
+                        return setEmailStatus(false);
+                    }
+                    if (result.status === 200) {
+                        setEmailStatus(true);
+                    } else {
+                        setEmailStatus(false);
+                    }
+                }, 500, value))
+            }
+        }
+    }, [inputValid, value])
+
+
+
+
+
     return {
         isEmpty,
         minLengthError,
         maxLengthError,
         emailError,
         errorMessage,
-        inputValid
+        inputValid,
+        emailStatus
     }
 }
 

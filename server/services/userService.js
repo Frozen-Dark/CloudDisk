@@ -110,6 +110,14 @@ class UserService {
         await user.save();
         return new UserDto(user);
     }
+    async checkName(name) {
+        const candidate = await model.User.findOne({where: {email: name}});
+        if(candidate) {
+            return 206;
+        } else {
+            return 200;
+        }
+    }
 }
 
 module.exports = new UserService()

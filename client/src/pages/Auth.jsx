@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Navigate, NavLink, useLocation} from "react-router-dom";
 import {LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 import classes from "../styles/Auth.module.css"
-import {login, registration} from "../actions/user";
+import {checkName, login, registration} from "../actions/user";
 import {useInput, useMessage} from "../hooks/hooks";
 import User from "../store/User";
 import notification from "../store/Notification";
@@ -16,8 +16,8 @@ const Auth = () => {
     const location = useLocation();
     const isLogin = location.pathname === LOGIN_ROUTE;
 
-    const email = useInput('', {minLength: 3, isEmail: true, isEmpty: true,})
-    const password = useInput('', {minLength: 5, maxLength: 10, isEmpty: true,})
+    const email = useInput('', {minLength: 3, isEmail: true, isEmpty: true});
+    const password = useInput('', {minLength: 5, maxLength: 10, isEmpty: true});
     const message = useMessage('');
 
     const refresh = () => {
@@ -25,6 +25,7 @@ const Auth = () => {
         password.refresh();
         message.clearMessages();
     }
+
 
     async function loginHandler(e) {
         e.preventDefault();
@@ -53,6 +54,16 @@ const Auth = () => {
         }
     }
 
+    function borderHandler() {
+        if(email.inputValid) {
+            if(email.emailStatus) {
+                return "#4bb34b";
+            } else {
+                return "#e64646";
+            }
+        }
+    }
+
     return (
         <form className={classes.container}>
             {isLogin ?
@@ -65,6 +76,7 @@ const Auth = () => {
                            onBlur={e => email.onBlur(e)}
                            onFocus={() => message.clearMessages()}
                            placeholder={"E-mail"} type={"text"}
+                           style={{borderColor: borderHandler()}}
                     />
                     {(email.isDirty && !email.inputValid) && <div className={classes.fail}>{email.errorMessage}</div>}
 
@@ -99,6 +111,7 @@ const Auth = () => {
                            onBlur={e => email.onBlur(e)}
                            onFocus={() => message.clearMessages()}
                            placeholder={"E-mail"} type={"text"}
+                           style={{borderColor: borderHandler()}}
                     />
                     {(email.isDirty && !email.inputValid) && <div className={classes.fail}>{email.errorMessage}</div>}
 
@@ -124,7 +137,7 @@ const Auth = () => {
             }
 
             <div className={classes.setUser}>
-                <span>{isLogin ? "Нет аккаунта?" : "Есть аккаунт? "}</span>
+                <span>{isLogin ? "Нет аккаунта? " : "Есть аккаунт? "}</span>
                 <NavLink onClick={() => refresh()} to={isLogin ? REGISTRATION_ROUTE : LOGIN_ROUTE}>
                     {isLogin ? "Зарегистрируйся!" : "Войдите!"}</NavLink>
             </div>
