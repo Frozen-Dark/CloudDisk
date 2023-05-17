@@ -4,6 +4,7 @@ import {filterName, STATIC_PATH} from "../../utils/consts";
 import User from "../../store/User";
 import {rename} from "../../actions/user";
 import {observer} from "mobx-react";
+import notification from "../../store/Notification";
 
 const Personal = () => {
     const [avatar, setAvatar] = useState(STATIC_PATH + User.currentUser.avatar)
@@ -16,9 +17,17 @@ const Personal = () => {
         setAvatar(STATIC_PATH + User.currentUser.avatar)
     }, [User.currentUser.avatar])
 
-    function renameHandler() {
+    async function renameHandler() {
         if(name.length > 2 && surname.length > 2 && nickname.length > 2) {
-            rename(filterName(name), filterName(surname), filterName(nickname));
+            const status = await rename(filterName(name), filterName(surname), filterName(nickname));
+            if(status === 200) {
+                notification.clientMessage("Изменения сохранены", "pass")
+                setName('')
+                voidInputHandler('', setName, User.currentUser.userName)
+            } else {
+                notification.clientMessage("Ошибка при переименовании", "fail")
+
+            }
         } else {
             console.log("Длинна должна быть больше 2-х символов");
         }

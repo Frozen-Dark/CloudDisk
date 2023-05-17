@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Navigate, NavLink, useLocation} from "react-router-dom";
 import {LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 import classes from "../styles/Auth.module.css"
@@ -15,7 +15,7 @@ const Auth = () => {
     const location = useLocation();
     const isLogin = location.pathname === LOGIN_ROUTE;
     const email = useInput('', {minLength: 3, isEmail: true, isEmpty: true}, isLogin);
-    const password = useInput('', {minLength: 5, maxLength: 10, isEmpty: true});
+    const password = useInput('', {minLength: 5, maxLength: 15, isEmpty: true});
     const message = useMessage('');
     const refresh = () => {
         email.refresh();
@@ -56,6 +56,8 @@ const Auth = () => {
             }
         }
     }
+
+
 
     return (
         <form className={classes.container}>

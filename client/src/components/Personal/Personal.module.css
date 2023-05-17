@@ -54,7 +54,7 @@
     outline: solid 0 #363b48;
 
     background-color: #313131;
-    border: 1px solid #414141;
+    border: 2px solid #414141;
     border-radius: 7px;
     height: 36px;
     width: 100%;
@@ -64,8 +64,7 @@
     transition: .2s;
 }
 .input__v2:focus {
-    outline: solid 2px #475783;
-
+    box-shadow: 0 0 0 0.2rem rgba(24, 160, 251, .5);
 }
 .birthday {
     height: 63px;

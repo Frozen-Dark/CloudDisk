@@ -4,7 +4,7 @@ require('dotenv').config()
 
 class TokenService {
     generateTokens({email, id, userName}) {
-        const accessToken = jwt.sign({email, id, userName}, process.env.JWT_ACCESS_KEY, {expiresIn: '10s'} );
+        const accessToken = jwt.sign({email, id, userName}, process.env.JWT_ACCESS_KEY, {expiresIn: '3m'} );
         const refreshToken = jwt.sign({email, id, userName}, process.env.JWT_REFRESH_KEY, {expiresIn: '30d'} );
         console.log({
             accessToken,

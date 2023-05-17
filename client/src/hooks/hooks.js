@@ -127,11 +127,11 @@ export const useMessage = (initialValue) => {
     const [status, setStatus] = useState(false)
     const [state, setState] = useState(false)
 
-    const newMessage = (message, status) => {
+    const newMessage = (message, messageStatus) => {
         setMessage(message);
         setState(true);
 
-        if(status === "pass") {
+        if(messageStatus === "pass") {
             setStatus(true)
         } else {
             setStatus(false)
@@ -149,5 +149,43 @@ export const useMessage = (initialValue) => {
         state,
         newMessage,
         clearMessages
+    }
+}
+
+export const useInspector = (initialValue) => {
+    const [value, setValue] = useState(initialValue);
+    const [border, setBorder] = useState("");
+    const [inspectorValid, setValid] = useState(false);
+
+    function eventCheck(compareValue) {
+        if(value.length === 0) {
+            return setBorder("")
+        }
+        if(value.length !== compareValue.length){
+            setBorder("#e64646");
+            setValid(false)
+        } else {
+            setBorder("#4bb34b");
+            setValid(true)
+        }
+    }
+
+    function refresh() {
+        setValue('');
+        setBorder('');
+        setValid(false);
+    }
+
+    function onChange(e) {
+        setValue(e.target.value)
+    }
+
+    return {
+        value,
+        border,
+        inspectorValid,
+        onChange,
+        eventCheck,
+        refresh
     }
 }

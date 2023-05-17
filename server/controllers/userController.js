@@ -5,7 +5,6 @@ const ApiError = require("../exceptions/apiError")
 class UserController {
 
     async checkName(req, res, next) {
-        console.log("WORK")
         try {
             const name = req.query.name;
             const status = await userService.checkName(name);
@@ -29,17 +28,33 @@ class UserController {
         try {
             const {newPassword} = req.body;
             const userData = req.user;
-            const UserDto = await userService.changePassword(userData, newPassword)
-            return res.json(UserDto)
+            if(!newPassword || !userData) {
+                return res.status(206).json({message: 'change Error'});
+            }
+            const UserDto = await userService.changePassword(userData, newPassword);
+            return res.status(200).json(UserDto);
         } catch (e) {
-            next(e)
+            next(e);
+        }
+    }
+    async verifyPassword(req, res, next) {
+        try {
+            const {password} = req.body;
+            const userData = req.user;
+            if(!password || !userData) {
+                return res.status(206).json({message: 'verify Error'});
+            }
+            const UserDto = await userService.verifyPassword(userData, password);
+            return res.status(200).json(UserDto);
+        } catch (e) {
+            next(e);
         }
     }
 
     async registration(req, res, next) {
         try {
             const {email, password} = req.body;
-            const userData = await userService.registration(email, password)
+            const userData = await userService.registration(email, password);
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true}) // ВОТ СЮДА ПРИ HTTPS ДОБАВЛЯТЬ  secure: true
             return res.json(userData)
         } catch (e) {

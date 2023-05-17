@@ -72,7 +72,7 @@
     justify-content: center;
 }
 .changePassword__container {
-    height: auto;
+    height: 322px;
     width: 620px;
     border-radius: 10px;
     background-color: #353535;
@@ -114,10 +114,11 @@
     height: 46px;
     padding: 8px 15px;
     width: 100%;
-    border: 1px solid #414141;
+    border: 2px solid #414141;
     background-color: #313131;
     border-radius: 7px;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
+    transition: .2s ease;
 }
 .changePassword__btnMenu {
     display: flex;
@@ -139,4 +140,21 @@
     background-color: #313131;
     border-radius: 7px;
     color: #E3E3E3;
+    outline: none;
+    border: none;
+}
+.changePassword__btn:disabled {
+    color: #B1B1B1;
+    cursor: default;
+}
+
+.fail {
+    color: var(--wrong-color);
+    margin-bottom: 8px;
+}
+.forgotPassword {
+    color: #18A0FB;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: 150px;
 }

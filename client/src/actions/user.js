@@ -61,10 +61,20 @@ export const registration = async (email, password) => {
 
 export const changePassword = async (newPassword) => {
     try {
-        const response = await axios.post(`${url}/api/user/changePassword`, {
+        const response = await axios.post(`${url}/api/user/password/change`, {
             newPassword
         })
-        console.log(response.data)
+        return response;
+    } catch (e) {
+        console.log(e)
+    }
+}
+export const verifyPassword = async (password) => {
+    try {
+        const response = await axios.post(`${url}/api/user/password/verify`, {
+            password
+        })
+        return response;
     } catch (e) {
         console.log(e)
     }
@@ -120,6 +130,7 @@ export const rename = async (name, surname, nickname) => {
                 userData: {name, surname, nickname}
             });
             User.setCurrentUser(response.data)
+            return response.status
         } catch (e) {
             console.log(e.response.data.message);
         }

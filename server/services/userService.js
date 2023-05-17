@@ -95,21 +95,17 @@ class UserService {
     }
 
     async rename(user, userInfo) {
-        console.log(user, userInfo);
         const User = await model.User.findOne({where: {email: user.email, id: user.id}});
         User.userName = userInfo.name;
         User.surName = userInfo.surname;
         User.nickName = userInfo.nickname;
-        await User.save()
-        return new UserDto(User)
+        await User.save();
+
+        let userDto;
+        userDto = new UserDto(User);
+        return userDto;
     }
-    async changePassword(userData, newPassword) {
-        const hashPassword = await bcrypt.hash(newPassword, 3);
-        const user = await model.User.findOne({where: {email: userData.email, id: userData.id}});
-        user.password = hashPassword;
-        await user.save();
-        return new UserDto(user);
-    }
+
     async checkName(name) {
         const candidate = await model.User.findOne({where: {email: name}});
         if(candidate) {
@@ -117,6 +113,28 @@ class UserService {
         } else {
             return 200;
         }
+    }
+
+    async verifyPassword(userData, password) {
+        const user = await model.User.findOne({where: {email: userData.email}});
+        const isPassEquals = await bcrypt.compare(password, user.password);
+        if(!isPassEquals) {
+            throw new ApiError(206, 'Неккоректный пароль');
+        }
+        let userDto;
+        userDto = new UserDto(user);
+        return userDto;
+    }
+
+    async changePassword(userData, newPassword) {
+        const hashPassword = await bcrypt.hash(newPassword, 3);
+        const user = await model.User.findOne({where: {email: userData.email, id: userData.id}});
+        user.password = hashPassword;
+        await user.save();
+
+        let userDto;
+        userDto = new UserDto(user)
+        return userDto;
     }
 }
 
