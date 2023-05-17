@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Navigate, NavLink, useLocation} from "react-router-dom";
 import {LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 import classes from "../styles/Auth.module.css"
-import {checkName, login, registration} from "../actions/user";
+import {login, registration} from "../actions/user";
 import {useInput, useMessage} from "../hooks/hooks";
 import User from "../store/User";
 import notification from "../store/Notification";
@@ -12,21 +12,16 @@ import {observer} from "mobx-react";
 
 
 const Auth = () => {
-
     const location = useLocation();
     const isLogin = location.pathname === LOGIN_ROUTE;
-
-    const email = useInput('', {minLength: 3, isEmail: true, isEmpty: true});
+    const email = useInput('', {minLength: 3, isEmail: true, isEmpty: true}, isLogin);
     const password = useInput('', {minLength: 5, maxLength: 10, isEmpty: true});
     const message = useMessage('');
-
     const refresh = () => {
         email.refresh();
         password.refresh();
         message.clearMessages();
     }
-
-
     async function loginHandler(e) {
         e.preventDefault();
         const response = await login(email.value, password.value);
@@ -43,7 +38,6 @@ const Auth = () => {
             message.newMessage(response.data.message, "fail")
         }
     }
-
     async function registrationHandler(e) {
         e.preventDefault();
         const response = await registration(email.value, password.value);
@@ -53,7 +47,6 @@ const Auth = () => {
             message.newMessage(response.data.message, "fail")
         }
     }
-
     function borderHandler() {
         if(email.inputValid) {
             if(email.emailStatus) {
@@ -76,7 +69,6 @@ const Auth = () => {
                            onBlur={e => email.onBlur(e)}
                            onFocus={() => message.clearMessages()}
                            placeholder={"E-mail"} type={"text"}
-                           style={{borderColor: borderHandler()}}
                     />
                     {(email.isDirty && !email.inputValid) && <div className={classes.fail}>{email.errorMessage}</div>}
 

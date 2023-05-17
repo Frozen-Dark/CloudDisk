@@ -1,17 +1,16 @@
 import {useEffect, useState} from "react";
 import {checkName} from "../actions/user";
 
-export const useValidation = (value, validations) => {
+
+export const useValidation = (value, validations, isLogin) => {
     const [isEmpty, setEmpty] = useState(true);
     const [minLengthError, setMinLengthError] = useState(false);
     const [maxLengthError, setMaxLengthError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [inputValid, setInputValid] = useState(false)
-
     const [emailStatus, setEmailStatus] = useState(false);
     const [loginTimeout, setLoginTimeout] = useState(false);
-
 
     useEffect(() => {
         for (const validation in validations) {
@@ -65,7 +64,7 @@ export const useValidation = (value, validations) => {
     }, [isEmpty, minLengthError, maxLengthError, emailError])
 
     useEffect(() => {
-        if(inputValid) {
+        if(inputValid && !isLogin) {
             if(loginTimeout !== false) {
                 clearTimeout(loginTimeout);
             }
@@ -84,10 +83,6 @@ export const useValidation = (value, validations) => {
             }
         }
     }, [inputValid, value])
-
-
-
-
 
     return {
         isEmpty,
@@ -125,10 +120,6 @@ export const useInput = (initialValue, validation) => {
         isDirty,
         ...valid,
     }
-}
-
-export const useSecondPassword = () => {
-
 }
 
 export const useMessage = (initialValue) => {
