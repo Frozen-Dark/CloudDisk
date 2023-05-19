@@ -4,6 +4,7 @@ class Search {
         makeAutoObservable(this)
     }
 
+
     searchFile = []
 
     setSearchFile(files) {

@@ -56,6 +56,13 @@ class Notification {
 
         }, showTime)
     }
+    refresh() {
+        this.state = false
+        this.animation = true
+        this.status = false
+        this.message = "Успешный вход"
+        this.FIFO = []
+    }
 }
 
 export default new Notification()

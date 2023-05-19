@@ -1,16 +1,16 @@
 import React from 'react';
-import rename from "../../assets/svg/rename.svg";
-import info from "../../assets/svg/info.svg";
-import basket from "../../assets/svg/basket.svg";
 import classes from "./ModalFileSettings.module.css";
 import PopUp from "../../store/PopUp";
 import {deleteFile} from "../../actions/file";
-import {getImage} from "../../utils/consts";
+import {getImage, STATIC_PATH} from "../../utils/consts";
 import {observer} from "mobx-react";
 import ControlFile from "../../store/ControlFile";
 import FileController from "../../store/FileController";
 
 const ModalFileSettings = () => {
+    const rename = STATIC_PATH + "svg/rename.svg"
+    const info = STATIC_PATH + "svg/info.svg"
+    const basket = STATIC_PATH + "svg/basket.svg"
     const file = FileController.currentFile
     let icon = getImage(file.type)
 

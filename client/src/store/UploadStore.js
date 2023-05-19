@@ -49,6 +49,13 @@ class UploadStore {
         this.setObjectNow(this.objectNow - 1)
         this.setHeight(-30)
     }
+    refresh() {
+        this.state = []
+        this.objectNow = 0
+        this.files = []
+        this.height = 65
+        this.active = false;
+    }
 }
 
 

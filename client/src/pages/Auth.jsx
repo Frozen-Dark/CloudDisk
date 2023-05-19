@@ -9,6 +9,7 @@ import notification from "../store/Notification";
 import {getFiles, getFolderPath} from "../actions/file";
 import FileController from "../store/FileController";
 import {observer} from "mobx-react";
+import Notification from "../components/Notification/Notification";
 
 
 const Auth = () => {
@@ -50,9 +51,9 @@ const Auth = () => {
     function borderHandler() {
         if(email.inputValid) {
             if(email.emailStatus) {
-                return "#4bb34b";
+                return "0 0 0 0.25rem rgba(45, 200, 45, .7)";
             } else {
-                return "#e64646";
+                return "0 0 0 0.25rem rgba(230, 70, 70, .7)";
             }
         }
     }
@@ -105,7 +106,7 @@ const Auth = () => {
                            onBlur={e => email.onBlur(e)}
                            onFocus={() => message.clearMessages()}
                            placeholder={"E-mail"} type={"text"}
-                           style={{borderColor: borderHandler()}}
+                           style={{boxShadow: borderHandler()}}
                     />
                     {(email.isDirty && !email.inputValid) && <div className={classes.fail}>{email.errorMessage}</div>}
 
@@ -135,6 +136,7 @@ const Auth = () => {
                 <NavLink onClick={() => refresh()} to={isLogin ? REGISTRATION_ROUTE : LOGIN_ROUTE}>
                     {isLogin ? "Зарегистрируйся!" : "Войдите!"}</NavLink>
             </div>
+            <Notification/>
             {User.auth && <Navigate to={"/disk"}/>}
         </form>
     );

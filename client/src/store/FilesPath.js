@@ -49,6 +49,10 @@ class FilesPath {
         this.path = [...this.path,  ...path]
     }
 
+    refresh() {
+        this.currentDir = {};
+        this.path = [{id: -1, parent: -1, name: "Мой диск"}]
+    }
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

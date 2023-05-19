@@ -118,8 +118,7 @@ export const auth = async () => {
 export const logout = async () => {
         try {
             const response = await axios.post(`${url}/api/user/logout`);
-            User.setAuth(true)
-            console.log(response.data.message);
+            return response;
         } catch (e) {
             console.log(e.response.data.message);
         }

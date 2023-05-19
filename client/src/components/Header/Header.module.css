@@ -76,6 +76,17 @@
     border: 1px solid #414141;
     outline: none;
     z-index: 5;
+    animation: profile__ui__wake .2s ease;
+}
+@keyframes profile__ui__wake {
+    0% {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
 .invisible_ui {
     display: none;

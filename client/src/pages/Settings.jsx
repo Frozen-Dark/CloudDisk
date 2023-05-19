@@ -12,7 +12,6 @@ const Settings = () => {
             <DataAccount/>
             <Personal/>
             <Notification/>
-
         </div>
     );
 };
