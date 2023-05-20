@@ -24,11 +24,11 @@ const DevPanel = () => {
 
     return (
         <div className={classes.devPanel}>
-            <button className={classes.buttonLink} onClick={() => FileController.openParenDir()}>Назад</button>
+            {/*<button className={classes.buttonLink} onClick={() => FileController.openParenDir()}>Назад</button>*/}
             {/*<button className={classes.buttonLink} onClick={() => UploadStore.setActive(true)}>Открыть</button>*/}
-            <button className={classes.buttonLink} onClick={() => FileController.removeFiles()}>Удалить все</button>
+            {/*<button className={classes.buttonLink} onClick={() => FileController.removeFiles()}>Удалить все</button>*/}
             {/*<label htmlFor="uploadInput" className={classes.uploadLabel}>Загрузить файлы</label>*/}
-            <input multiple={true} onChange={(e) => fileUploadHandler(e)} type="file" id="uploadInput" className={classes.uploadInput}/>
+            {/*<input multiple={true} onChange={(e) => fileUploadHandler(e)} type="file" id="uploadInput" className={classes.uploadInput}/>*/}
         </div>
     );
 };

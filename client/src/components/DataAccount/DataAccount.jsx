@@ -125,7 +125,7 @@ const DataAccount = () => {
                                         <p className={classes.forgotPassword}>Забыли пароль?</p>
                                     </div>
                                     <div className={classes.changePassword__btnMenu}>
-                                        <div className={classes.changePassword__btn} style={{color: "#18A0FB"}} onClick={() => closeChangeModal()}>Отменть</div>
+                                        <div className={classes.changePassword__btn} style={{color: "#18A0FB"}} onClick={() => closeChangeModal()}>Отменить</div>
                                         <button disabled={!oldPassword.inputValid} className={classes.changePassword__btn} onClick={() => openEnterPassword()}>Продолжить</button>
                                     </div>
                                 </div>

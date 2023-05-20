@@ -32,7 +32,6 @@ const Header = () => {
     }
 
     return (
-
         <header className={classes.header} >
             <div className={classes.logo}>
                 <NavLink to={"/disk"}>
@@ -70,16 +69,19 @@ const Header = () => {
                             <span className={classes.ui__elem__name}>Тема:</span>
                             <div className={classes.ui__elem__action}>Тёмная</div>
                         </div>
+
                         <NavLink style={{textDecoration: "none"}} to={"/settings"}>
                             <div className={classes.ui__elem}>
                                 <img className={classes.ui__elem__img} src={settingsSvg} alt="theme"/>
                                 <span className={classes.ui__elem__name}>Настройки</span>
                             </div>
                         </NavLink>
+
                         <div className={classes.ui__elem}>
                             <img className={classes.ui__elem__img} src={faqSvg} alt="theme"/>
                             <span className={classes.ui__elem__name}>Помощь</span>
                         </div>
+
                         <NavLink style={{color: "#E3E3E3", textDecoration: "none"}} onClick={() => User.logout()} to={"/login"}>
                             <div className={classes.ui__elem}>
                                 <img style={{height: "24px", width: "24px", marginLeft: "39px"}} className={classes.ui__elem__img} src={logoutSvg} alt="theme"/>
