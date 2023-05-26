@@ -3,6 +3,7 @@ export const REGISTRATION_ROUTE = '/registration'
 export const DISK_ROUTE = '/disk'
 export const HOME_ROUTE = '/home'
 export const SETTINGS_ROUTE = '/settings'
+export const SHARE_ROUTE = '/share'
 export const STATIC_PATH = 'http://localhost:5000/'
 
 export const getImage = (type) => {

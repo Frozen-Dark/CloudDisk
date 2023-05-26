@@ -1,5 +1,6 @@
 const {File, User} = require('../models/models')
 const fileService = require('../services/fileService')
+const accessService = require('../services/accessService')
 const {where} = require("sequelize");
 const fs = require("fs");
 const {config} = require("dotenv");
@@ -9,6 +10,7 @@ const Uuid = require("uuid")
 const model = require("../models/models");
 const sharp = require("sharp");
 const UserDto = require("../dtos/user-dto");
+const uuid = require("uuid");
 
 
 
@@ -261,7 +263,6 @@ class FileController {
             fileService.deleteFile(file)
             await file.destroy()
             return res.json({message: "Файл был удален"})
-
         } catch (e) {
             console.log(e)
             return res.status(400).json({message: "В папке остались файлы"})
@@ -319,7 +320,7 @@ class FileController {
             if(currentDir !== -1 && currentDir !== undefined) {
                 while(stack.length > 0) {
                     const id = stack.pop()
-                    const dir = await File.findOne({where: {id: id, userId: req.user.id}})
+                    const dir = await File.findOne({where: {id: id, userId: req.user.id} })
                     folders.push({id: dir.id, name: dir.name})
                     if(dir.parent !== -1) {
                         stack.push(dir.parent)
@@ -333,8 +334,44 @@ class FileController {
         }
     }
 
+    async setAccessLink(req, res) {
+        try {
+            const fileId = req.body.fileId;
+            //const user = await model.User.findOne({where: {id: req.user.id} });
+            const file = await model.File.findOne({where: {userId: req.user.id, id: fileId}});
+            file.access_link = uuid.v4();
+            await file.save();
+            return res.json({file})
+        } catch (e) {
+            console.log(e)
+            return res.status(206).json({message: "setAccessLink"})
+        }
+    }
 
+    async removeAccessLink(req, res) {
+        const fileId = req.body.fileId;
+        const file = await model.File.findOne({where: {userId: req.user.id, id: fileId}});
+        file.access_link = "";
+        await file.save();
+        return res.json({file})
+    }
 
+    async getGeneralFiles(req, res) {
+        try {
+            let parent, files;
+            console.log(req.body)
+            const link = req.body.link;
+            parent = await accessService.getParent(link);
+            const owner = await model.User.findOne({where: {id: parent.userId} });
+            if(parent.type === "dir") {
+                files = await accessService.getFiles(parent);
+            }
+            return res.json({files, parent, owner: owner.nickName});
+        } catch (e) {
+            console.log(e)
+            return res.status(206).json({message: "getGeneralFiles"})
+        }
+    }
 
 }
 

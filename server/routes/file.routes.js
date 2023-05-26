@@ -7,6 +7,9 @@ router.post('', authMiddleware, fileController.createDir)
 router.post('/upload', authMiddleware, fileController.uploadFiles)
 
 router.post('/uploadAvatar', authMiddleware, fileController.uploadAvatar)
+router.post('/setLink', authMiddleware, fileController.setAccessLink)
+router.post('/removeLink', authMiddleware, fileController.removeAccessLink)
+router.post('/generalFiles', authMiddleware, fileController.getGeneralFiles)
 //router.post('/changeAvatar', authMiddleware, fileController.changeAvatar)
 
 router.get('/download', authMiddleware, fileController.downloadFile)

@@ -3,8 +3,6 @@ const model = require('../models/models')
 const {config} = require("dotenv");
 const sharp = require("sharp");
 const {User, File} = require("../models/models");
-const {UUIDV4} = require("sequelize");
-const uuid = require("uuid");
 const ApiError = require("../exceptions/ApiError");
 const Uuid = require("uuid");
 require('dotenv').config()
@@ -103,16 +101,11 @@ class FileService {
     }
 
     deleteFile(file) {
-        try {
-            const {filePath} = this.getPath(file)
-            console.log(file, filePath)
-            if (file.type === "dir") {
-                fs.rmdirSync(filePath)
-            } else {
-                fs.unlinkSync(filePath)
-            }
-        } catch (e) {
-            console.log(e)
+        const {filePath} = this.getPath(file)
+        if (file.type === "dir") {
+            fs.rmdirSync(filePath)
+        } else {
+            fs.unlinkSync(filePath)
         }
     }
 

@@ -27,7 +27,7 @@
     position: absolute;
     right: 70px;
     width: 250px;
-    height: 210px;
+    height: 295px;
     background-color: #3C3C3C;
     overflow: hidden;
     border-radius: 15px;
@@ -38,9 +38,7 @@
 @media screen and (max-width: 1200px) {
     .modalFileSettings {
         right: 230px;
-
     }
-
 }
 
 .fileName {
@@ -55,6 +53,7 @@
     border-bottom: 1px solid gray;
 }
 .example {
+    cursor: pointer;
     display: flex;
     justify-content: left;
     align-items: center;

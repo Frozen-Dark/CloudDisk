@@ -152,10 +152,39 @@ export async function searchFile (name) {
 export async function getFolderPath (id) {
     if(id !== -1 && id !== undefined) {
         try {
-            const response = await axios.get(`${url}/api/files/folderPath?currentDirId=${id}`)
-            FilesPath.getFirstPath(response.data)
+            const response = await axios.get(`${url}/api/files/folderPath?currentDirId=${id}`);
+            FilesPath.getFirstPath(response.data);
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
+    }
+}
+
+export async function setAccessLink (fileId) {
+    try {
+        return await axios.post(`${url}/api/files/setLink`, {
+            fileId
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+export async function removeAccessLink (fileId) {
+    try {
+        return await axios.post(`${url}/api/files/removeLink`, {
+            fileId
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function generalFiles(link) {
+    try {
+        return await axios.post(`${url}/api/files/generalFiles`, {
+            link
+        });
+    } catch (e) {
+        console.log(e);
     }
 }

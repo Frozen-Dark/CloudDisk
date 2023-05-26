@@ -9,16 +9,13 @@ import FileController from "../store/FileController";
 import FilesPath from "../store/FilesPath";
 import FileInfo from "./FileInfo/FileInfo";
 import Files from "./Files/Files";
+import {useSearchParams} from "react-router-dom";
 
 
 const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
 
-    useEffect(() => {
-
-    }, [FileController.currentFile.id])
-
-
     const files = FileController.files
+
 
     function selectAndActive(file, e) {
         ControlFile.setActiveControl(true)
@@ -34,6 +31,7 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
 
     return (
         <div className={classes.oneMain}>
+
             {
             FileController.fileList === "false" ?
                 <section className={classes.files} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
