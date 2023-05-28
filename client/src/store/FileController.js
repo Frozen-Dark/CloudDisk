@@ -1,15 +1,15 @@
 import {makeAutoObservable} from "mobx";
 import {deleteFile, downloadFile, getFiles, renameFile} from "../actions/file";
 import notification from "./Notification";
-import FilesPath from "./FilesPath";
+import FilesPath from "./FilesPathOld";
 
 class FileController {
     constructor() {
         makeAutoObservable(this)
     }
     files = []; // Files
-    currentDir = -1 //Id
-    parentDir = -1 //Id
+    currentDir = -1 // Id
+    parentDir = {path: ''} // parent File
     currentFile = {id: 0}; // File type
 
 
@@ -25,8 +25,9 @@ class FileController {
     setCurrentDir(id) {
         this.currentDir = id;
     }
-    setParentDir(id) {
-        this.parentDir = id;
+    setParentDir(parent) {
+        console.log(parent)
+        this.parentDir = parent;
     }
     addFile(file) {
         this.setFiles([...this.files, file].sort((a, b) => a.id - b.id));
@@ -74,16 +75,6 @@ class FileController {
         } else {
             notification.clientMessage(response.data.message, "fail");
         }
-    }
-
-    async openParenDir() {
-        const current = this.currentDir;
-        await getFiles(this.parentDir);
-        FilesPath.cutPath(current);
-    }
-
-    async openDir(folder) {
-        await getFiles(folder.id);
     }
 
     async downloadFile(file) {

@@ -7,6 +7,14 @@
     border-radius: 10px;
     animation: personal__wake var(--second-anim-delay) ease;
 }
+@media screen and (max-width: 800px) {
+    .personal {
+        width: 90%;
+    }
+    .main {
+        grid-template-columns: 1fr !important;
+    }
+}
 @keyframes personal__wake {
     0% {
         transform: translateY(-5px);

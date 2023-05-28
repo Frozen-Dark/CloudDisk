@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {logout, refresh} from "../actions/user";
-import FilesPath from "./FilesPath";
+import FilesPath from "./FilesPathOld";
 import FileController from "./FileController";
 import UploadStore from "./UploadStore";
 import ControlFile from "./ControlFile";

@@ -1,3 +1,6 @@
+import ControlFile from "../store/ControlFile";
+import FileController from "../store/FileController";
+
 export const LOGIN_ROUTE = '/login'
 export const REGISTRATION_ROUTE = '/registration'
 export const DISK_ROUTE = '/disk'
@@ -5,6 +8,7 @@ export const HOME_ROUTE = '/home'
 export const SETTINGS_ROUTE = '/settings'
 export const SHARE_ROUTE = '/share'
 export const STATIC_PATH = 'http://localhost:5000/'
+export const CLIENT_URL = 'http://localhost:3000'
 
 export const getImage = (type) => {
     let icon
@@ -60,3 +64,10 @@ export const getDate = (date) =>{
     const day = acc.pop().split("-").reverse().join(".")
     return {time, day}
 }
+
+export const selectAndActive = (file, e) => {
+    ControlFile.setActiveControl(true)
+    FileController.setCurrentFile(file)
+    ControlFile.setControlHeight(e.screenY - 125)
+}
+

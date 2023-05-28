@@ -79,14 +79,17 @@ const ModalFileSettings = () => {
                         Удалить
                     </div>
 
-                    <div onClick={() => shareClickHandler()} className={classes.example}>
-                        <img className={classes.example__img} src={link} alt="Удалить"/>
-                        Открыть доступ
-                    </div>
-                    <div onClick={() => unshareClickHandler()} className={classes.example}>
-                        <img className={classes.example__img} src={link} alt="Удалить"/>
-                        Убрать доступ
-                    </div>
+                    {FileController.currentFile.access_link ?
+                        <div onClick={() => unshareClickHandler()} className={classes.example}>
+                            <img className={classes.example__img} src={link} alt="Удалить"/>
+                            Убрать доступ
+                        </div>
+                    :
+                        <div onClick={() => shareClickHandler()} className={classes.example}>
+                            <img className={classes.example__img} src={link} alt="Удалить"/>
+                            Открыть доступ
+                        </div>
+                    }
                 </div>
             </div>
        </div>

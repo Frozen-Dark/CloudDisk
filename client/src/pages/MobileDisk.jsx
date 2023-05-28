@@ -89,8 +89,6 @@ const MobileDisk = () => {
 
             <DevPanel/>
 
-
-
         </div>
 
 );

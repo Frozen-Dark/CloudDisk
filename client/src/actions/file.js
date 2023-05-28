@@ -3,9 +3,10 @@ import UploadStore from "../store/UploadStore";
 import Loader from "../store/Loader";
 import notification from "../store/Notification";
 import FileController from "../store/FileController";
-import FilesPath from "../store/FilesPath";
+import FilesPath from "../store/FilesPathOld";
 import User from "../store/User";
 import {filterName} from "../utils/consts";
+import FilePath from "../store/FilePath";
 
 const url = "http://localhost:5000"
 
@@ -40,23 +41,22 @@ export const uploadAvatar = async (e) => {
 }
 
 export const getFiles = async (dirId) => {
-    const token = localStorage.getItem('token')
-    Loader.setLoader(true)
+    const token = localStorage.getItem('token');
+    Loader.setLoader(true);
     if(token) {
         try {
-            const response = await
-                axios.get(`${url}/api/files${dirId ? '?parent='+dirId : '?parent=-1'}`)
-            const {files, parentDir} = response.data
-            console.log("getFiles_FILES: ", files)
-            FileController.setFiles(files)
-            FileController.setCurrentDir(dirId)
-
-            FileController.setParentDir(parentDir.parent)
-            localStorage.setItem("lastDir", dirId)
+            const response = await axios.get(`${url}/api/files${dirId ? '?parent='+dirId : '?parent=-1'}`)
+            const {files, parentDir} = response.data;
+            FileController.setFiles(files);
+            FileController.setCurrentDir(dirId);
+            FileController.setParentDir(parentDir);
+            localStorage.setItem("lastDir", dirId);
+            FilePath.setCurrentDir(dirId)
+            return response;
         } catch (e) {
-            console.log(e)
+            console.log(e);
         } finally {
-            Loader.setLoader(false)
+            Loader.setLoader(false);
         }
     }
 }
@@ -113,6 +113,15 @@ export async function downloadFile(file) {
         console.log(e)
     }
 }
+export async function downloadGeneralFile(file) {
+    try {
+        return await fetch(`${url}/api/files/share/download?id=${file.id}`, {
+            headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+        })
+    } catch (e) {
+        console.log(e)
+    }
+}
 
 export async function deleteFile (file) {
     try {
@@ -153,7 +162,7 @@ export async function getFolderPath (id) {
     if(id !== -1 && id !== undefined) {
         try {
             const response = await axios.get(`${url}/api/files/folderPath?currentDirId=${id}`);
-            FilesPath.getFirstPath(response.data);
+            FilePath.setPath(response.data)
         } catch (e) {
             console.log(e);
         }

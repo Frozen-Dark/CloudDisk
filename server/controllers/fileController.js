@@ -13,24 +13,23 @@ const UserDto = require("../dtos/user-dto");
 const uuid = require("uuid");
 
 
-
 class FileController {
 
     async uploadAvatar(req, res, next) {
         try {
             const avatar = req.files.file;
-            if(!avatar) {
+            if (!avatar) {
                 return next(ApiError.BadRequest("Ошибка при загрузки аватара"))
             }
             const type = avatar.name.split(".").pop()
-            if(type !== "jpg" && type !== "png" && type !== "jfif") {
+            if (type !== "jpg" && type !== "png" && type !== "jfif") {
                 return next(ApiError.BadRequest("Неверный тип аватара"))
             }
 
             const User = await model.User.findOne({where: {id: req.user.id}});
 
             let name = Uuid.v4() + ".jpg";
-            if(User.avatar) {
+            if (User.avatar) {
                 fs.unlinkSync(process.env.STATICPATH + "\\" + User.avatar);
             }
 
@@ -47,6 +46,7 @@ class FileController {
             next(e)
         }
     }
+
     // async deleteAvatar(req, res, next) {
     //     try {
     //         const user = await model.User.findOne({where: {id: userId}});
@@ -107,19 +107,19 @@ class FileController {
             const {name, type, parent} = req.body
             const file = new File({name, type, parent, userId: req.user.id})
 
-           if(parent === -1 || parent === undefined) {
-               file.path = name
-               await fileService.createDir(file)
-               await file.save()
-           } else {
-               const parentFile = await File.findOne({where: {id: parent}})
-               file.path = `${parentFile.path}\\${file.name}`
-               await fileService.createDir(file)
-               await file.save()
-               parentFile.childs = [...parentFile.childs, file.id]
-               await parentFile.save()
-           }
-           return res.json(file)
+            if (parent === -1 || parent === undefined) {
+                file.path = name
+                await fileService.createDir(file)
+                await file.save()
+            } else {
+                const parentFile = await File.findOne({where: {id: parent}})
+                file.path = `${parentFile.path}\\${file.name}`
+                await fileService.createDir(file)
+                await file.save()
+                parentFile.childs = [...parentFile.childs, file.id]
+                await parentFile.save()
+            }
+            return res.json(file)
         } catch (e) {
             console.log(e)
             return res.status(400).json(e)
@@ -131,23 +131,26 @@ class FileController {
 
             const files = await
                 File.findAll(
-                    {where:
+                    {
+                        where:
                             {
                                 userId: req.user.id,
                                 parent: req.query.parent
-                            }}
+                            }
+                    }
                 );
 
-           // const preview = fileService.preview();
+            // const preview = fileService.preview();
             const preview = {}
 
-            const parentDir = await File.findOne({ where: {id: req.query.parent, userId: req.user.id} }) || {parent: -1};
+            const parentDir = await File.findOne({where: {id: req.query.parent, userId: req.user.id}}) || {parent: -1};
             return res.json({files, parentDir, preview});
 
         } catch (e) {
             return res.status(500).json({message: "Can not get files"});
         }
     }
+
     // async getFiles(req, res) {
     //     try {
     //
@@ -168,16 +171,15 @@ class FileController {
     // }
 
 
-
     async uploadFiles(req, res) {
         console.log(req)
         const file = req.files.file;
         console.log(file)
 
         const fileName = req.query.name;
-        const user = await User.findOne({where: {id: req.user.id} });
+        const user = await User.findOne({where: {id: req.user.id}});
 
-        const size = (Number(file.size)/1024).toFixed(2);
+        const size = (Number(file.size) / 1024).toFixed(2);
         user.usedSpace = (Number(user.usedSpace) + Number(size)).toFixed(2);
         const type = fileName.split(".").pop();
 
@@ -186,14 +188,14 @@ class FileController {
         try {
             let path, dbFile, parent = {id: -1}, sharpObj, preview;
 
-            if(req.body.parent === "-1") {
+            if (req.body.parent === "-1") {
                 path = fileName;
             } else {
-                parent = await File.findOne({where: {userId: req.user.id, id: req.body.parent} });
+                parent = await File.findOne({where: {userId: req.user.id, id: req.body.parent}});
                 path = `${parent.path}\\${fileName}`;
             }
 
-            if(fs.existsSync(`${process.env.FILEPATH}\\${user.id}\\${path}`)) {
+            if (fs.existsSync(`${process.env.FILEPATH}\\${user.id}\\${path}`)) {
                 return res.status(400).json({message: "Файл уже существует"});
             }
             await file.mv(`${process.env.FILEPATH}\\${user.id}\\${path}`);
@@ -226,7 +228,7 @@ class FileController {
             await user.save();
             await dbFile.save();
 
-            if(parent.id !== -1) {
+            if (parent.id !== -1) {
                 parent.childs = [...parent.childs, dbFile.id];
                 await parent.save();
             }
@@ -238,13 +240,13 @@ class FileController {
         }
     }
 
-    async downloadFile (req, res) {
+    async downloadFile(req, res) {
         try {
             const file = await File.findOne({where: {id: req.query.id, userId: req.user.id}})
 
             const path = `${process.env.FILEPATH}\\${req.user.id}\\${file.path}`
 
-            if(fs.existsSync(path)) {
+            if (fs.existsSync(path)) {
                 return res.download(path, file.name + file.type)
             }
             return res.status(400).json({message: "Ошибка загрузки"})
@@ -254,10 +256,10 @@ class FileController {
         }
     }
 
-    async deleteFile (req, res) {
+    async deleteFile(req, res) {
         try {
             const file = await File.findOne({where: {userId: req.user.id, id: req.query.id}})
-            if(!file) {
+            if (!file) {
                 return res.status(400).json({message: "Файл не найден"})
             }
             fileService.deleteFile(file)
@@ -268,21 +270,22 @@ class FileController {
             return res.status(400).json({message: "В папке остались файлы"})
         }
     }
-    async renameFile (req, res) {
+
+    async renameFile(req, res) {
         try {
             const file = await File.findOne({where: {userId: req.user.id, id: req.query.id}})
 
-            if(!file) {
+            if (!file) {
                 return res.status(400).json({message: "Файл не найден"})
             }
 
             file.name = req.query.name
             const oldFilePath = file.path
 
-            if(file.parent !== -1) {
+            if (file.parent !== -1) {
                 let path = file.path.split("\\")
                 path.pop()
-                if(path.length > 1) {
+                if (path.length > 1) {
                     path = path.join("\\")
                 } else {
                     path = path[0]
@@ -312,17 +315,18 @@ class FileController {
             return res.status(400).json({message: "Ошибка при поиске"})
         }
     }
+
     async getPath(req, res) {
         try {
             const currentDir = req.query.currentDirId;
             const folders = [];
             const stack = [currentDir]
-            if(currentDir !== -1 && currentDir !== undefined) {
-                while(stack.length > 0) {
+            if (currentDir !== -1 && currentDir !== undefined) {
+                while (stack.length > 0) {
                     const id = stack.pop()
-                    const dir = await File.findOne({where: {id: id, userId: req.user.id} })
+                    const dir = await File.findOne({where: {id: id, userId: req.user.id}})
                     folders.push({id: dir.id, name: dir.name})
-                    if(dir.parent !== -1) {
+                    if (dir.parent !== -1) {
                         stack.push(dir.parent)
                     }
                 }
@@ -359,17 +363,36 @@ class FileController {
     async getGeneralFiles(req, res) {
         try {
             let parent, files;
-            console.log(req.body)
             const link = req.body.link;
             parent = await accessService.getParent(link);
-            const owner = await model.User.findOne({where: {id: parent.userId} });
-            if(parent.type === "dir") {
+            const owner = await model.User.findOne({where: {id: parent.userId}});
+            if (parent.type === "dir") {
                 files = await accessService.getFiles(parent);
             }
             return res.json({files, parent, owner: owner.nickName});
         } catch (e) {
             console.log(e)
             return res.status(206).json({message: "getGeneralFiles"})
+        }
+    }
+
+    async downloadGeneralFile(req, res) {
+        try {
+            const file = await File.findOne({where: {id: req.query.id}})
+            const path = `${process.env.FILEPATH}\\${file.userId}\\${file.path}`
+            const parent = await File.findOne({where: {id: file.parent}})
+            if (!parent.access_link) {
+                return res.status(206).json({message: "downloadGeneralFile"})
+            }
+
+            if (fs.existsSync(path)) {
+                return res.download(path, file.name + "." + file.type)
+            }
+
+            return res.status(400).json({message: "Ошибка загрузки"})
+        } catch (e) {
+            console.log(e)
+            return res.status(206).json({message: "downloadGeneralFile"})
         }
     }
 

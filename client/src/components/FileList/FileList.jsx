@@ -1,27 +1,16 @@
 import React from 'react';
 import classes from "./FileList.module.css";
-
-
 import dots from "../../assets/svg/dots.svg";
 import download from "../../assets/svg/download.svg";
-import {getDate, getImage, normalizeSize} from "../../utils/consts";
-import FileController from "../../store/FileController";
-import FilesPath from "../../store/FilesPath";
+import {getDate, getImage, normalizeSize, selectAndActive} from "../../utils/consts";
 
-const FileList = ({file, selectAndActive, openInfo}) => {
+
+const FileList = ({file, openInfo, downloadFileHandler, openDirHandler}) => {
 
     let icon = getImage(file.type)
 
     const updateTime = getDate(file.updatedAt)
 
-    function openDirHandler(file) {
-        FileController.openDir(file)
-        FilesPath.setCurrentDir(file)
-    }
-
-    function downloadFileHandler(file) {
-        FileController.downloadFile(file)
-    }
     if(file.type === "dir") {
         return (
             <div onClick={() => openInfo(file)} className={classes.file}>
@@ -38,7 +27,6 @@ const FileList = ({file, selectAndActive, openInfo}) => {
             </div>
         )
     }
-
 
     return (
         <div onClick={() => openInfo(file)} className={classes.file}>

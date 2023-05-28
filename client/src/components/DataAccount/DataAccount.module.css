@@ -11,6 +11,18 @@
     background-color: #353535;
     animation: dataAccount__wake var(--second-anim-delay) ease;
 }
+@media screen and (max-width: 800px){
+    .dataAccount {
+        width: 90%;
+    }
+    .changePassword__btnMenu {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    .changePassword__btn {
+        min-width: auto !important;
+    }
+}
 
 @keyframes dataAccount__wake {
     0% {
@@ -84,6 +96,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+@media screen and (max-width: 800px) {
+    .changePassword__container {
+        width: 93vw !important;
+    }
 }
 .changePassword__container {
     height: 322px;

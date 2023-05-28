@@ -1,0 +1,34 @@
+.pathList {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    color: #E3E3E3;
+    font-size: 25px;
+}
+
+.disk_path_list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.disk_path_component {
+    margin-right: 25px;
+    cursor: pointer;
+    animation: path_left_append 0.1s;
+}
+@media screen and (max-width: 600px) {
+    .disk_path_component {
+        font-size: 20px;
+    }
+}
+@keyframes path_left_append {
+    0% {
+        opacity: 0;
+        transform: translateX(-5px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}

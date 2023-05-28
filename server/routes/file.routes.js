@@ -13,6 +13,7 @@ router.post('/generalFiles', authMiddleware, fileController.getGeneralFiles)
 //router.post('/changeAvatar', authMiddleware, fileController.changeAvatar)
 
 router.get('/download', authMiddleware, fileController.downloadFile)
+router.get('/share/download', authMiddleware, fileController.downloadGeneralFile)
 router.get('', authMiddleware, fileController.getFiles)
 router.get('/search', authMiddleware, fileController.searchFile)
 router.get('/folderPath', authMiddleware, fileController.getPath)

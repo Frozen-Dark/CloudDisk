@@ -27,7 +27,7 @@
     position: absolute;
     right: 70px;
     width: 250px;
-    height: 295px;
+    height: 250px;
     background-color: #3C3C3C;
     overflow: hidden;
     border-radius: 15px;
@@ -38,6 +38,12 @@
 @media screen and (max-width: 1200px) {
     .modalFileSettings {
         right: 230px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .modalFileSettings {
+        right: 5%;
+        top: 60% !important;
     }
 }
 

@@ -2,7 +2,7 @@ import {makeAutoObservable} from "mobx";
 import FileController from "./FileController";
 import {getFiles} from "../actions/file";
 
-class FilesPath {
+class FilesPathOld {
     constructor() {
         makeAutoObservable(this)
     }
@@ -56,4 +56,4 @@ class FilesPath {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default new FilesPath()
+export default new FilesPathOld()

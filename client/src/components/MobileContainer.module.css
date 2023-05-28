@@ -41,24 +41,9 @@
     border-radius: 20px;
     background-color: #353535;
 }
-.disk_path {
-    display: flex;
-    width: 100%;
-    height: 40px;
-    color: #E3E3E3;
-    font-size: 25px;
+.nav__mobile {
+    margin-bottom: 15px;
 }
-.disk_path_list {
-    list-style: none;
-    display: flex;
-    align-items: center;
-}
-.disk_path_component {
-    margin-right: 25px;
-    cursor: pointer;
-}
-
-
 .list__header {
     margin-top: 15px;
     width: 100%;

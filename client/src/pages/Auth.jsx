@@ -34,7 +34,6 @@ const Auth = () => {
 
             const dir_id = Number(localStorage.getItem("lastDir")) || -1
             await getFiles(dir_id)
-            await getFolderPath(FileController.currentDir)
         } else {
             message.newMessage(response.data.message, "fail")
         }

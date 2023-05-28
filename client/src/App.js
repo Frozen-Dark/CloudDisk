@@ -1,31 +1,30 @@
 import './styles/App.css'
 import './assets/font/font.css'
 import React, {useEffect} from "react";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useSearchParams} from "react-router-dom";
 import NotFoundPage from "./pages/NotFoundPage";
 import {authRoutes, publicRoutes} from "./routes";
 import {observer} from "mobx-react";
 import {auth} from "./actions/user";
 import {getFiles, getFolderPath} from "./actions/file";
-import FileController from "./store/FileController";
 import User from "./store/User";
 
 
 
 function App() {
+    const [searchParams, setSearchParams] = useSearchParams();
 
      useEffect(() => {
          async function firstInsert() {
-             const dir_id = Number(localStorage.getItem("lastDir")) || -1
+             const dir_id = Number(searchParams.get('lastDir')) || -1
              const auth_STATUS = await auth()
              if(auth_STATUS === 200) {
                  await getFiles(dir_id)
-                 await getFolderPath(FileController.currentDir)
+                 await getFolderPath(dir_id)
              }
          }
          firstInsert()
     }, [])
-
 
     return (
         <Routes>

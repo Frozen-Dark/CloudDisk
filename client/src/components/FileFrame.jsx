@@ -2,20 +2,14 @@ import React from 'react';
 import dots from '../assets/svg/dots.svg'
 import classes from "./FolderFrame.module.css";
 import {observer} from "mobx-react";
-import {getImage} from "../utils/consts";
+import {getImage, selectAndActive} from "../utils/consts";
 import FileController from "../store/FileController";
-import FilesPath from "../store/FilesPath";
+import FilesPath from "../store/FilesPathOld";
 
-const FileFrame = ({selectAndActive, file}) => {
-
+const FileFrame = ({file, openDirHandler}) => {
     let icon = getImage(file.type)
 
-    function openDirHandler(file) {
-        if(file.type === "dir") {
-            FileController.openDir(file)
-            FilesPath.setCurrentDir(file)
-        }
-    }
+
 
     return (
         <div onClick={() => FileController.setCurrentFile(file)} className={classes.container}>

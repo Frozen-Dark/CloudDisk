@@ -2,25 +2,31 @@ import React, {useEffect, useState} from 'react';
 import classes from '../styles/ShareFiles.module.css'
 import Header from "../components/Header/Header";
 import FileController from "../store/FileController";
-import FilesPath from "../store/FilesPath";
-import Files from "../components/Files/Files";
 import ControlFile from "../store/ControlFile";
 import {useSearchParams} from "react-router-dom";
-import {generalFiles} from "../actions/file";
+import {downloadGeneralFile, generalFiles} from "../actions/file";
+import LoaderStore from "../store/Loader";
+import Loader from "../components/Loader/Loader";
+import FileList from "../components/FileList/FileList";
+import notification from "../store/Notification";
 
 const ShareFiles = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [files, setFiles] = useState('')
+    const [owner, setOwner] = useState('')
+    const [parent, setParent] = useState('')
 
     async function getFiles() {
-        if(searchParams.get("link")) {
+        if (searchParams.get("link")) {
             const response = await generalFiles(searchParams.get("link"))
-            console.log(response)
-            if(response.status === 200) {
+            if (response.status === 200) {
                 setFiles(response.data.files)
+                setOwner(response.data.owner)
+                setParent(response.data.parent.name)
             }
         }
     }
+
     useEffect(() => {
         getFiles()
     }, [searchParams.get('link')])
@@ -32,11 +38,31 @@ const ShareFiles = () => {
     }
 
     function openInfo(file) {
-        if(file.type !== "dir") {
+        if (file.type !== "dir") {
             FileController.setCurrentFile(file)
         }
     }
 
+    async function downloadFileHandler(file) {
+        const response = await downloadGeneralFile(file)
+        if(response.status === 200) {
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = file.name + "." + file.type;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } else {
+            notification.clientMessage("Ошибка при загрузке", "fail");
+        }
+
+    }
+
+    function openDirHandler() {
+        console.log("QWEqwEQW")
+    }
 
     return (
         <div className={classes.shareFiles}>
@@ -45,13 +71,8 @@ const ShareFiles = () => {
             <div className={classes.oneMain}>
                 <section className={classes.list__files}>
                     <div className={classes.disk_path}>
-                        {/*<ul className={classes.disk_path_list}>*/}
-                        {/*    {*/}
-                        {/*        FilesPath.path.map((elem) => <li className={classes.disk_path_component}*/}
-                        {/*                                         onClick={() => FilesPath.moveTo(elem.id)}*/}
-                        {/*                                         key={elem.id}>{elem.name}</li>)*/}
-                        {/*    }*/}
-                        {/*</ul>*/}
+                        <h2 className={classes.disk_path_name}>{parent}</h2>
+                        <h2 style={{fontSize: "20px"}} className={classes.disk_path_name}>Владелец: {owner}</h2>
                     </div>
                     <div className={classes.list__header}>
                         <div className={classes.list__name}>Название</div>
@@ -59,7 +80,26 @@ const ShareFiles = () => {
                         <div className={classes.list__type}>Тип</div>
                         <div className={classes.list__size}>Размер файла</div>
                     </div>
-                    <Files files={files} selectAndActive={selectAndActive} openInfo={openInfo}/>
+
+                    <div className={classes.filesContainer}>
+                        <div className={classes.files}>
+                            {
+                                LoaderStore.loader === true ?
+                                    <Loader/>
+                                    :
+                                    files.length === 0 ?
+                                        <h2 className={classes.noneFile}>Файлы не найдены</h2>
+                                        :
+                                        <div className={classes.listContainer}>
+                                            {files.map((file) => <FileList key={file.id} openDirHandler={openDirHandler}
+                                                                           downloadFileHandler={downloadFileHandler}
+                                                                           openInfo={openInfo} file={file}/>)}
+                                        </div>
+                            }
+                        </div>
+                    </div>
+
+
                 </section>
             </div>
         </div>

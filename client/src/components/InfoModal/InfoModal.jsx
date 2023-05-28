@@ -2,7 +2,7 @@ import React from 'react';
 import classes from "./InfoModal.module.css"
 import arrow from "../../assets/svg/arrow.svg";
 import ControlFile from "../../store/ControlFile";
-import {getDate, getImage, normalizeSize} from "../../utils/consts";
+import {CLIENT_URL, getDate, getImage, normalizeSize, SHARE_ROUTE} from "../../utils/consts";
 import FileController from "../../store/FileController";
 
 const InfoModal = () => {
@@ -39,10 +39,19 @@ const InfoModal = () => {
             </span>
 
 
+            <span className={classes.size}>
+                Размер
+                <p>{normalizeSize(file.size)}</p>
+            </span>
+            {file.access_link &&
                 <span className={classes.size}>
-                    Размер
-                    <p>{normalizeSize(file.size)}</p>
-                </span>
+                    Ссылка
+                    <p><a href={`${CLIENT_URL}${SHARE_ROUTE}?link=${file.access_link}`} style={{color: "#FFF"}}>
+                        {file.access_link}
+                    </a></p>
+                 </span>
+            }
+
 
             <span className={classes.create}>
                 Создано
