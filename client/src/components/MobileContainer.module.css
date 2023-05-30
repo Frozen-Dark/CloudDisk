@@ -17,8 +17,7 @@
 }
 .oneMain {
     margin: 20px auto 0 auto;
-    width: 70%;
-
+    width: 100%;
     display: block;
 }
 .groupMain {
@@ -39,107 +38,68 @@
     overflow: scroll;
     overflow-x: hidden;
     border-radius: 20px;
-    background-color: #353535;
+    background-color: var(--fileContainer-bg-color);
 }
 .nav__mobile {
     margin-bottom: 15px;
 }
 .list__header {
-    margin-top: 15px;
+    display: grid;
+    grid-template-columns: 5fr 3fr 2fr 3fr;
+    grid-column-gap: 15px;
+    padding-left: 63px;
+    padding-right: 8px;
+
     width: 100%;
     height: 30px;
-    display: flex;
+
+    margin-top: 15px;
+
     font-size: 14px;
-    color: #E3E3E3;
+    color: var(--path-text-color);
     font-family: 'Montserrat', sans-serif;
 }
 
 .list__name {
-    width: calc(36% - 50px);
-    margin-right: 50px;
+    position: relative;
+    right: 55px;
 }
 .list__change {
-    margin-left: 10px;
-    width: calc(24% - 10px);
 }
 .list__type {
-    margin-left: 10px;
-    width: calc(20% - 10px);
+
 }
 .list__size {
-    margin-left: 10px;
-    width: calc(20% - 10px);
 }
 
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1440px) {
 
-    .oneMain {
-        margin: 20px auto 0 auto;
-        width: 80%;
-        display: block;
-    }
-    .groupMain {
-        margin: 20px auto 0 auto;
-        width: 80%;
-        display: block;
-    }
+}
 
-    .info {
-        display: none !important;
+@media screen and (max-width: 1024px) {
+    .list__header {
+        grid-template-columns: 6fr 5fr 4fr;
     }
+    .list__type {
+        display: none;
+    }
+}
 
-    .list__name {
-        width: 43%;
+@media screen and (max-width: 768px) {
+    .list__header {
+        grid-template-columns: 6fr 6fr;
+        grid-column-gap: 10px;
     }
     .list__change {
         display: none;
     }
     .list__type {
-        width: 21%;
-    }
-    .list__size {
-
-    }
-
-}
-
-@media (max-width: 768px){
-    .oneMain {
-        margin: 20px auto 0 auto;
-        width: 100%;
-        display: block;
-    }
-    .groupMain {
-        margin: 20px auto 0 auto;
-        width: 100%;
-        display: block;
+        display: none;
     }
 }
 
+@media screen and (max-width: 425px) {
 
-@media screen and (min-width: 540px){
-    .files {
-        width: 520px;
-    }
 
-    .container {
-        grid-template-columns: 160px 160px 160px;
-        grid-column-gap: 20px;
-        grid-row-gap: 20px;
-    }
-
-}
-
-@media screen and (min-width: 700px){
-    .files {
-        width: 700px;
-    }
-
-    .container {
-        display: grid;
-        grid-template-columns: 160px 160px 160px 160px;
-        grid-column-gap: 20px;
-        grid-row-gap: 20px;
-    }
 }

@@ -1,6 +1,23 @@
 :root {
     --main-anim-delay: .2s;
     --second-anim-delay: .2s;
+
+    --input-bg-color: #FFFFFF;
+    --input-text-color: #000000;
+    --wrong-color: #e64646;
+    --aproved-color: #4bb34b;
+    --main-text-color: #C5C5C5;
+    --ui-text-color: #18A0FB;
+
+    --auth-bg-container: #414141;
+
+    --header-bg-color: #353535;
+    --path-text-color: #E3E3E3;
+
+    --fileContainer-bg-color: #353535;
+    --fileContainer-text-color: #E3E3E3;
+    --file-border-color: #414141;
+    --file-bg-color-hover: #34373F;
 }
 * {
     padding: 0;

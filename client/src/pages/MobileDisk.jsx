@@ -70,7 +70,7 @@ const MobileDisk = () => {
                 :
                 <MobileContainer dragLeaveHandler={dragLeaveHandler} dragEnterHandler={dragEnterHandler} onDragEntrer/>
             }
-            <NewFolder/>
+            {/*<NewFolder/>*/}
 
             { ControlFile.activeControl &&
                 <ModalFileSettings/>
