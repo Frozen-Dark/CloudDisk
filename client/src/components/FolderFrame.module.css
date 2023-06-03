@@ -8,14 +8,14 @@
 
     box-sizing: border-box;
     transition: 0.2s ease;
-    animation: file-enter 400ms forwards;
+    animation: file-enter var(--second-anim-delay) ease;
 
 }
 
 @keyframes file-enter {
     0% {
         opacity: 0;
-        transform: translateY(-15%);
+        transform: translateY(-10px);
     }
     100% {
         opacity: 1;

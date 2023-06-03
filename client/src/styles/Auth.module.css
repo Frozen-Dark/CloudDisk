@@ -1,11 +1,3 @@
-:root {
-
-}
-
-* {
-    font-family: 'Montserrat', sans-serif;
-}
-
 .container {
     max-width: 490px;
 
@@ -16,12 +8,14 @@
     background-color: var(--auth-bg-container);
 }
 
-.container h2 {
+
+.form__title {
     margin: 0 0 10px 0;
-    color: var(--main-text-color);
+    color: var(--auth-main-text-color);
 
     font-size: 30px;
     font-weight: 500;
+    animation: auth__text__append var(--main-anim-delay) forwards;
 }
 
 .checkbox {
@@ -46,24 +40,22 @@
     border-radius: 7px;
 
     padding-left: 20px;
-    margin: 10px 0 10px 0;
+    margin: 10px 0;
 
     text-align: start;
     filter: drop-shadow(0px 1px 4px rgba(0, 0, 0, 0.25));
-    transition: .2s ease;
+    transition: var(--main-anim-delay) ease;
 
     background-color: var(--input-bg-color);
     color: var(--input-text-color);
 }
 
 .authInput:focus {
-    box-shadow: 0 0 0 0.25rem rgba(24, 160, 251, .7);
+    box-shadow: 0 0 0 0.25rem var(--auth-border-focus-color);
 }
-/*box-shadow: 0 0 0 0.25rem rgba(45, 200, 45, .8);*/
-/*box-shadow: 0 0 0 0.25rem rgba(230, 70, 70, .7);*/
 
 .regInput:focus {
-    box-shadow: 0 0 0 0.25rem rgba(24, 160, 251, .7);
+    box-shadow: 0 0 0 0.25rem var(--auth-border-focus-color);
 }
 
 .saveDiv {
@@ -72,18 +64,39 @@
     align-items: center;
     color: var(--main-text-color);
     width: 100%;
+    animation: auth__text__append var(--main-anim-delay) forwards;
 }
-
-.active {
-    border: 1px solid var(--wrong-color) !important;
-    background-color: #faebeb !important;
+@keyframes auth__text__append {
+    0% {
+        opacity: 0;
+        transform: translateX(-5px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
 }
 
 .fail {
     color: var(--wrong-color);
+    font-size: var(--mobile-auth-text-size);
+    animation: auth__message__append var(--main-anim-delay) forwards;
 }
 .pass {
     color: var(--aproved-color);
+    font-size: var(--mobile-auth-text-size);
+    animation: auth__message__append var(--main-anim-delay) forwards;
+}
+
+@keyframes auth__message__append {
+    0% {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
 
 .myButton {
@@ -91,7 +104,7 @@
     height: 50px;
 
     padding-right: 10px;
-    margin: 10px 0 10px 0;
+    margin: 10px 0;
 
     display: flex;
     align-items: center;
@@ -101,12 +114,13 @@
     border: none;
 
     background-color: var(--ui-text-color);
-    color: white;
+    color: var(--auth-input-text-color);
 
     cursor: pointer;
     text-decoration: none;
     filter: drop-shadow(0px 0px 4px rgba(24, 160, 251, .2));
 }
+
 .myButton:disabled {
     filter: brightness(70%);
 }
@@ -114,6 +128,7 @@
 .correctInput {
     border: 2px solid var(--aproved-color);
 }
+
 .inCorrectInput {
     border: 2px solid var(--wrong-color);
 }
@@ -132,22 +147,29 @@
     font-size: 18px;
 }
 
-.myInput {
-}
+.myInput {}
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
     .container {
         width: 90%;
         max-width: 410px;
         height: 100%;
         margin: 100px auto;
-        background-color: #414141;
+        padding: 25px;
     }
-    .container h2 {
-        font-size: 22px;
+    .authInput {
+        font-size: 17px;
     }
-
-
-
-
+    .form__title {
+        font-size: 24px;
+    }
+    .myButton {
+        font-size: var(--mobile-auth-text-size);
+    }
+    .saveDiv {
+        font-size: var(--mobile-auth-text-size);
+    }
+    .setUser {
+        font-size: var(--mobile-auth-text-size);
+    }
 }

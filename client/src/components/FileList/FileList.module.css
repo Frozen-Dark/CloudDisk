@@ -1,4 +1,3 @@
-
 .file {
     height: 57px;
     width: 100%;
@@ -24,16 +23,6 @@
     background-color: var(--file-bg-color-hover);
 }
 
-@keyframes file-enter {
-    0% {
-        opacity: 0;
-        transform: translateY(-15%);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 .file__image {
     width: 32px;
     height: 32px;
@@ -61,7 +50,6 @@
 
 }
 .file__date {
-
 }
 .file__size {
      justify-content: space-between;
@@ -94,6 +82,27 @@
     margin: 0 auto;
     user-select:none;
 }
+@keyframes file__append__property  {
+    0% {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+
+@keyframes file-enter {
+    0% {
+        opacity: 0;
+        transform: translateY(-15%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 @media screen and (max-width: 1440px) {
     .file__name__text {
@@ -103,26 +112,32 @@
 
 @media screen and (max-width: 1024px) {
     .file {
-        grid-template-columns: 40px 6fr 5fr 4fr;
+        grid-template-columns: 40px 5fr 4fr 2fr 3fr;
     }
     .file__name__text {
         max-width: 220px;
     }
-    .file__type {
-        display: none;
-    }
     .file__functional {
         width: 65px;
+    }
+    .file__date {
+        animation: file__append__property var(--main-anim-delay) ease;
+    }
+}
+
+@media screen and (max-width: 870px) {
+    .file {
+        grid-template-columns: 40px 5fr 2fr 3fr;
+    }
+    .file__date {
+        display: none;
     }
 }
 
 @media screen and (max-width: 768px) {
     .file {
-        grid-template-columns: 40px 6fr 6fr;
+        grid-template-columns: 40px 6fr 2fr 5fr;
         grid-column-gap: 10px;
-    }
-    .file__date {
-        display: none;
     }
     .file__name__text {
         max-width: 110px;
@@ -131,6 +146,18 @@
         width: 30px;
     }
     .file__download {
+        display: none;
+    }
+    .file__type {
+        animation: file__append__property var(--main-anim-delay) ease;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .file {
+        grid-template-columns: 40px 6fr 5fr;
+    }
+    .file__type {
         display: none;
     }
 }
@@ -145,14 +172,12 @@
         width: 26px;
         height: 26px;
     }
-
     .file__name__text {
         max-width: 90px;
     }
     .file__functional, .file__settings {
         width: 20px;
     }
-
     .file__download {
         display: none;
     }

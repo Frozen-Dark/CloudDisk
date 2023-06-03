@@ -5,11 +5,8 @@ import notification from "../store/Notification";
 import FileController from "../store/FileController";
 import FilesPath from "../store/FilesPathOld";
 import User from "../store/User";
-import {filterName} from "../utils/consts";
+import {API_URL, filterName} from "../utils/consts";
 import FilePath from "../store/FilePath";
-
-const url = "http://localhost:5000"
-
 
 function checkName(name, type) {
     if(name.length === 0) {
@@ -29,7 +26,7 @@ export const uploadAvatar = async (e) => {
         const avatar = e.target.files
         const formData = new FormData()
         formData.append("file", avatar[0])
-        const response = await axios.post(`${url}/api/files/uploadAvatar`, formData)
+        const response = await axios.post(`${API_URL}/api/files/uploadAvatar`, formData)
         console.log(response)
         if(response.status === 200) {
             User.setCurrentUser(response.data)
@@ -45,7 +42,7 @@ export const getFiles = async (dirId) => {
     Loader.setLoader(true);
     if(token) {
         try {
-            const response = await axios.get(`${url}/api/files${dirId ? '?parent='+dirId : '?parent=-1'}`)
+            const response = await axios.get(`${API_URL}/api/files${dirId ? '?parent='+dirId : '?parent=-1'}`)
             const {files, parentDir} = response.data;
             FileController.setFiles(files);
             FileController.setCurrentDir(dirId);
@@ -68,7 +65,7 @@ export const createFolder = async (currentDir, dirName) => {
     }
     console.log(currentDir, dirName)
         try {
-            const response = await axios.post(`${url}/api/files`,
+            const response = await axios.post(`${API_URL}/api/files`,
                 {
                     name,
                     type: 'dir',
@@ -87,7 +84,7 @@ export const uploadFile = async (file, dirId) => {
         const formData = new FormData()
         formData.append("file", file)
         formData.append("parent", dirId)
-        const response = await axios.post(`${url}/api/files/upload?name=${file.name}`, formData, {
+        const response = await axios.post(`${API_URL}/api/files/upload?name=${file.name}`, formData, {
             onUploadProgress: progressEvent => {
                 UploadStore.setProgress(fileId, progressEvent)
             }
@@ -106,7 +103,7 @@ export const uploadFile = async (file, dirId) => {
 
 export async function downloadFile(file) {
     try {
-        return await fetch(`${url}/api/files/download?id=${file.id}`, {
+        return await fetch(`${API_URL}/api/files/download?id=${file.id}`, {
             headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
         })
     } catch (e) {
@@ -115,7 +112,7 @@ export async function downloadFile(file) {
 }
 export async function downloadGeneralFile(file) {
     try {
-        return await fetch(`${url}/api/files/share/download?id=${file.id}`, {
+        return await fetch(`${API_URL}/api/files/share/download?id=${file.id}`, {
             headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
         })
     } catch (e) {
@@ -125,7 +122,7 @@ export async function downloadGeneralFile(file) {
 
 export async function deleteFile (file) {
     try {
-        const response = await axios.delete(`${url}/api/files/delete?id=${file.id}`)
+        const response = await axios.delete(`${API_URL}/api/files/delete?id=${file.id}`)
         if(response.status === 200) {
             notification.clientMessage("Файл удален","pass")
             console.log(file)
@@ -141,7 +138,7 @@ export async function renameFile (file, name) {
         return console.error("rename fail")
     }
     try {
-        return await axios.put(`${url}/api/files/rename?id=${file.id}&name=${name}`, "")
+        return await axios.put(`${API_URL}/api/files/rename?id=${file.id}&name=${name}`, "")
     } catch (e) {
         console.log(e)
     }
@@ -150,7 +147,7 @@ export async function renameFile (file, name) {
 export async function searchFile (name) {
     Loader.setLoader(true)
     try {
-        const files = await axios.get(`${url}/api/files/search?name=${name}`)
+        const files = await axios.get(`${API_URL}/api/files/search?name=${name}`)
         FileController.setFiles(files.data)
     } catch (e) {
         console.log(e)
@@ -161,7 +158,7 @@ export async function searchFile (name) {
 export async function getFolderPath (id) {
     if(id !== -1 && id !== undefined) {
         try {
-            const response = await axios.get(`${url}/api/files/folderPath?currentDirId=${id}`);
+            const response = await axios.get(`${API_URL}/api/files/folderPath?currentDirId=${id}`);
             FilePath.setPath(response.data)
         } catch (e) {
             console.log(e);
@@ -171,7 +168,7 @@ export async function getFolderPath (id) {
 
 export async function setAccessLink (fileId) {
     try {
-        return await axios.post(`${url}/api/files/setLink`, {
+        return await axios.post(`${API_URL}/api/files/setLink`, {
             fileId
         });
     } catch (e) {
@@ -180,7 +177,7 @@ export async function setAccessLink (fileId) {
 }
 export async function removeAccessLink (fileId) {
     try {
-        return await axios.post(`${url}/api/files/removeLink`, {
+        return await axios.post(`${API_URL}/api/files/removeLink`, {
             fileId
         });
     } catch (e) {
@@ -190,7 +187,7 @@ export async function removeAccessLink (fileId) {
 
 export async function generalFiles(link) {
     try {
-        return await axios.post(`${url}/api/files/generalFiles`, {
+        return await axios.post(`${API_URL}/api/files/generalFiles`, {
             link
         });
     } catch (e) {

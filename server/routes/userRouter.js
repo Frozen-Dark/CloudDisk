@@ -4,7 +4,6 @@ const userController = require ('../controllers/userController');
 const authMiddleware = require('../middleware/authMiddleware');
 const {body} = require("express-validator");
 
-
 router.post("/registration", userController.registration);
 router.post("/login", userController.login);
 router.post("/logout", userController.logout);
@@ -15,10 +14,5 @@ router.get("/activate/:link", userController.activate);
 router.get("/checkName", userController.checkName);
 router.get("/refresh",  userController.refresh);
 router.get("/authorization", authMiddleware, userController.authorization);
-
-
-
-
-
 
 module.exports = router;

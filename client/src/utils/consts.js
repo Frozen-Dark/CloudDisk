@@ -3,12 +3,13 @@ import FileController from "../store/FileController";
 
 export const LOGIN_ROUTE = '/login'
 export const REGISTRATION_ROUTE = '/registration'
-export const DISK_ROUTE = '/disk'
-export const HOME_ROUTE = '/home'
-export const SETTINGS_ROUTE = '/settings'
-export const SHARE_ROUTE = '/share'
-export const STATIC_PATH = 'http://localhost:5000/'
-export const CLIENT_URL = 'http://localhost:3000'
+export const DISK_ROUTE = '/disk';
+export const HOME_ROUTE = '/home';
+export const SETTINGS_ROUTE = '/settings';
+export const SHARE_ROUTE = '/share';
+export const STATIC_PATH = 'http://192.168.0.12:5000/';
+export const API_URL = 'http://192.168.0.12:5000';
+export const CLIENT_URL = 'http://192.168.0.12:3000';
 
 export const getImage = (type) => {
     let icon
@@ -61,7 +62,7 @@ export const getDate = (date) =>{
 
     time[0] = MoscowTime(Number(time[0]))
     time = time.join(":")
-    const day = acc.pop().split("-").reverse().join(".")
+    const day = acc.pop().split("-").reverse().join(".").slice(0, 5)
     return {time, day}
 }
 

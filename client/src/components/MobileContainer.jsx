@@ -31,12 +31,11 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
     return (
         <div className={classes.oneMain}>
 
+
             {
             FileController.fileList === "false" ?
                 <section className={classes.files} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
-                    <div className={classes.nav__mobile}>
-                        <PathList/>
-                    </div>
+
 
                     <div className={classes.container}>
                         {files.map((file) => <FileFrame openDirHandler={openDirHandler} key={file.id} file={file} />)}
@@ -44,14 +43,19 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
                 </section>
             :
                 <section className={classes.list__files} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
-                    <PathList/>
-                    <div className={classes.list__header}>
-                        <div className={classes.list__name}>Название</div>
-                        <div className={classes.list__change}>Последнее изменение</div>
-                        <div className={classes.list__type}>Тип</div>
-                        <div className={classes.list__size}>Размер файла</div>
+                    <div className={classes.container__header}>
+                        <PathList/>
+
+                        <div className={classes.list__header}>
+                            <div className={classes.list__name}>Название</div>
+                            <div className={classes.list__change}>Последнее изменение</div>
+                            <div className={classes.list__type}>Тип</div>
+                            <div className={classes.list__size}>Размер файла</div>
+                        </div>
                     </div>
-                    <Files openDirHandler={openDirHandler} files={files}/>
+                    <div className={classes.file__container}>
+                        <Files openDirHandler={openDirHandler} files={files}/>
+                    </div>
                 </section>
             }
         </div>

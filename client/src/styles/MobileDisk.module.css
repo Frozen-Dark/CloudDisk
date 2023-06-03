@@ -1,6 +1,7 @@
 .mobilePage {
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
 }
 
 .selectFormat {
@@ -33,7 +34,6 @@
     width: 115px;
     margin: 20px 0;
     display: flex;
-
 }
 
 .selectWrapper img {

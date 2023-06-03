@@ -17,11 +17,7 @@
     cursor: pointer;
     animation: path_left_append 0.1s;
 }
-@media screen and (max-width: 600px) {
-    .disk_path_component {
-        font-size: 20px;
-    }
-}
+
 @keyframes path_left_append {
     0% {
         opacity: 0;
@@ -30,5 +26,12 @@
     100% {
         opacity: 1;
         transform: translateX(0px);
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .disk_path_component {
+        font-size: 20px;
+        margin-left: 5px;
     }
 }

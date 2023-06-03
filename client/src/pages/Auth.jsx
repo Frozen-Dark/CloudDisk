@@ -62,8 +62,8 @@ const Auth = () => {
     return (
         <form className={classes.container}>
             {isLogin ?
-                <div className="form">
-                    <h2>Вход</h2>
+                <div>
+                    <h2 className={classes.form__title}>Вход</h2>
 
                     <input className={classes.authInput}
                            value={email.value}
@@ -98,7 +98,7 @@ const Auth = () => {
                 </div>
                 :
                 <div className="form">
-                    <h2>Регистрация</h2>
+                    <h2 className={classes.form__title}>Регистрация</h2>
                     <input className={classes.authInput}
                            value={email.value}
                            onChange={e => email.onChange(e)}
