@@ -47,7 +47,6 @@ export const getFiles = async (dirId) => {
             FileController.setFiles(files);
             FileController.setCurrentDir(dirId);
             FileController.setParentDir(parentDir);
-            localStorage.setItem("lastDir", dirId);
             FilePath.setCurrentDir(dirId)
             return response;
         } catch (e) {

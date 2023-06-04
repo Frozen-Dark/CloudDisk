@@ -10,6 +10,7 @@
     --main-text-color: #C5C5C5;
     --ui-text-color: #18A0FB;
     --ui-bg-color: #18A0FB;
+    --main-blur-bg: rgba(0, 0, 0, .2);
 
     --path-text-color: #E3E3E3;
 
@@ -17,7 +18,7 @@
     --fileContainer-text-color: #E3E3E3;
     --file-border-color: #414141;
     --file-bg-color-hover: #34373F;
-   --header-bg-color: #353535;
+    --header-bg-color: #353535;
     --header-bg-color-hover: #34373F;
 
     --userMenu-body-bg-color: #313131;
@@ -42,6 +43,14 @@
     --drag-drop-text-color: #E3E3E3;
 
     --notFound-text-color: #E3E3E3;
+
+    --settingsList-text-color: #E3E3E3;
+    --settingsList-bg-color: #353535;
+    --settingsList-border-color: #555555;
+
+    --infoModal-text-color: #E3E3E3;
+    --infoModal-second-text-color: #B1B1B1;
+    --infoModal-bg-color: #353535;
 }
 
 * {

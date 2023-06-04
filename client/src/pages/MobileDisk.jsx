@@ -88,10 +88,8 @@ const MobileDisk = () => {
             <Notification/>
 
             <DevPanel/>
-
         </div>
-
-);
+    );
 };
 
 export default observer(MobileDisk);

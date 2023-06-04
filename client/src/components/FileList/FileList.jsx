@@ -18,7 +18,7 @@ const FileList = ({file, openInfo, downloadFileHandler, openDirHandler}) => {
                     <img className={classes.file__image} src={icon} draggable="false" onClick={() => openDirHandler(file)} alt="Иконка"/>
                 </div>
                 <div className={classes.file__name}>{file.name}</div>
-                <div className={classes.file__date}>{updateTime.day} в {updateTime.time}</div>
+                <div className={classes.file__date}>{(updateTime.day).slice(0, 5)} в {updateTime.time}</div>
                 <div className={classes.file__type}>Папка</div>
                 <div className={classes.file__size}>
                     <div>
@@ -41,7 +41,7 @@ const FileList = ({file, openInfo, downloadFileHandler, openDirHandler}) => {
             <div className={classes.file__name}>
                 <p className={classes.file__name__text}>{file.name}</p>
             </div>
-            <div className={classes.file__date}>{(updateTime.day)} в {updateTime.time}</div>
+            <div className={classes.file__date}>{(updateTime.day).slice(0, 5)} в {updateTime.time}</div>
             <div className={classes.file__type}>{file.type}</div>
             <div className={classes.file__size}>
             <div>{normalizeSize(file.size)}</div>

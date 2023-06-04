@@ -62,7 +62,7 @@ export const getDate = (date) =>{
 
     time[0] = MoscowTime(Number(time[0]))
     time = time.join(":")
-    const day = acc.pop().split("-").reverse().join(".").slice(0, 5)
+    const day = acc.pop().split("-").reverse().join(".");
     return {time, day}
 }
 

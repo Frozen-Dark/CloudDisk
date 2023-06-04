@@ -10,10 +10,10 @@ const cors = require("cors")
 const cookieParser = require('cookie-parser')
 const {config} = require("dotenv");
 
+
 const app = express();
 app.use(express.json());
-app.use(express.static(`${process.env.STATICPATH}`));
-
+app.use(express.static(`${__dirname}\\data\\static`));
 
 app.use(cookieParser());
 app.use(corsMiddleware);
@@ -24,7 +24,6 @@ app.use(cors({
 app.use(fileUpload({}));
 app.use('/api', router);
 
-
 app.use(errorMiddleware);
 
 const start = async () => {
@@ -32,6 +31,8 @@ const start = async () => {
         await sequelize.authenticate() // Подключаеться к бд
         await sequelize.sync() // Сверяет состояние бд с схемой данных
         app.listen(PORT, () => console.log(`Сервер запущен на порте: ${PORT}`))
+        console.log(__dirname)
+
     } catch (e) {
         console.log(e)
     }
