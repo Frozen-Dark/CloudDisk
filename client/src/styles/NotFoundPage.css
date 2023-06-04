@@ -1,6 +1,6 @@
 .NotFound_container {
     display: block;
-    color: #C5C5C5;
+    color: var(--notFound-text-color);
     width: 100%;
     max-width: 410px;
     height: 200px;
@@ -22,8 +22,8 @@
     max-width: 410px;
     height: 40px;
     border: none;
-    background-color: #18A0FB;
-    color: white;
+    background-color: var(--ui-bg-color);
+    color: var(--notFound-text-color);
     border-radius: 7px;
     filter: drop-shadow(0px 0px 4px rgba(24, 160, 251, .2));
 }

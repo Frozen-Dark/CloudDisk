@@ -9,10 +9,9 @@
     display: flex;
     align-items: center;
 
-    background-color: #34373F;
-    transition: .2s;
+    background-color: var(--query-bg-color);
+    transition: var(--main-anim-delay);
 }
-
 
 .sideSettings {
     height: 32px;
@@ -25,11 +24,11 @@
     width: 100%;
     border: none;
     background: transparent;
-    color: #E3E3E3;
-    font-size: 18px;
+    color: var(--query-text-color);
+    font-size: var(--query-text-size);
     outline: none;
 }
 .query_focus {
-   background-color: #363b48;
+   background-color: var(--query-bg-focus-color);
 }
 
