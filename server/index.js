@@ -28,11 +28,9 @@ app.use(errorMiddleware);
 
 const start = async () => {
     try {
-        await sequelize.authenticate() // Подключаеться к бд
-        await sequelize.sync() // Сверяет состояние бд с схемой данных
-        app.listen(PORT, () => console.log(`Сервер запущен на порте: ${PORT}`))
-        console.log(__dirname)
-
+        await sequelize.authenticate(); // Подключаеться к бд
+        await sequelize.sync(); // Сверяет состояние бд с схемой данных
+        app.listen(PORT, () => console.log(`Сервер запущен на порте: ${PORT}`));
     } catch (e) {
         console.log(e)
     }

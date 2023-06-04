@@ -1,6 +1,8 @@
 .idea/
 Pass.png
-Cloud_disk.drawio
+Cloud_disk.drawioS
 server/.env
 server/node_modules/
+server/data/static
+server/data/usersStorage
 client/node_modules/
