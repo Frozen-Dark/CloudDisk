@@ -19,5 +19,6 @@ router.get('/search', authMiddleware, fileController.searchFile)
 router.get('/folderPath', authMiddleware, fileController.getPath)
 router.delete('/delete', authMiddleware, fileController.deleteFile)
 router.put('/rename', authMiddleware, fileController.renameFile)
+router.put('/renameFolder', fileController.renameFolder)
 
 module.exports = router

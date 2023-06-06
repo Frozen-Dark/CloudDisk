@@ -121,9 +121,7 @@ class UserService {
         if(!isPassEquals) {
             throw new ApiError(206, 'Неккоректный пароль');
         }
-        let userDto;
-        userDto = new UserDto(user);
-        return userDto;
+        return user;
     }
 
     async changePassword(userData, newPassword) {

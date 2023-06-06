@@ -3,14 +3,13 @@ const fileService = require('../services/fileService')
 const accessService = require('../services/accessService')
 const {where} = require("sequelize");
 const fs = require("fs");
-const {config} = require("dotenv");
 const ApiError = require("../exceptions/ApiError");
-require('dotenv').config()
 const Uuid = require("uuid")
 const model = require("../models/models");
 const sharp = require("sharp");
 const UserDto = require("../dtos/user-dto");
 const uuid = require("uuid");
+const {STATIC_PATH, FILE_PATH} = require("../consts")
 
 
 class FileController {
@@ -30,15 +29,14 @@ class FileController {
 
             let name = Uuid.v4() + ".jpg";
             if (User.avatar) {
-                fs.unlinkSync(process.env.STATICPATH + "\\" + User.avatar);
+                fs.unlinkSync(STATIC_PATH + "\\" + User.avatar);
             }
 
             await sharp(avatar.data)
                 .resize(200, 200)
-                .toFile(`${process.env.STATICPATH}\\${name}`);
+                .toFile(`${STATIC_PATH}\\${name}`);
             User.avatar = name;
             const userDto = new UserDto(User)
-            console.log(userDto)
             await User.save();
 
             return res.json(userDto);
@@ -101,9 +99,7 @@ class FileController {
     // }
 
     async createDir(req, res) {
-        console.log(req.body)
         try {
-
             const {name, type, parent} = req.body
             const file = new File({name, type, parent, userId: req.user.id})
 
@@ -130,15 +126,7 @@ class FileController {
         try {
 
             const files = await
-                File.findAll(
-                    {
-                        where:
-                            {
-                                userId: req.user.id,
-                                parent: req.query.parent
-                            }
-                    }
-                );
+                File.findAll({where: {userId: req.user.id, parent: req.query.parent} });
 
             // const preview = fileService.preview();
             const preview = {}
@@ -195,10 +183,10 @@ class FileController {
                 path = `${parent.path}\\${fileName}`;
             }
 
-            if (fs.existsSync(`${process.env.FILEPATH}\\${user.id}\\${path}`)) {
+            if (fs.existsSync(`${FILE_PATH}\\${user.id}\\${path}`)) {
                 return res.status(400).json({message: "Файл уже существует"});
             }
-            await file.mv(`${process.env.FILEPATH}\\${user.id}\\${path}`);
+            await file.mv(`${FILE_PATH}\\${user.id}\\${path}`);
 
             // if(type === "jpg") {
             //     sharpObj = await fileService.createPreview(req.user.id, file, parent.path)
@@ -244,7 +232,7 @@ class FileController {
         try {
             const file = await File.findOne({where: {id: req.query.id, userId: req.user.id}})
 
-            const path = `${process.env.FILEPATH}\\${req.user.id}\\${file.path}`
+            const path = `${FILE_PATH}\\${req.user.id}\\${file.path}`
 
             if (fs.existsSync(path)) {
                 return res.download(path, file.name + file.type)
@@ -290,15 +278,68 @@ class FileController {
                 } else {
                     path = path[0]
                 }
-                file.path = `${path}\\${req.query.name}.${file.type}`
+                if(file.type === 'dir') {
+                    file.path = `${path}\\${req.query.name}`
+                } else {
+                    file.path = `${path}\\${req.query.name}.${file.type}`
+                }
             } else {
-                file.path = `${req.query.name}.${file.type}`
+                if(file.type === 'dir') {
+                    file.path = `${req.query.name}`
+                } else {
+                    file.path = `${req.query.name}.${file.type}`
+                }
             }
-            await fileService.renameFile(file, oldFilePath)
+            await fileService.renameFile(oldFilePath, file.path, file.userId)
             file.save()
             return res.json({message: "Файл был переименован"})
         } catch (e) {
             console.log(e)
+            return res.status(400).json({message: "Ошибка переименования"})
+        }
+    }
+
+    async renameFolder(req, res) {
+        try {
+            const dir = await File.findOne({where: {id: req.query.id} })
+            dir.name = req.query.name;
+            const oldPath = dir.path;
+
+            let path;
+
+            if(dir.parent === -1) {
+                path = dir.name
+            } else {
+                path = dir.path.split("\\");
+                path.pop();
+            }
+            dir.path = path;
+            await fileService.renameFile(oldPath, path, dir.userId);
+
+            if(dir.childs.length >= 1) {
+                const stack = [...dir.childs]
+                const dirStack = [];
+
+                while(stack.length >= 1) {
+                    const childId = stack.pop()
+                    const child = await File.findOne({where: {id: childId} })
+                    if(child.type === 'dir') {
+                        child.path = `${dir.name}\\${child.name}`;
+                        dirStack.push(child.id)
+                        child.save();
+                        continue;
+                    }
+                    child.path = `${dir.name}\\${child.name}.${child.type}`;
+                    child.save();
+                }
+
+            }
+
+            dir.save();
+
+            return res.json({childs: dir.childs, length: dir.childs.length})
+
+        } catch (e) {
             return res.status(400).json({message: "Ошибка переименования"})
         }
     }
@@ -379,7 +420,7 @@ class FileController {
     async downloadGeneralFile(req, res) {
         try {
             const file = await File.findOne({where: {id: req.query.id}})
-            const path = `${process.env.FILEPATH}\\${file.userId}\\${file.path}`
+            const path = `${FILE_PATH}\\${file.userId}\\${file.path}`
             const parent = await File.findOne({where: {id: file.parent}})
             if (!parent.access_link) {
                 return res.status(206).json({message: "downloadGeneralFile"})

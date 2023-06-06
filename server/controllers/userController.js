@@ -1,6 +1,7 @@
 const userService = require("../services/userService")
 const {validationResult} = require("express-validator")
 const ApiError = require("../exceptions/apiError")
+const UserDto = require("../dtos/user-dto");
 
 class UserController {
 
@@ -44,8 +45,9 @@ class UserController {
             if(!password || !userData) {
                 return res.status(206).json({message: 'verify Error'});
             }
-            const UserDto = await userService.verifyPassword(userData, password);
-            return res.status(200).json(UserDto);
+            const user = await userService.verifyPassword(userData, password);
+            const userDto = new UserDto(user);
+            return res.status(200).json(userDto);
         } catch (e) {
             next(e);
         }

@@ -1,24 +1,23 @@
 const fs = require('fs')
 const model = require('../models/models')
-const {config} = require("dotenv");
 const sharp = require("sharp");
 const {User, File} = require("../models/models");
 const ApiError = require("../exceptions/ApiError");
 const Uuid = require("uuid");
-require('dotenv').config()
+const {STATIC_PATH, FILE_PATH} = require("../consts")
+
 
 
 
 class FileService {
 
     getPath(file) {
+        let filePath;
         if(file.path.length > 0) {
-            // const previewPath = `${process.env.PREVIEWPATH}\\${file.userId}\\${file.path}`
-            const filePath = `${process.env.FILEPATH}\\${file.userId}\\${file.path}`
-            return {filePath}
+             filePath = `${FILE_PATH}\\${file.userId}\\${file.path}`
+        } else {
+            filePath = `${FILE_PATH}\\${file.userId}`
         }
-        const previewPath = `${process.env.PREVIEWPATH}\\${file.userId}`
-        const filePath = `${process.env.FILEPATH}\\${file.userId}`
         return {filePath}
     }
     //
@@ -51,7 +50,6 @@ class FileService {
 
     createDir(file) {
         const {filePath, previewPath} = this.getPath(file)
-        console.log("Path")
         return new Promise(((resolve, reject) => {
             try {
                 if(!fs.existsSync(filePath)){
@@ -73,7 +71,7 @@ class FileService {
 
         return new Promise(((resolve, reject) => {
             try {
-                fs.mkdirSync(process.env.STATICPATH + "\\" + userId)
+                fs.mkdirSync(STATIC_PATH + "\\" + userId)
                 fs.mkdirSync(previewPath)
                 return resolve({message: "Папки созданы"})
             } catch (e) {
@@ -82,17 +80,17 @@ class FileService {
         }))
     }
 
-    renameFile(file, oldFilePath) {
-        const filePath = `${process.env.FILEPATH}\\${file.userId}\\${oldFilePath}`
-        const newPath = `${process.env.FILEPATH}\\${file.userId}\\${file.path}`
+    renameFile(oldPath, newPath, userId) {
+        const dirPath = `${FILE_PATH}\\${userId}\\${oldPath}`
+        const path = `${FILE_PATH}\\${userId}\\${newPath}`
 
         return new Promise(((resolve, reject) => {
             try {
-                if(!fs.existsSync(newPath)) {
-                    fs.renameSync(filePath, newPath)
+                if(!fs.existsSync(path)) {
+                    fs.renameSync(dirPath, path)
                     return resolve({message: 'Файл переименован'})
                 } else {
-                    return resolve({message: 'Ошибка при переименовании'})
+                    return resolve({message: 'Файл с таким именем уже существует'})
                 }
             } catch (e) {
                 return reject({message: "Rename exceptions", err: e})

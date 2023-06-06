@@ -9,11 +9,13 @@ const corsMiddleware = require("./middleware/cors.middleware")
 const cors = require("cors")
 const cookieParser = require('cookie-parser')
 const {config} = require("dotenv");
+const {static} = require("express");
+const {STATIC_PATH} = require("./consts")
 
 
 const app = express();
 app.use(express.json());
-app.use(express.static(`${__dirname}\\data\\static`));
+app.use(static(STATIC_PATH))
 
 app.use(cookieParser());
 app.use(corsMiddleware);
@@ -36,3 +38,4 @@ const start = async () => {
     }
 }
 start()
+
