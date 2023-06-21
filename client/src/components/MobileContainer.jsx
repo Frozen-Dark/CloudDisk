@@ -9,6 +9,7 @@ import {useSearchParams} from "react-router-dom";
 import {getFiles} from "../actions/file";
 import PathList from "./Path/PathList";
 import PathSelect from "./Path/PathSelect";
+import Chose from "../store/Chose";
 
 
 const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
@@ -18,6 +19,10 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
     function setQueryPath(file) {
         let path = file.path.replace(/\\/g, '_');
         setSearchParams({path: path});
+    }
+    function choseHandler() {
+        console.log("MobileContainer")
+        Chose.setCurrentComponent('MobileContainer')
     }
     async function openDirHandler(file) {
         if (file.type === "dir") {
@@ -33,7 +38,7 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
     }
 
     return (
-        <div className={classes.oneMain}>
+        <div onClick={choseHandler} className={classes.oneMain}>
         {
             FileController.fileList === "false" ?
                 <section className={classes.files} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>

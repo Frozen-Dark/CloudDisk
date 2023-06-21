@@ -8,8 +8,8 @@ import {STATIC_PATH} from "../../utils/consts";
 
 const PathList = () => {
     const [searchParams, setSearchParams] = useSearchParams();
+    const chevron = STATIC_PATH + "svg/chevron.svg";
 
-    const chevron = STATIC_PATH + "svg/chevron.svg"
 
     function setQuery() {
         const file = FileController.parentDir;

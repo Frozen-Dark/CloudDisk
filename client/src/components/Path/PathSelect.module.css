@@ -21,34 +21,124 @@
 }
 
 .select {
-    width: 300px;
+    width: 40px;
+    position: relative;
+    z-index: 10;
+}
+
+.select.is_active .select__current{
+    background-color: #004A77;
+}
+.select.is_active .select__body {
+    display: block;
 }
 
 .select__header {
+    background-color: var(--path-bg-color);
     display: flex;
+    justify-content: space-between;
 
     color: var(--path-text-color);
     font-size: var(--path-text-size);
-    border: 1px solid var(--path-border-color);
 }
 
 .select__current {
-
-}
-
-.select__icon {
-    flex-shrink: 0;
+    cursor: pointer;
     height: 40px;
     width: 40px;
+    border-radius: 20px;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.select__current:hover {
+    background-color: #004A77;
+}
+.select__current img {
+    user-select: none;
+    height: 20px;
+    transform: rotate(90deg);
+}
+.select__icon {
+    user-select: none;
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 0;
 }
 
 .select__body {
+    width: 300px;
+    background-color: var(--path-bg-color);
+    padding: 10px 0 10px 0;
+    display: none;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+
+    border: 1px solid var(--path-border-color);
+    border-radius: 10px;
+
     color: var(--path-text-color);
     font-size: var(--path-text-size);
+
+    animation: select_wake .3s;
+    animation-fill-mode: forwards;
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.2);
 }
 
 .select__item {
+    user-select: none;
     line-height: 24px;
     padding: 8px;
     cursor: pointer;
+}
+.select__item:hover {
+    background-color: var(--path-bg-color-hover);
+}
+
+@keyframes select_wake {
+    0% {
+        transform: translateY(-10px);
+        opacity: 0;
+        padding: 5px 0 0 0;
+
+    }
+
+    50% {
+        opacity: 1;
+
+    }
+
+    100% {
+        padding: 10px 0 10px 0;
+        transform: translateY(0);
+    }
+}
+
+@keyframes select_hide {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+        padding: 10px 0 10px 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        padding: 10px 0 0 0;
+        transform: translateY(0);
+        display: none;
+    }
 }

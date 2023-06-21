@@ -15,7 +15,6 @@ const Notification = () => {
                     <div style={{width:`${notification.message.length * 8 + 100}px`}}
                          className={notification.animation ? classes.showNotification : classes.hideNotification}>
 
-
                         {notification.status ?
                             <>
                                 <img className={classes.image} src={pass} alt=""/>
@@ -27,10 +26,8 @@ const Notification = () => {
                                 <p className={classes.failText}>{notification.message}</p>
                             </>
                         }
-
                     </div>
                 }
-
             </div>
         )
 };

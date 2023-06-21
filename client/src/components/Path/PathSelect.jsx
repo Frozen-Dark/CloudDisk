@@ -1,14 +1,36 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import classes from "./PathSelect.module.css"
 import {useSearchParams} from "react-router-dom";
 import FileController from "../../store/FileController";
 import {STATIC_PATH} from "../../utils/consts";
 import FilePath from "../../store/FilePath";
+import Chose from "../../store/Chose";
+import {observer} from "mobx-react";
 
 const PathSelect = () => {
     const [searchParams, setSearchParams] = useSearchParams();
+    const [selectIsActive, setSelectIsActive] = useState(false);
 
-    const cancel = STATIC_PATH + "svg/cancel.svg"
+    function switchSelectClassHandler(state = true) {
+        if(state === false) {
+            return setSelectIsActive(false)
+        }
+        setSelectIsActive(!selectIsActive);
+    }
+
+    useEffect(() => {
+        if(Chose.currentComponent.name !== "PathSelect") {
+            switchSelectClassHandler(false);
+        }
+    }, [Chose.currentComponent.name]);
+
+    function choseHandler(e) {
+        e.stopPropagation();
+        console.log("PathSelect");
+        Chose.setCurrentComponent('PathSelect');
+    }
+
+    const dots = STATIC_PATH + "svg/dots.svg";
 
     function setQuery() {
         const file = FileController.parentDir;
@@ -26,20 +48,25 @@ const PathSelect = () => {
     }, [FileController.parentDir.path])
 
     return (
-        <div className={classes.select}>
-            <div className={classes.select__header}>
-                <span className={classes.select__current}>Value 1</span>
-                <div className={classes.select__icon}>
-                    <img src={cancel} alt="X"/>
-                </div>
+        <div onClick={(e) => choseHandler(e)} className={selectIsActive? classes.select + " " + classes.is_active : classes.select}>
+            <div onClick={switchSelectClassHandler} className={classes.select__header}>
+                <span className={classes.select__current}>
+                    <img draggable={false} src={dots} alt="..."/>
+                </span>
             </div>
 
             <div className={classes.select__body}>
-                <div className={classes.select__item}>Value 1</div>
-                <div className={classes.select__item}>Value 2</div>
-                <div className={classes.select__item}>Value 3</div>
-                <div className={classes.select__item}>Value 4</div>
-                <div className={classes.select__item}>Value 5</div>
+
+                <div className={classes.select__item} onClick={() => FilePath.moveTo(-1)}>Мой диск</div>
+                {
+                    selectIsActive && FilePath.diskPath.map((elem) =>
+                        <div
+                            className={classes.select__item}
+                            onClick={() => FilePath.moveTo(elem.id)}
+                            key={elem.id}>
+                            {elem.path}
+                        </div>)
+                }
             </div>
         </div>
 
@@ -58,4 +85,4 @@ const PathSelect = () => {
     );
 };
 
-export default PathSelect;
+export default observer(PathSelect);
