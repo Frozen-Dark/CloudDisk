@@ -7,10 +7,8 @@ class FilePath {
         makeAutoObservable(this)
     }
     currentDir = {};
-    parentDir = {path: ''}; // parent File
-    queryPath = {path: ''};
 
-    diskPath = [{id: -1, path: 'Мой диск'},];
+    diskPath = [];
 
     pushDiskPath(object) {
         if(!object.path || !object.id) {
@@ -23,20 +21,6 @@ class FilePath {
         this.currentDir = dir;
     }
 
-    setParentDir(parent) {
-        if(!parent.path) {
-            return;
-        }
-        this.parentDir = parent;
-    }
-
-    setQueryPath(parent) {
-        if(!parent.path) {
-            return;
-        }
-        this.queryPath = parent.path;
-    }
-
     setPath(folders) {
         folders.map((folder) => {
             this.pushDiskPath({id: folder.id, path: folder.name})
@@ -44,12 +28,11 @@ class FilePath {
     }
 
     moveTo(id) {
-        if(id === -1 && this.diskPath.length > 1) {
-            this.diskPath = [{id: -1, path: "Мой диск"}];
+        if(id === -1) {
+            this.diskPath = [];
             return getFiles(id);
         }
         const nowFolderId = FileController.currentDir;
-        console.log(id, nowFolderId)
         if(id === nowFolderId) {
             return;
         }

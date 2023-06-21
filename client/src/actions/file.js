@@ -11,12 +11,12 @@ import FilePath from "../store/FilePath";
 function checkName(name, type) {
     if(name.length === 0) {
         notification.clientMessage("Имя не указано", "Fail")
-        return false
+        return false;
     }
     for(let file of FileController.files) {
         if(file.name === name && file.type === type) {
             notification.clientMessage("Файл с таким именем уже существует", "Fail")
-            return false
+            return false;
         }
     }
 }
@@ -124,7 +124,6 @@ export async function deleteFile (file) {
         const response = await axios.delete(`${API_URL}/api/files/delete?id=${file.id}`)
         if(response.status === 200) {
             notification.clientMessage("Файл удален","pass")
-            console.log(file)
             FileController.cutFile(file.id)
         }
     } catch (e) {

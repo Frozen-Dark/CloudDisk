@@ -4,9 +4,12 @@ import {useSearchParams} from "react-router-dom";
 import classes from "./PathList.module.css";
 import FilePath from "../../store/FilePath";
 import {observer} from "mobx-react";
+import {STATIC_PATH} from "../../utils/consts";
 
 const PathList = () => {
     const [searchParams, setSearchParams] = useSearchParams();
+
+    const chevron = STATIC_PATH + "svg/chevron.svg"
 
     function setQuery() {
         const file = FileController.parentDir;
@@ -23,11 +26,21 @@ const PathList = () => {
     }, [FileController.parentDir.path])
 
     return (
-
         <div className={classes.pathList}>
             <ul className={classes.disk_path_list}>
+                <li className={classes.disk_main_path_component} onClick={() => FilePath.moveTo(-1)}>Мой диск</li>
                 {
-                    FilePath.diskPath.map((elem) => <li className={classes.disk_path_component} onClick={() => FilePath.moveTo(elem.id)} key={elem.id}>{elem.path}</li>)
+                    FilePath.diskPath.map((elem) => <li
+                        className={classes.disk_path_component}
+                        onClick={() => FilePath.moveTo(elem.id)} key={elem.id}>
+
+                        {/*<img className={classes.disk_path_separator}*/}
+                        {/*     src={chevron}*/}
+                        {/*     alt=">"*/}
+                        {/*/>*/}
+
+                        {elem.path}</li>
+                    )
                 }
             </ul>
         </div>

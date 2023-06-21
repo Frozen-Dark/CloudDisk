@@ -13,6 +13,8 @@
     --main-blur-bg: rgba(0, 0, 0, .2);
 
     --path-text-color: #E3E3E3;
+    --path-text-size: 22px;
+    --path-border-color: #414141;
 
     --fileContainer-bg-color: #353535;
     --fileContainer-text-color: #E3E3E3;

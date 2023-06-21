@@ -1,0 +1,54 @@
+.query {
+
+}
+
+.list {
+    list-style: none;
+}
+
+.folders__list {
+    width: 300px;
+    border: 1px solid gray;
+    padding-bottom: 10px;
+}
+
+.list__item {
+    margin: 10px 0 0 10px;
+
+    color: var(--path-text-color);
+    font-size: var(--path-text-size);
+    cursor: pointer;
+}
+
+.select {
+    width: 300px;
+}
+
+.select__header {
+    display: flex;
+
+    color: var(--path-text-color);
+    font-size: var(--path-text-size);
+    border: 1px solid var(--path-border-color);
+}
+
+.select__current {
+
+}
+
+.select__icon {
+    flex-shrink: 0;
+    height: 40px;
+    width: 40px;
+}
+
+.select__body {
+    color: var(--path-text-color);
+    font-size: var(--path-text-size);
+}
+
+.select__item {
+    line-height: 24px;
+    padding: 8px;
+    cursor: pointer;
+}

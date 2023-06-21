@@ -75,6 +75,9 @@
     border-bottom: 1px solid var(--file-border-color);
 }
 
+.list__name, .list__change, .list__type, .list__size {
+    cursor: pointer;
+}
 .list__name {
     position: relative;
     right: 55px;

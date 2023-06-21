@@ -7,7 +7,8 @@ import FilePath from "../store/FilePath";
 import Files from "./Files/Files";
 import {useSearchParams} from "react-router-dom";
 import {getFiles} from "../actions/file";
-import PathList from "./PathList/PathList";
+import PathList from "./Path/PathList";
+import PathSelect from "./Path/PathSelect";
 
 
 const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
@@ -18,7 +19,7 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
         let path = file.path.replace(/\\/g, '_');
         setSearchParams({path: path});
     }
-    const openDirHandler = async (file) => {
+    async function openDirHandler(file) {
         if (file.type === "dir") {
             const response = await getFiles(file.id);
             if(response.status === 200) {
@@ -27,15 +28,15 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
             }
         }
     }
+    function sortValueHandler(value) {
+        FileController.setSortValue(value);
+    }
 
     return (
         <div className={classes.oneMain}>
-
-
-            {
+        {
             FileController.fileList === "false" ?
                 <section className={classes.files} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
-
 
                     <div className={classes.container}>
                         {files.map((file) => <FileFrame openDirHandler={openDirHandler} key={file.id} file={file} />)}
@@ -45,22 +46,20 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
                 <section className={classes.list__files} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
                     <div className={classes.container__header}>
                         <PathList/>
-
+                        <PathSelect/>
                         <div className={classes.list__header}>
-                            <div className={classes.list__name}>Название</div>
-                            <div className={classes.list__change}>Последнее изменение</div>
-                            <div className={classes.list__type}>Тип</div>
-                            <div className={classes.list__size}>Размер файла</div>
+                            <div onClick={() => sortValueHandler("name")} className={classes.list__name}>Название</div>
+                            <div onClick={() => sortValueHandler("date")} className={classes.list__change}>Последнее изменение</div>
+                            <div onClick={() => sortValueHandler("type")} className={classes.list__type}>Тип</div>
+                            <div onClick={() => sortValueHandler("size")} className={classes.list__size}>Размер файла</div>
                         </div>
                     </div>
                     <div className={classes.file__container}>
                         <Files openDirHandler={openDirHandler} files={files}/>
                     </div>
                 </section>
-            }
+        }
         </div>
-
-
     );
 };
 

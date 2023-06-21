@@ -7,9 +7,9 @@ export const DISK_ROUTE = '/disk';
 export const HOME_ROUTE = '/home';
 export const SETTINGS_ROUTE = '/settings';
 export const SHARE_ROUTE = '/share';
-export const STATIC_PATH = 'http://192.168.0.12:5000/';
-export const API_URL = 'http://192.168.0.12:5000';
-export const CLIENT_URL = 'http://192.168.0.12:3000';
+export const STATIC_PATH = 'http://192.168.59.54:5000/';
+export const API_URL = 'http://192.168.59.54:5000';
+export const CLIENT_URL = 'http://192.168.59.54:3000';
 
 export const getImage = (type) => {
     let icon

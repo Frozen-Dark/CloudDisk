@@ -12,21 +12,97 @@ class FileController {
     parentDir = {path: ''} // parent File
     currentFile = {id: 0}; // File type
 
-
     fileList = localStorage.getItem("fileList") || "true";
 
+    sortValue = 'name';
+
+    setSortValue(value, reverse = false) {
+        this.sortValue = value;
+        this.setFiles(this.files)
+    }
+
     setFiles(files) {
-        this.files = files.sort((a, b) => a.type === "dir"? "" : a["type"].localeCompare(b["size"])).reverse();
+        switch (this.sortValue) {
+            case "date" :
+                this.files = files.sort((a, b) => this.dateSort(a, b));
+                break;
+            case "type" :
+                this.files = files.sort((a, b) => this.typeSort(a, b));
+                break;
+            case "size" :
+                this.files = files.sort((a,b ) => this.sizeSort(a, b));
+                break;
+            case "name" :
+                this.files = files.sort((a, b) => this.nameSort(a, b))
+        }
+    }
+
+    dateSort(a, b) {
+        if(a.type === "dir" && b.type === "dir") {
+            return a["name"].localeCompare(b["name"])
+        }
+        if(a.type === "dir") {
+            return -1;
+        }
+        if(b.type === "dir") {
+            return 1;
+        }
+        return a.id - b.id;
+    }
+    typeSort(a, b) {
+        if(a.type === "dir" && b.type === "dir") {
+            return a["name"].localeCompare(b["name"])
+        }
+        if(a.type === "dir") {
+            return -1;
+        }
+        if(b.type === "dir") {
+            return 1;
+        }
+        if (a["type"][0].toLowerCase() < b["type"][0].toLowerCase()) {
+            return -1;
+        }
+        if (a["type"][0].toLowerCase() > b["type"][0].toLowerCase()) {
+            return 1;
+        }
+        return 0;
+    }
+    sizeSort(a, b) {
+        if(a.type === "dir" && b.type === "dir") {
+            return a["name"].localeCompare(b["name"])
+        }
+        if(a.type === "dir") {
+            return -1;
+        }
+        if(b.type === "dir") {
+            return 1;
+        }
+        return b["size"] - a["size"]
+    }
+    nameSort(a, b) {
+        if(a.type === "dir" && b.type === "dir") {
+            return a["name"].localeCompare(b["name"])
+        }
+        if(a.type === "dir") {
+            return -1;
+        }
+        if(b.type === "dir") {
+            return 1;
+        }
+        return a["name"].localeCompare(b["name"])
+    }
+    sortFiles(files) {
+        let sortedFiles;
+        sortedFiles = files;
+        return sortedFiles;
     }
     setCurrentFile(file) {
-        console.log("Set file: ", file.name);
         this.currentFile = file;
     }
     setCurrentDir(id) {
         this.currentDir = id;
     }
     setParentDir(parent) {
-        console.log(parent)
         this.parentDir = parent;
     }
     addFile(file) {
@@ -46,13 +122,13 @@ class FileController {
         }
     }
 
-    sortFiles(value) {
-        if(value !== "id") {
-            this.files.sort((a, b) => a[value].localeCompare(b[value]));
-        } else {
-            this.files.sort((a, b) => a.id - b.id);
-        }
-    }
+    // sortFiles(value) {
+    //     if(value !== "id") {
+    //         this.files.sort((a, b) => a[value].localeCompare(b[value]));
+    //     } else {
+    //         this.files.sort((a, b) => a.id - b.id);
+    //     }
+    // }
 
     removeFiles() {
         this.files.map(file => file.type !== "dir"? deleteFile(file) : '');
@@ -66,6 +142,9 @@ class FileController {
     }
 
     async renameFile(file, name) {
+        if(file.type === "dir") {
+            return notification.clientMessage("Папку нельзя переименовать", "fail");
+        }
         const response = await renameFile(file, name)
         if(response.status === 200) {
             notification.clientMessage(response.data.message, "pass");
