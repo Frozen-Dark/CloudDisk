@@ -6,8 +6,7 @@ import {login, registration} from "../actions/user";
 import {useInput, useMessage} from "../hooks/hooks";
 import User from "../store/User";
 import notification from "../store/Notification";
-import {getFiles, getFolderPath} from "../actions/file";
-import FileController from "../store/FileController";
+import {getFiles} from "../actions/file";
 import {observer} from "mobx-react";
 import Notification from "../components/Notification/Notification";
 

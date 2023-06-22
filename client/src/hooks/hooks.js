@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import {checkName} from "../actions/user";
+import notification from "../store/Notification";
+import {getFiles, getFolderPath} from "../actions/file";
 
 
 export const useValidation = (value, validations, isLogin) => {
@@ -210,5 +212,60 @@ export const useSelect = (initialValue) => {
         path,
         dropList,
         setPath
+    }
+}
+
+export const useFilePath = () => {
+    const [currentDir, setCurrentDir] = useState({});
+    const [diskPath, setDiskPath] = useState([{id: 1, path: "Мой диск"}]);
+
+    function pushPath(obj) {
+        if(!obj.id) {
+            return notification.clientMessage("Err code: 0001", "fail")
+        }
+        setDiskPath(diskPath.push({id: obj.id, path: obj.name}));
+    }
+    async function _getFiles(id) {
+        const {dirId, status} = await getFiles(id)
+        if(!dirId) {
+            return notification.clientMessage(`Err code: ${status}`, "fail")
+        }
+        return status || 500;
+    }
+    async function getPath(id) {
+        const {data, status} = await getFolderPath(id);
+        if(!data) {
+            return console.error("no data: ", status)
+        }
+        setPath(data)
+    }
+    function setPath(folders) {
+        setDiskPath([...diskPath, ...folders])
+    }
+    async function moveTo(id) {
+        if(currentDir === -1) {
+            return notification.clientMessage("Вы в корневом каталоге", "fail");
+        }
+        if(id === -1) {
+            const status = await _getFiles(id)
+            if(status === "200") {
+                return setDiskPath([{id: 1, path: "Мой диск"}]);
+            } else {
+                return notification.clientMessage(`Err code: ${status}`, "fail")
+            }
+        }
+        if(currentDir === id) {
+            return "";
+        }
+        const index = diskPath.findIndex((obj) => obj.id === id);
+        diskPath.splice(index, diskPath.length);
+        await _getFiles(id);
+    }
+
+    return {
+        currentDir,
+        diskPath,
+        moveTo,
+        getPath
     }
 }

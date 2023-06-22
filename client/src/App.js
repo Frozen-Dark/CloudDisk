@@ -6,7 +6,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import {authRoutes, publicRoutes} from "./routes";
 import {observer} from "mobx-react";
 import {auth} from "./actions/user";
-import {getFiles, getFolderPath} from "./actions/file";
+import {getFiles} from "./actions/file";
 import User from "./store/User";
 
 
@@ -20,7 +20,6 @@ function App() {
              const auth_STATUS = await auth()
              if(auth_STATUS === 200) {
                  await getFiles(dir_id)
-                 await getFolderPath(dir_id)
              }
          }
          firstInsert()

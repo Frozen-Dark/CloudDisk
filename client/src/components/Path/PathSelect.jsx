@@ -6,13 +6,14 @@ import {STATIC_PATH} from "../../utils/consts";
 import FilePath from "../../store/FilePath";
 import Chose from "../../store/Chose";
 import {observer} from "mobx-react";
-import {useSelect} from "../../hooks/hooks";
+import {useFilePath, useSelect} from "../../hooks/hooks";
 
 const PathSelect = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [selectIsActive, setSelectIsActive] = useState(false);
     const dots = STATIC_PATH + "svg/dots.svg";
-    const select = useSelect(FileController.parentDir.path)
+    const select = useSelect(FileController.parentDir.path);
+    const filePath = useFilePath();
 
     function switchSelectClassHandler(state = true) {
         if(state === false) {
@@ -20,6 +21,10 @@ const PathSelect = () => {
         }
         setSelectIsActive(!selectIsActive);
     }
+
+    useEffect( () => {
+        filePath.getPath(Number(searchParams.get('lastDir')) || -1)
+    }, [])
 
     useEffect(() => {
         if(Chose.currentComponent.name !== "PathSelect") {
@@ -29,7 +34,6 @@ const PathSelect = () => {
 
     function choseHandler(e) {
         e.stopPropagation();
-        console.log("PathSelect");
         Chose.setCurrentComponent('PathSelect');
     }
 
@@ -46,6 +50,11 @@ const PathSelect = () => {
         }
     }
 
+    function moveToHandler(id) {
+        filePath.moveTo(id)
+        setSelectIsActive(false)
+    }
+
     useEffect(() => {
         setQuery()
     }, [FileController.parentDir.path])
@@ -60,10 +69,10 @@ const PathSelect = () => {
 
             <div className={classes.select__body}>
                 {
-                    selectIsActive && FilePath.diskPath.map((elem) =>
+                    selectIsActive && filePath.diskPath.map((elem) =>
                         <div
                             className={classes.select__item}
-                            onClick={() => FilePath.moveTo(elem.id)}
+                            onClick={() => moveToHandler(elem.id)}
                             key={elem.id}>
                             {elem.path}
                         </div>)

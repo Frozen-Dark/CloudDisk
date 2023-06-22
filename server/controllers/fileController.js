@@ -366,7 +366,7 @@ class FileController {
                 while (stack.length > 0) {
                     const id = stack.pop()
                     const dir = await File.findOne({where: {id: id, userId: req.user.id}})
-                    folders.push({id: dir.id, name: dir.name})
+                    folders.push({id: dir.id, path: dir.name})
                     if (dir.parent !== -1) {
                         stack.push(dir.parent)
                     }

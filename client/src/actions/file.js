@@ -47,7 +47,6 @@ export const getFiles = async (dirId) => {
             FileController.setFiles(files);
             FileController.setCurrentDir(dirId);
             FileController.setParentDir(parentDir);
-            FilePath.setCurrentDir(dirId)
             return response;
         } catch (e) {
             console.log(e);
@@ -154,13 +153,10 @@ export async function searchFile (name) {
     }
 }
 export async function getFolderPath (id) {
-    if(id !== -1 && id !== undefined) {
-        try {
-            const response = await axios.get(`${API_URL}/api/files/folderPath?currentDirId=${id}`);
-            FilePath.setPath(response.data)
-        } catch (e) {
-            console.log(e);
-        }
+    try {
+        return await axios.get(`${API_URL}/api/files/folderPath?currentDirId=${id}`);
+    } catch (e) {
+        console.log(e);
     }
 }
 

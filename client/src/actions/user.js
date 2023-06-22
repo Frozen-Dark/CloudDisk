@@ -1,7 +1,6 @@
 import axios from "axios";
 import notification from '../store/Notification'
 import User from "../store/User";
-import {getFiles, getFolderPath} from "./file";
 import {API_URL} from "../utils/consts";
 
 
