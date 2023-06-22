@@ -28,17 +28,10 @@ const PathList = () => {
     return (
         <div className={classes.pathList}>
             <ul className={classes.disk_path_list}>
-                <li className={classes.disk_main_path_component} onClick={() => FilePath.moveTo(-1)}>Мой диск</li>
                 {
                     FilePath.diskPath.map((elem) => <li
                         className={classes.disk_path_component}
                         onClick={() => FilePath.moveTo(elem.id)} key={elem.id}>
-
-                        {/*<img className={classes.disk_path_separator}*/}
-                        {/*     src={chevron}*/}
-                        {/*     alt=">"*/}
-                        {/*/>*/}
-
                         {elem.path}</li>
                     )
                 }

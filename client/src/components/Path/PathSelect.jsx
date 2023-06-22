@@ -6,10 +6,13 @@ import {STATIC_PATH} from "../../utils/consts";
 import FilePath from "../../store/FilePath";
 import Chose from "../../store/Chose";
 import {observer} from "mobx-react";
+import {useSelect} from "../../hooks/hooks";
 
 const PathSelect = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [selectIsActive, setSelectIsActive] = useState(false);
+    const dots = STATIC_PATH + "svg/dots.svg";
+    const select = useSelect(FileController.parentDir.path)
 
     function switchSelectClassHandler(state = true) {
         if(state === false) {
@@ -30,10 +33,10 @@ const PathSelect = () => {
         Chose.setCurrentComponent('PathSelect');
     }
 
-    const dots = STATIC_PATH + "svg/dots.svg";
 
     function setQuery() {
         const file = FileController.parentDir;
+        select.setPath(FileController.parentDir.path)
 
         if(file && file.path) {
             let path = file.path.replace(/\\/g, '_');
@@ -56,8 +59,6 @@ const PathSelect = () => {
             </div>
 
             <div className={classes.select__body}>
-
-                <div className={classes.select__item} onClick={() => FilePath.moveTo(-1)}>Мой диск</div>
                 {
                     selectIsActive && FilePath.diskPath.map((elem) =>
                         <div

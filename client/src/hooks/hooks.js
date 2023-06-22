@@ -189,3 +189,26 @@ export const useInspector = (initialValue) => {
         refresh
     }
 }
+
+export const useSelect = (initialValue) => {
+    const [path, setPath] = useState([]);
+    const [dropList, setDropList] = useState([]);
+
+    function parsePath(path) {
+        console.log("path: ", path);
+    }
+
+    function setFullPath(path) {
+        setPath(path)
+    }
+
+    useEffect(() => {
+        parsePath(path);
+    }, [path])
+
+    return {
+        path,
+        dropList,
+        setPath
+    }
+}

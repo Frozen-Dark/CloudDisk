@@ -42,7 +42,6 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
         {
             FileController.fileList === "false" ?
                 <section className={classes.files} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
-
                     <div className={classes.container}>
                         {files.map((file) => <FileFrame openDirHandler={openDirHandler} key={file.id} file={file} />)}
                     </div>
@@ -50,7 +49,7 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
             :
                 <section className={classes.list__files} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
                     <div className={classes.container__header}>
-                        <PathList/>
+                        {/*<PathList/>*/}
                         <PathSelect/>
                         <div className={classes.list__header}>
                             <div onClick={() => sortValueHandler("name")} className={classes.list__name}>Название</div>

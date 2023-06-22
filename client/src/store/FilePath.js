@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {getFiles} from "../actions/file";
 import FileController from "./FileController";
+import notification from "./Notification";
 
 class FilePath {
     constructor() {
@@ -8,7 +9,7 @@ class FilePath {
     }
     currentDir = {};
 
-    diskPath = [];
+    diskPath = [{id: -1, path: "Мой диск"}];
 
     pushDiskPath(object) {
         if(!object.path || !object.id) {
@@ -28,8 +29,11 @@ class FilePath {
     }
 
     moveTo(id) {
+        if(this.currentDir === -1) {
+            return notification.clientMessage("Вы в корневом каталоге", "fail")
+        }
         if(id === -1) {
-            this.diskPath = [];
+            this.diskPath = [{id: -1, path: "Мой диск"}];
             return getFiles(id);
         }
         const nowFolderId = FileController.currentDir;
