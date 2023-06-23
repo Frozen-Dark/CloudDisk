@@ -26,8 +26,8 @@ const MobileDisk = ({ dragEnterHandler, dragLeaveHandler}) => {
     }
     async function openDirHandler(file) {
         if (file.type === "dir") {
-            const response = await getFiles(file.id);
-            if(response.status === 200) {
+            const {status} = await getFiles(file.id);
+            if(status === 200) {
                 setQueryPath(file)
                 FilePath.pushDiskPath({id: file.id, path: file.name})
             }

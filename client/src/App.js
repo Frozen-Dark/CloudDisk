@@ -8,6 +8,7 @@ import {observer} from "mobx-react";
 import {auth} from "./actions/user";
 import {getFiles} from "./actions/file";
 import User from "./store/User";
+import FilePath from "./store/FilePath";
 
 
 
@@ -15,11 +16,12 @@ function App() {
     const [searchParams, setSearchParams] = useSearchParams();
 
      useEffect(() => {
-         async function firstInsert() {
+          async function firstInsert() {
              const dir_id = Number(searchParams.get('lastDir')) || -1
              const auth_STATUS = await auth()
              if(auth_STATUS === 200) {
-                 await getFiles(dir_id)
+                 await getFiles(dir_id);
+                 await FilePath.getPath(dir_id);
              }
          }
          firstInsert()

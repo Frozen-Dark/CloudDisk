@@ -1,5 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import {getFiles} from "../actions/file";
+import {getFiles, getFolderPath} from "../actions/file";
 import FileController from "./FileController";
 import notification from "./Notification";
 
@@ -7,45 +7,56 @@ class FilePath {
     constructor() {
         makeAutoObservable(this)
     }
-    currentDir = {};
 
     diskPath = [{id: -1, path: "Мой диск"}];
 
-    pushDiskPath(object) {
-        if(!object.path || !object.id) {
-            return;
+    currentDir = {id: -1, path: "Мой диск"};
+
+    pushDiskPath(obj) {
+        if(obj.id && obj.path) {
+            this.diskPath.push(obj);
+            this.currentDir = obj;
         }
-        this.diskPath.push(object);
     }
 
-    setCurrentDir(dir) {
-        this.currentDir = dir;
+    setDiskPath(array) {
+        this.diskPath = [{id: -1, path: "Мой диск"}, ...array]
     }
 
-    setPath(folders) {
-        folders.map((folder) => {
-            this.pushDiskPath({id: folder.id, path: folder.name})
-        })
-    }
-
-    moveTo(id) {
-        if(this.currentDir === -1) {
-            return notification.clientMessage("Вы в корневом каталоге", "fail")
+    async getPath(id) {
+        const {data, status} = await getFolderPath(id);
+        if(status === 200) {
+            this.setDiskPath(data);
         }
+    }
+
+    setCurrentDir(obj){
+        if(obj.id && obj.path) {
+            this.currentDir = obj;
+        }
+    }
+
+    async openFolder(id) {
+        console.log(id, this.currentDir)
         if(id === -1) {
-            this.diskPath = [{id: -1, path: "Мой диск"}];
-            return getFiles(id);
-        }
-        const nowFolderId = FileController.currentDir;
-        if(id === nowFolderId) {
+            const {status} = await getFiles(-1)
+            if(status === 200) {
+                this.setCurrentDir({id: -1, path: "Мой диск"});
+                this.diskPath = [{id: -1, path: "Мой диск"}];
+            }
             return;
         }
-        const index = this.diskPath.findIndex((obj) => obj.id === id);
-        if(index !== -1) {
-            this.diskPath.splice(index  + 1, Infinity);
-            return getFiles(id);
+        if(this.currentDir.id === id) {
+            return;
+        }
+        const index = this.diskPath.findIndex((obj) => obj.id === id) + 1;
+        const {status} = await getFiles(id);
+        if(status === 200) {
+            this.diskPath.splice(index, this.diskPath.length);
         }
     }
+
+
 }
 
 export default new FilePath();

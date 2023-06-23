@@ -6,14 +6,15 @@ import {STATIC_PATH} from "../../utils/consts";
 import FilePath from "../../store/FilePath";
 import Chose from "../../store/Chose";
 import {observer} from "mobx-react";
-import {useFilePath, useSelect} from "../../hooks/hooks";
+import {useSelect} from "../../hooks/hooks";
 
 const PathSelect = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [selectIsActive, setSelectIsActive] = useState(false);
+
     const dots = STATIC_PATH + "svg/dots.svg";
+
     const select = useSelect(FileController.parentDir.path);
-    const filePath = useFilePath();
 
     function switchSelectClassHandler(state = true) {
         if(state === false) {
@@ -21,23 +22,10 @@ const PathSelect = () => {
         }
         setSelectIsActive(!selectIsActive);
     }
-
-    useEffect( () => {
-        filePath.getPath(Number(searchParams.get('lastDir')) || -1)
-    }, [])
-
-    useEffect(() => {
-        if(Chose.currentComponent.name !== "PathSelect") {
-            switchSelectClassHandler(false);
-        }
-    }, [Chose.currentComponent.name]);
-
     function choseHandler(e) {
         e.stopPropagation();
         Chose.setCurrentComponent('PathSelect');
     }
-
-
     function setQuery() {
         const file = FileController.parentDir;
         select.setPath(FileController.parentDir.path)
@@ -49,11 +37,16 @@ const PathSelect = () => {
             setSearchParams({});
         }
     }
-
     function moveToHandler(id) {
-        filePath.moveTo(id)
+        FilePath.openFolder(id)
         setSelectIsActive(false)
     }
+
+    useEffect(() => {
+        if(Chose.currentComponent.name !== "PathSelect") {
+            switchSelectClassHandler(false);
+        }
+    }, [Chose.currentComponent.name]);
 
     useEffect(() => {
         setQuery()
@@ -69,7 +62,7 @@ const PathSelect = () => {
 
             <div className={classes.select__body}>
                 {
-                    selectIsActive && filePath.diskPath.map((elem) =>
+                    selectIsActive && FilePath.diskPath.map((elem) =>
                         <div
                             className={classes.select__item}
                             onClick={() => moveToHandler(elem.id)}
@@ -79,19 +72,6 @@ const PathSelect = () => {
                 }
             </div>
         </div>
-
-        // <div className={classes.query}>
-        //     <div className={classes.folders__list}>
-        //         <ul className={classes.list}>
-        //             <li className={classes.list__item} onClick={() => FilePath.moveTo(-1)}>Мой диск</li>
-        //
-        //             {
-        //                 FilePath.diskPath.map((elem) => <li className={classes.list__item} onClick={() => FilePath.moveTo(elem.id)} key={elem.id}>{elem.path}</li>
-        //                 )
-        //             }
-        //         </ul>
-        //     </div>
-        // </div>
     );
 };
 
